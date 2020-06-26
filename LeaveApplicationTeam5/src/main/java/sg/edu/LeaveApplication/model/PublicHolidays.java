@@ -18,5 +18,5 @@ public class PublicHolidays {
 	@NotEmpty
 	private Date startDate;
 	@NotEmpty
-	private Date endDate;
+	private int duration;
 }
