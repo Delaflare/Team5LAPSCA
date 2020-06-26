@@ -9,7 +9,6 @@ import javax.validation.constraints.NotEmpty;
 
 public class LeaveRecord {
 	@Id 
-	
 	@GeneratedValue( strategy = GenerationType.AUTO)
 	private int id;
 	@NotEmpty
