@@ -4,11 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-
-import sg.edu.iss.End2End.model.Department;
 
 
 @Entity
@@ -42,8 +39,7 @@ public class User {
 	@NotEmpty 
 	private Title title;
 	
-	@ManyToOne
-	private Department department;
+	
 	
 	
 }
