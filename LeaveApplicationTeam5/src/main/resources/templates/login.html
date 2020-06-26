@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+
+</head>
+<body>
+<h1>Login</h1>
+<form action="#" th:object="${user}" th:action="@{/user/login}" method="post" >
+		<fieldset>
+		<input type="hidden" th:field="*{id}">  
+		</fieldset>
+
+		<fieldset>
+			Employee Username: <input type="text" th:field="*{userName}">
+			<p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+		</fieldset>
+		<fieldset>
+			Employee Password: <input type="password" th:field="*{password}">
+			<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+		</fieldset>
+
+		<fieldset>
+			<button type="submit" >Save</button>
+			<button type="reset">Reset</button>
+		</fieldset>
+		
+	</form>
+
+</body>
+</html>
