@@ -8,7 +8,8 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 
 public class LeaveRecord {
-	@Id
+	@Id 
+	
 	@GeneratedValue( strategy = GenerationType.AUTO)
 	private int id;
 	@NotEmpty
