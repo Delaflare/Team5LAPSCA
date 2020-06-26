@@ -15,17 +15,17 @@ public class Department {
 	private Integer id;
 	private String name;
 	private Integer minmumCount;
-	@OneToMany(mappedBy="department")
-	private Collection<User> users;
+	//@OneToMany(mappedBy="department")
+	//private Collection<User> users;
 	public Department() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Department(String name, Integer minmumCount, Collection<User> users) {
+	public Department(String name, Integer minmumCount) {
 		super();
 		this.name = name;
 		this.minmumCount = minmumCount;
-		this.users = users;
+		
 	}
 	public Integer getId() {
 		return id;
@@ -45,12 +45,8 @@ public class Department {
 	public void setMinmumCount(Integer minmumCount) {
 		this.minmumCount = minmumCount;
 	}
-	public Collection<User> getUsers() {
-		return users;
-	}
-	public void setUsers(Collection<User> users) {
-		this.users = users;
-	}
+
+
 	@Override
 	public String toString() {
 		return "Department [id=" + id + ", name=" + name + ", minmumCount=" + minmumCount + "]";
