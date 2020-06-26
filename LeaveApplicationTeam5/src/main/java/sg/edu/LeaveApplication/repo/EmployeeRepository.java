@@ -8,5 +8,5 @@ import sg.edu.LeaveApplication.model.User;
 
 public interface EmployeeRepository extends JpaRepository<User, Integer> {
 
-	public List<User> findAllUserByName(String name);
+	public List<User> findUserByFirstName(String name);
 }
