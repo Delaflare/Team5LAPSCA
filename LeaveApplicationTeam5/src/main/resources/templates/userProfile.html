@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>User Profile Page</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+<title th:utext="#{users.page.title}">title</title>
+</head>
+<body>
+	<h1 th:utext="#{users.page.title}">
+			home
+	</h1>
+	<!-- Add Hyperlink -->
+	<a href="AddUser.html" th:href="@{/user/add}"
+		th:utext="#{users.page.add}">label</a>
+		
+	<h2 th:utext="#{users.page.header}" th:if="${not #lists.isEmpty(users)}">header</h2>
+	<table class="w3-container" th:if="${not #lists.isEmpty(users)}">
+		<tr th:each="user:${users}">
+			<td th:text=${user.id}>Id</td>
+			<td th:text=${user.firstName}>FirstName</td>
+			<td th:text=${user.lastName}>LastName</td>
+			<td th:text=${user.userName}>UserName</td>
+			<td th:text=${user.email}>Email</td>
+			<td th:text=${user.role}>Role</td>
+			<td th:text=${user.reportsTo}>ReportsTo</td>
+			<td th:text=${user.gender}>Gender</td>
+			<td th:text=${user.deptId}>Department ID</td>
+			<td th:text=${user.title}>Title</td>
+			<td><a href="EditProduct.html"
+				th:href="@{/user/edit/}+${user.id}" th:utext="#{users.page.edit}"> Edit </a></td>
+			<td><a href="DeleteProduct.html"
+				th:href="@{/user/delete/}+${user.id}" th:utext="#{users.page.delete}"> Delete </a></td>
+		</tr>
+	</table>
+
+</body>
+</html>
