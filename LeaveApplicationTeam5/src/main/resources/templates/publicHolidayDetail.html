@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Public Holiday Form</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+<title th:utext="#{productform.title}">Product Form</title>
+</head>
+<body>
+	<h1>Public Holiday Form</h1>
+	<form action="#" th:object="${holiday}" th:action="@{/holiday/save}"
+		method="get">
+		<fieldset>
+			<input type="hidden" th:field="*{id}">
+		</fieldset>
+		<fieldset>
+			Name:<input type="text" th:field="*{name}">
+		</fieldset>
+		<!-- <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p> -->
+		<fieldset>
+			Start Date:<input type="text" th:field="*{startDate}"
+				placeholder="dd-MM-yyyy"
+				th:text="${#dates.format(holiday.startDate, 'dd-MM-yyyy')}" />
+			<p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
+		</fieldset>
+		<fieldset>
+			End Date:<input type="text" th:field="*{endDate}"
+				placeholder="dd-MM-yyyy"
+				th:text="${#dates.format(holiday.endDate, 'dd-MM-yyyy')}" />
+			<p th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></p>
+		</fieldset>
+		<fieldset>
+			Duration:<input type="text" th:field="*{duration}">
+			<p th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></p>
+		</fieldset>
+		
+		<fieldset>
+			<button type="submit">Save</button>
+		</fieldset>
+	</form>
+</body>
+</html>
