@@ -3,10 +3,12 @@ package sg.edu.LeaveApplication.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import sg.edu.LeaveApplication.model.Department;
 import sg.edu.LeaveApplication.repo.DepartmentRepository;
 
+@Service
 public class DepartmentServiceImpl implements DepartmentService {
 
 	@Autowired

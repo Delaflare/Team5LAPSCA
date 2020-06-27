@@ -3,10 +3,12 @@ package sg.edu.LeaveApplication.service;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import sg.edu.LeaveApplication.model.PublicHolidays;
 import sg.edu.LeaveApplication.repo.PublicHolidayReposity;
 
+@Service
 public class PublicHolidayServiceImpl implements PublicHolidayService {
 
 	@Autowired

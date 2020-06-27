@@ -2,8 +2,10 @@ package sg.edu.LeaveApplication.service;
 
 import java.util.ArrayList;
 
-import sg.edu.LeaveApplication.model.User;
+import org.springframework.stereotype.Service;
 
+import sg.edu.LeaveApplication.model.User;
+@Service
 public class UserServiceImpl implements UserService {
 
 	@Override
