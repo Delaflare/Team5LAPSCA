@@ -31,4 +31,8 @@ public class LeaveRecord {
 	private String comments;
 	@NotEmpty
 	private int deptId;
+	@NotEmpty
+	private Date leaveAppliedDate;
+	@NotEmpty
+	private Date leaveApprovedDate;
 }
