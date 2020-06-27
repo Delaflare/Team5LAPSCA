@@ -22,7 +22,7 @@
 		<label for="endDate">End Date</label>
 		<input class="form-control" type="Date"/>		 
 		<label for="othours">OT Hours</label>
-		<input class="form-control" type="number" value="4" min="4" step="4" th:field="*{duration}"/>
+		<input class="form-control" type="number" value="1" min="1" th:field="*{duration}"/>
 		<p th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></p>
 		<label for="reason">Description</label>
 		<textarea class="form-control" rows="5" th:field="*{description}"></textarea>
