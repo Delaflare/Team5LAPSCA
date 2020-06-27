@@ -19,4 +19,32 @@ public class PublicHolidays {
 	private Date startDate;
 	@NotEmpty
 	private int duration;
+	public PublicHolidays(@NotEmpty String holidayName, @NotEmpty Date startDate, @NotEmpty int duration) {
+		super();
+		this.holidayName = holidayName;
+		this.startDate = startDate;
+		this.duration = duration;
+	}
+	public String getHolidayName() {
+		return holidayName;
+	}
+	public void setHolidayName(String holidayName) {
+		this.holidayName = holidayName;
+	}
+	public Date getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	public int getDuration() {
+		return duration;
+	}
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+	public PublicHolidays() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 }
