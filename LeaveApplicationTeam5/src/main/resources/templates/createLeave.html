@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Create Leave Form</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+
+</head>
+<body>
+<h1>Leave Form</h1>
+<form action="#" th:object="${leave}" th:action="@{/emp/save}" method="post" >
+		<fieldset>
+		<input type="hidden" th:field="*{id}">  
+		</fieldset>
+		<fieldset>
+		Type of Leave:
+				<select th:field = "*{leave.name}" id= "name">
+				<option th:each = "leaveType : ${leaveType}" 
+				th:value = "${leaveType}" th:text = "${leaveType}" > </option> 
+				</select>
+				<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Days Available/Left: <input type="text" th:field="*{firstName}">
+			</p>
+		</fieldset>
+		<fieldset>
+			Start Date: <input type="text" th:field="*{firstName}">
+			<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+		
+			End Date: <input type="text" th:field="*{lastName}">
+			<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+		</fieldset>
+		
+		
+		<fieldset>
+			Leave Reason: <input type="password" th:field="*{password}">
+			<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+		</fieldset>
+		
+		<fieldset>
+			Approver: <input type="text" th:field="*{userName}">
+			<p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+		</fieldset>
+		
+		<fieldset>
+			<button type="submit" >Save</button>
+			<button type="reset">Reset</button>
+		</fieldset>
+		
+	</form>
+
+</body>
+</html>

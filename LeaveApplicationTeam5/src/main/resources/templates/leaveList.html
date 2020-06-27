@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Department Listing</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+<!--  <th:block th:include="~{layout/header}"></th:block> -->
+</head>
+<body>
+<h1>Department Listing</h1>
+
+<!-- Add Hyperlink -->
+	<a href="createLeave.html" th:href="@{/leave/create}">Apply Leave</a>
+
+	<h2 th:if = "${not #lists.isEmpty(dlist)}"> Leave History</h2> 
+
+	<table border = 1 , class="w3-container" th:if="${not #lists.isEmpty(dlist)}">
+			<tr>
+				<th>Leave Id</th>
+				<th>Leave Type</th>
+				<th>Number of Days</th>
+				<th>From</th>
+				<th>To</th>
+				<th>Status</th>
+				<th>Created</th>
+				<th>Action</th>
+				
+			</tr>
+			<tr th:each="department:${dlist}">
+				<td th:text=${leave.id}>leaveId</td>
+				<td th:text=${department.name}>leaveType</td>
+				<td th:text=${department.name}>daysNo</td>
+				<td th:text=${department.name}>startDate</td>
+				<td th:text=${department.name}>endDate</td>
+				<td th:text=${department.name}>leaveStatus</td>
+				<td th:text=${department.name}>creationDate</td>
+				<td><a href="EditDepartment.html"
+					th:href="@{/dept/edit/}+${department.id}" >View Details</a></td>	
+			</tr>
+	</table>
+
+
+</body>
+</html>
