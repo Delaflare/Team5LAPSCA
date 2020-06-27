@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title th:text="#{viewleave.page.title}"></title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+</head>
+<body>
+<h1 th:text="#{viewleave.page.title}"></h1>
+<h2 th:text="#{search.header}">Search Criteria</h2>
+	<form th:action="@{/viewLeave}" method="get" >
+		<fieldset>
+			Employee Name: <input id="txtSearch" type="text" name="keyword">
+		</fieldset>
+		<fieldset>
+			Leave Type: <select>
+				<option value=""></option>
+			</select>
+		</fieldset>		
+		<button type="submit" th:text="#{button.search}">search</button>		
+	</form>
+<!-- 	
+<h2 th:if="${not #lists.isEmpty(leavelist)}" th:text="#{viewleave.page.header}">Leave Requests</h2> 
+
+
+-->
+
+<!-- dummies -->
+<h2 th:text="#{viewleave.page.header}">Leave Requests</h2>
+<table>
+		<tr>
+			<th>Employee Id</th>
+			<th>Name</th>
+			<th>Leave Type</th>
+			<th>Days</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th>Reason</th>
+		</tr>
+		<tr>
+			<td>101</td>
+			<td>Jena Tan</td>
+			<td>Medical Leave</td>
+			<td>1</td>
+			<td>26/06/2020</td>
+			<td>26/06/2020</td>
+			<td>sick</td>
+			<td><a href="" >Approve</a></td>
+			<td><a href="" >Reject</a></td>
+		</tr>
+
+		<tr>
+			<td>102</td>
+			<td>Miriam Lee</td>
+			<td>Annual Leave</td>
+			<td>6</td>
+			<td>29/06/2020</td>
+			<td>06/06/2020</td>
+			<td>holiday</td>
+			<td><a href="" >Approve</a></td>
+			<td><a href="" >Reject</a></td>
+		</tr>
+</table>
+<!-- end of dummies -->
+
+
+</body>
+</html>
