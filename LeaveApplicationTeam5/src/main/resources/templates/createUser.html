@@ -8,7 +8,7 @@
 
 </head>
 <body>
-<h1>Employee Form</h1>
+<h1>Employee Registration Form</h1>
 <form action="#" th:object="${employee}" th:action="@{/emp/save}" method="post" >
 		<fieldset>
 		<input type="hidden" th:field="*{id}">  
@@ -22,7 +22,7 @@
 			<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
 		</fieldset>
 		<fieldset>
-			Employee Username: <input type="text" th:field="*{userName}">
+			Employee UserName: <input type="text" th:field="*{userName}">
 			<p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
 		</fieldset>
 		
@@ -42,15 +42,15 @@
 			Employee email: <input type="text" th:field="*{email}">
 			<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
 		</fieldset>
-		
-		
-		
+
 		<fieldset>
 		Department
-				<select th:field = "*{department.name}" id= "name">
-				<option th:each = "dname : ${dnames}" 
-				th:value = "${dname}" th:text = "${dname}" > </option> 
-				</select>
+			<select>
+		    <option th:each="role : ${T(sg.edu.LeaveApplication.model.Role).values()}"
+		            th:value="${role}"
+		            th:text="${role}">
+		    </option>
+			</select>
 		</fieldset>
 		
 		
