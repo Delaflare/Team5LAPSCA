@@ -8,35 +8,32 @@
 <!--  <th:block th:include="~{layout/header}"></th:block> -->
 </head>
 <body>
-<h1>Department Listing</h1>
+<h1>Leave Application Listing</h1>
 
 <!-- Add Hyperlink -->
-	<a href="createLeave.html" th:href="@{/leave/create}">Apply Leave</a>
+	<a href="createLeave.html" th:href="@{/leave/apply}">Apply Leave</a>
 
-	<h2 th:if = "${not #lists.isEmpty(dlist)}"> Leave History</h2> 
-
-	<table border = 1 , class="w3-container" th:if="${not #lists.isEmpty(dlist)}">
+	<h2 th:if = "${not #lists.isEmpty(leaveList)}"> Leave History</h2> 
+	<table border = 1 , class="w3-container" th:if="${not #lists.isEmpty(leaveList)}">
 			<tr>
 				<th>Leave Id</th>
 				<th>Leave Type</th>
 				<th>Number of Days</th>
 				<th>From</th>
-				<th>To</th>
 				<th>Status</th>
 				<th>Created</th>
 				<th>Action</th>
 				
 			</tr>
-			<tr th:each="department:${dlist}">
-				<td th:text=${leave.id}>leaveId</td>
-				<td th:text=${department.name}>leaveType</td>
-				<td th:text=${department.name}>daysNo</td>
-				<td th:text=${department.name}>startDate</td>
-				<td th:text=${department.name}>endDate</td>
-				<td th:text=${department.name}>leaveStatus</td>
-				<td th:text=${department.name}>creationDate</td>
+			<tr th:each="leave:${leaveList}">
+				<td th:text=*{leave.id}>Id</td>
+				<td th:text=*{leave.LeaveTypeId}>Type</td>
+				<td th:text=*{leave.duration}>Duration</td>
+				<td th:text=*{leave.startDate}>startDate</td>
+				<td th:text=${leave.status}>leaveStatus</td>
+				<td th:text=${leave.leaveAppliedDate}>creationDate</td>
 				<td><a href="EditDepartment.html"
-					th:href="@{/dept/edit/}+${department.id}" >View Details</a></td>	
+					th:href="@{/leave/detail/}+${leave.id}">View Details</a></td>	
 			</tr>
 	</table>
 
