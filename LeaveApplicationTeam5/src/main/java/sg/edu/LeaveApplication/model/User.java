@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -30,6 +31,9 @@ public class User {
 	private Role role;
 	private Gender gender;
 	private Title title;
+	
+	@ManyToOne
+    private Department department;
 	
 	public User() {
 		super();

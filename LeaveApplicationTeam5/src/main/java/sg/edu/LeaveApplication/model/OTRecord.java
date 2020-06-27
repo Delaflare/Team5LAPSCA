@@ -6,16 +6,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class OTRecord {
 	@Id
 	@GeneratedValue( strategy = GenerationType.AUTO)
+	@NotEmpty
 	private Integer id;
-	private Integer userId;
+	
+	@NotEmpty
+	private int userId;// delete when agreed
+	@ManyToOne
+    private User user;
+	
+	
+	
+	@NotEmpty
 	private Date startDate;
+	@NotEmpty
 	private Integer duration;
+	@NotEmpty
 	private String status;
+	@NotEmpty
 	private Integer totalOTTime;
 	
 	public OTRecord() {

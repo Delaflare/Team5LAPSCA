@@ -15,8 +15,12 @@ public class Department {
 	private Integer id;
 	private String name;
 	private Integer minmumCount;
-	//@OneToMany(mappedBy="department")
-	//private Collection<User> users;
+	
+	
+	@OneToMany(mappedBy="department")
+	private Collection<User> users;
+	
+	
 	public Department() {
 		super();
 		// TODO Auto-generated constructor stub
