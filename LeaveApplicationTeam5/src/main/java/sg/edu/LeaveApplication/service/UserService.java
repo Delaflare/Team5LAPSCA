@@ -10,6 +10,6 @@ public interface UserService {
 	public boolean saveUser (User user);
 	public void deleteUser (User user);
 	public ArrayList<String> findAllUserNames();
-	public User findUserByName(String name);
+	public User findUserByName(String username);
 	public User findUserById(Integer id);
 }

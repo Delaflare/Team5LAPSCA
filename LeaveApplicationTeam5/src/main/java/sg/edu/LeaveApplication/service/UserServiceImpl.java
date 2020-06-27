@@ -40,9 +40,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findUserByName(String name) {
-		ArrayList<User> list = (ArrayList<User>) urepo.findByName(name);
+	public User findUserByName(String username) {
+		ArrayList<User> list = (ArrayList<User>) urepo.findByName(username);
+		System.out.print(list);
 		return list.get(0);
 	}
 
+	
 }
