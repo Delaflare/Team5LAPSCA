@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Claim Compensation Leave</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+</head>
+<body>
+
+<h2>OverTime Claim Form</h2>
+
+<form action="#saveForm" th:object="${leaveRecord}" th:action="@{/saveLeave}" method="post">
+	<div class="form-group">
+	
+		<h4 th:text="${currentBalance}" style="display:none"></h4>
+		<label for="startDate">Start Date</label>
+		<input class="form-control" type="Date" th:field="*{startDate}"/> 
+		<p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
+		<label for="endDate">End Date</label>
+		<input class="form-control" type="Date"/>		 
+		<label for="othours">OT Hours</label>
+		<input class="form-control" type="number" value="4" min="4" step="4" th:field="*{duration}"/>
+		<p th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></p>
+		<label for="reason">Description</label>
+		<textarea class="form-control" rows="5" th:field="*{description}"></textarea>
+		<button class="btn btn-primary" type="submit">Submit</button>
+		<a th:href="@{/employee}">Cancel</a>
+	</div>
+</form>
+
+</body>
+</html>
