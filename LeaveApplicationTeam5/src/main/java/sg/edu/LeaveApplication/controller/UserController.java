@@ -11,22 +11,26 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 import sg.edu.LeaveApplication.model.User;
-import sg.edu.LeaveApplication.repo.UserRepository;
-
+import sg.edu.LeaveApplication.service.UserService;
+import sg.edu.LeaveApplication.service.UserServiceImpl;
 
 @Controller
 @RequestMapping(value="/user")
 public class UserController {
 	
 	@Autowired
-	UserRepository urepo;
+	private UserService uservice;
+	
+	@Autowired
+	public void setUserService(UserServiceImpl userviceImpl) {
+		this.uservice = userviceImpl;
+	}
 	
 	@RequestMapping(value = "/list")
 	public String listAll(Model model) {
-		model.addAttribute("users", urepo.findAll());
-		return "userProfile";
+		model.addAttribute("users", uservice.findAll());
+		return "userList";
 	}
 	
 	@RequestMapping(value = "/add")
@@ -41,21 +45,26 @@ public class UserController {
 			BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors())
 			return "createUserForm";
-		urepo.save(user);
+		uservice.saveUser(user);
 		return "forward:/user/list";
 	}
 
 	@GetMapping("/edit/{id}")
 	public String editForm(Model model, @PathVariable("id") Integer id) {	
-		model.addAttribute("user", urepo.findById(id).get());
+		model.addAttribute("user", uservice.findUserById(id));
 		return "createUserForm";
 	}
 	
 	@GetMapping("/delete/{id}")
 	public String deleteUser(Model model, @PathVariable("id") Integer id) {
-		User user = urepo.findById(id).get();
-		urepo.delete(user);
+		User user = uservice.findUserById(id);
+		uservice.deleteUser(user);
 		return "forward:/user/list";
+	}
+	
+	@GetMapping("/display/{id}")
+	public String displayUser() {
+		return "userProfile";
 	}
 	
 }

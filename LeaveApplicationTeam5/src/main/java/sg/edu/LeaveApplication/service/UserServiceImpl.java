@@ -2,46 +2,47 @@ package sg.edu.LeaveApplication.service;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sg.edu.LeaveApplication.model.User;
+import sg.edu.LeaveApplication.repo.UserRepository;
 @Service
 public class UserServiceImpl implements UserService {
 
+	@Autowired
+	UserRepository urepo;
+	
 	@Override
 	public ArrayList<User> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<User> list = (ArrayList<User>) urepo.findAll();
+		return list;
 	}
 
 	@Override
 	public boolean saveUser(User user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean editUser(User user) {
-		// TODO Auto-generated method stub
-		return false;
+		if(urepo.save(user)!=null) return true; else return false;
 	}
 
 	@Override
 	public void deleteUser(User user) {
-		// TODO Auto-generated method stub
-
+		urepo.delete(user);
 	}
 
 	@Override
-	public ArrayList<String> findAllUserNames(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<String> findAllUserNames() {
+		return urepo.findAllUserNames();
 	}
 
 	@Override
 	public User findUserById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return urepo.findById(id).get();
+	}
+
+	@Override
+	public User findUserByName(String name) {
+		ArrayList<User> list = (ArrayList<User>) urepo.findByName(name);
+		return list.get(0);
 	}
 
 }

@@ -14,33 +14,35 @@ public class User {
 	@Id
 	@GeneratedValue( strategy = GenerationType.AUTO)
 	private int id;
-	@NotEmpty
+	@NotEmpty(message = "First name is required")
 	private String firstName;
-	@NotEmpty
+	@NotEmpty(message = "Last name is required")
 	private String lastName;
-	@NotEmpty
+	@NotEmpty(message = "User name is required")
 	private String userName;
-	@NotEmpty
+	@NotEmpty(message = "Password is required")
 	private String password;
-	@NotEmpty @Email
+	@NotEmpty(message = "Email is required")
+	@Email
 	private String email;
-	@NotEmpty 
-	private Role role;
-	@NotEmpty 
 	private String reportsTo;
-	@NotEmpty 
+	private String deptId; 
+
+	private Role role;
 	private Gender gender;
-	@NotEmpty 
-	private String deptId;
-	@NotEmpty 
 	private Title title;
+	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public User(int id, @NotEmpty String firstName, @NotEmpty String lastName, @NotEmpty String userName,
-			@NotEmpty String password, @NotEmpty @Email String email, @NotEmpty Role role, @NotEmpty String reportsTo,
-			@NotEmpty Gender gender, @NotEmpty String deptId, @NotEmpty Title title) {
+
+	public User(int id, @NotEmpty(message = "First name is required") String firstName,
+			@NotEmpty(message = "Last name is required") String lastName,
+			@NotEmpty(message = "User name is required") String userName,
+			@NotEmpty(message = "Password is required") String password,
+			@NotEmpty(message = "Email is required") @Email String email, Role role, String reportsTo, Gender gender,
+			String deptId, Title title) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -54,9 +56,13 @@ public class User {
 		this.deptId = deptId;
 		this.title = title;
 	}
-	public User(@NotEmpty String firstName, @NotEmpty String lastName, @NotEmpty String userName,
-			@NotEmpty String password, @NotEmpty @Email String email, @NotEmpty Role role, @NotEmpty String reportsTo,
-			@NotEmpty Gender gender, @NotEmpty String deptId, @NotEmpty Title title) {
+
+	public User(@NotEmpty(message = "First name is required") String firstName,
+			@NotEmpty(message = "Last name is required") String lastName,
+			@NotEmpty(message = "User name is required") String userName,
+			@NotEmpty(message = "Password is required") String password,
+			@NotEmpty(message = "Email is required") @Email String email, Role role, String reportsTo, Gender gender,
+			String deptId, Title title) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -69,6 +75,7 @@ public class User {
 		this.deptId = deptId;
 		this.title = title;
 	}
+
 	public int getId() {
 		return id;
 	}
@@ -135,14 +142,13 @@ public class User {
 	public void setTitle(Title title) {
 		this.title = title;
 	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", userName=" + userName
-				+ ", password=" + password + ", email=" + email + ", role=" + role + ", reportsTo=" + reportsTo
-				+ ", gender=" + gender + ", deptId=" + deptId + ", title=" + title + "]";
+				+ ", password=" + password + ", email=" + email + ", reportsTo=" + reportsTo + ", deptId=" + deptId
+				+ "]";
 	}
-	
-	
 	
 	
 }
