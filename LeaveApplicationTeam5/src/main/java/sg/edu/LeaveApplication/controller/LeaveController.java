@@ -3,7 +3,15 @@ package sg.edu.LeaveApplication.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import javax.validation.Valid;
 
@@ -18,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sg.edu.LeaveApplication.model.LeaveRecord;
+import sg.edu.LeaveApplication.model.PublicHolidays;
 import sg.edu.LeaveApplication.model.Status;
 import sg.edu.LeaveApplication.service.LeaveService;
 import sg.edu.LeaveApplication.service.LeaveTypeService;
@@ -47,7 +56,29 @@ public class LeaveController {
 	public void setUservice(UserService uservice) {
 		this.uservice = uservice;
 	}
-
+	
+	@Autowired
+	//get all holidays and insert as param
+	
+	
+	public Integer getDuration(String sd, String ed, ArrayList<PublicHolidays> holidays) {
+				
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		LocalDate date1= LocalDate.parse(sd, formatter);  
+		LocalDate date2= LocalDate.parse(ed, formatter); 
+		
+		Predicate<LocalDate> isWeekend = date -> date.getDayOfWeek() == DayOfWeek.SATURDAY
+				&& date.getDayOfWeek() == DayOfWeek.SUNDAY;
+		
+		//Predicate<LocalDate> isHolidy = date -> date.holidays.isPresent() ? holidays.get().contains(date): false;
+		long daysBetween = ChronoUnit.DAYS.between(date1, date2);
+		long duration = Stream.iterate(sd, date->date.plusDays(1))
+				.limit(daysBetween)
+				.filter(isHolidy.or(isWeekend).negate().count());
+		return duration;
+	}
+	
+	
 	@RequestMapping("/list")
 	public String list(Model model) {
 		model.addAttribute("leaveType", leavetypeservice.findAll());
@@ -59,28 +90,23 @@ public class LeaveController {
 	public String applyLeave(Model model) {
 		
 		model.addAttribute("leave", new LeaveRecord());
-		model.addAttribute("fakeleaveType", "Annual Leave");
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
 		model.addAttribute("balance", 2);//will replace
 		return "createLeave";
 	}
 
 	@RequestMapping("/save")
-	public String saveLeave(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult result, Model model, 
+	public String saveLeave(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult result, Model model,
 			@RequestParam("startDate") String sd, @RequestParam("endDate") String ed) throws ParseException {
-
+		Date date1 = new SimpleDateFormat("yyyy-mm-dd").parse(sd);
 		//calculate duration
-		Date date1= new SimpleDateFormat("yyyy-MM-dd").parse(sd);  
-		Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(ed);
-		var temp = date2.getTime() - date1.getTime();
-		Integer duration = (int) (temp / (1000 *3600 * 24));
+		Integer duration = getDuration(sd,ed);
 		
 		//valid balance
-		leaverecord.setUser(uservice.findUserById(1));//to use session user_id
+		leaverecord.setUser(uservice.findUserById(7));//to use session user_id
 		leaverecord.setLeaveAppliedDate(new Date());
 		leaverecord.setDuration(duration);
 		leaverecord.setStartDate(date1);
-		
 		//if new record, set to Pending; otherwise as Updated
 		if(leaverecord.getStatus() == null) {
 			leaverecord.setStatus(Status.PENDING);
@@ -96,9 +122,8 @@ public class LeaveController {
 	
 	@RequestMapping("/update/{id}")
 	public String updateLeave(@PathVariable("id") Integer id, Model model) {
-		
+		model.addAttribute("leaveTypes", leavetypeservice.findAll());
 		LeaveRecord lr = leaveservice.findLeaveRecordByID(id);
-		
 		//only when Pending, allow update
 		if(lr != null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
 			model.addAttribute("leave", lr);
@@ -132,11 +157,4 @@ public class LeaveController {
 		}
 		return"forward:/leave/list";
 	}
-
-	@RequestMapping(value = "/viewLeave")
-	public String viewLeave(Model model) {
-		model.addAttribute("leavelist", leaveservice.findAll());
-		return "viewLeaveRequests";
-	}
-
 }

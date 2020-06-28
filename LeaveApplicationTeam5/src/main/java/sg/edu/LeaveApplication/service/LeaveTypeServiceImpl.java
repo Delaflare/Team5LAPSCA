@@ -20,5 +20,17 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
 	public ArrayList<LeaveTypes> findAll(){
 		return (ArrayList<LeaveTypes>) leavetyperepo.findAll();
 	}
+	@Override
+	public LeaveTypes findLeaveTypesById(Integer id) {
+		
+		return leavetyperepo.findById(id).get();
+	}
+	
+
+	 
+	@Override
+	public ArrayList<String> findAllLeaveNames() {
+		return leavetyperepo.findAllLeaveNames();
+	}
 	
 }
