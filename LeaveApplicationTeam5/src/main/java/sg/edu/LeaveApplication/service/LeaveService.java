@@ -11,4 +11,7 @@ public interface LeaveService {
 	public void deleteLeave(LeaveRecord lr);
 	public void cancelLeave(LeaveRecord lr);
 	public ArrayList<LeaveRecord> findAllPendingLeave();
+	public LeaveRecord findLeaveRecordById(Integer id);
+	public boolean Approve(Integer id);
+	public boolean Reject(Integer id);
 }
