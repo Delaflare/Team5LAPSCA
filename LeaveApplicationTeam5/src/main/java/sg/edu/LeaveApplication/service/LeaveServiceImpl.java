@@ -40,6 +40,5 @@ public class LeaveServiceImpl implements LeaveService {
 	
 	public void cancelLeave(LeaveRecord lr) {
 		lr.setStatus(Status.CANCELLED);
-		leaverepo.save(lr);
 	}
 }

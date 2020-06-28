@@ -8,56 +8,26 @@
 
 </head>
 <body>
-<h1>Leave Details</h1>
-<form action="#" th:object="${leave}" th:action="@{/emp/save}" method="post" >
-		<fieldset>
-		<input type="hidden" th:field="*{id}">  
-		</fieldset>
-		<fieldset>
-			Leave Approval Status: <input type="text" th:field="*{userName}">
-			<p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
-		</fieldset>
-		<fieldset>
-		Type of Leave:
-				<select th:field = "*{leave.name}" id= "name">
-				<option th:each = "leaveType : ${leaveType}" 
-				th:value = "${leaveType}" th:text = "${leaveType}" > </option> 
-				</select>
-				<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Days Available/Left: <input type="text" th:field="*{firstName}">
-			</p>
-		</fieldset>
-		
-		<fieldset>
-			Leave Reason: <input type="text" th:field="*{userName}">
-			<p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
-		</fieldset>
-		
-		<fieldset>
-			Start Date: <input type="text" th:field="*{firstName}">
-			<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
-		
-			End Date: <input type="text" th:field="*{lastName}">
-			<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
-		</fieldset>
-		
-		<fieldset>
-			Approver's Remarks: <input type="text" th:field="*{userName}">
-			<p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
-		</fieldset>
-				
-		<fieldset>
-			Date Approved: <input type="date" th:value="${#dates.createNow()}" />
-			<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-		</fieldset>
-		
-		
-		<fieldset>
-			<button type="submit" >Update</button>
-			<button type="">Cancel</button>
-			<button type="">Delete</button>
-		</fieldset>
-		
-	</form>
+<h1>Application Details</h1>
+
+<ul th:object="${leave}">
+<li>Id: <b th:text="*{id}"></b></li>
+<li>Applied Date: <b th:text="*{leaveAppliedDate}"></b></li>
+<li>Start Date: <b th:text="*{startDate}"></b></li>
+<li>End Date</li>
+<li>Duration: <b th:text="*{duration}"></b></li>
+<li>Description: <b th:text="*{description}"></b></li>
+<li>Work Dissemination: : <b th:text="*{workDissemination}"></b></li>
+<li>Contact Details: <b th:text="*{contactDetails}"></b></li>
+<hr/>
+<li>Application Status: <b th:text="*{status}"></b></li>
+<li>Updated Date: <b th:text="*{leaveApprovedDate}"></b></li>
+<li>Manager Comments: <b th:text="*{comments}"></b></li>
+</ul>
+
+<td><a th:href="@{/leave/update/}+${leave.id}">Update</a></td>	
+<td><a th:href="@{/leave/cancel/}+${leave.id}">Cancel</a></td>	
+<td><a th:href="@{/leave/delete/}+${leave.id}">Delete</a></td>		
 
 </body>
 </html>
