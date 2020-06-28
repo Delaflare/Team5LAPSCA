@@ -20,10 +20,10 @@ public class LeaveServiceImpl implements LeaveService {
 		else return false;
 	}
 	
-	
 	@Override
 	public ArrayList<LeaveRecord> findAll(){
 		ArrayList<LeaveRecord> leavelist = (ArrayList<LeaveRecord>) leaverepo.findAll();
 		return leavelist;
 	}
+
 }
