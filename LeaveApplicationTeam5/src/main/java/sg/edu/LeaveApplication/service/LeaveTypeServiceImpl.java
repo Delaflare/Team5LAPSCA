@@ -33,4 +33,9 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
 		return leavetyperepo.findAllLeaveNames();
 	}
 	
+	@Override
+	public ArrayList<String> findAllLeaveNames() {
+		return leavetyperepo.findAllLeaveNames();
+	}
+	
 }
