@@ -14,7 +14,7 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 public class LeaveRecord {
 	@Id
-	@GeneratedValue( strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private Date startDate;
 	private int duration;
