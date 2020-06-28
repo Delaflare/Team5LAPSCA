@@ -48,9 +48,9 @@ public class LeaveTypeController {
 	@RequestMapping(value = "/save")
 	public String saveLeaveType(@ModelAttribute("leavetype") @Valid LeaveTypes leavetypes, BindingResult bindingResult,
 			Model model) {
-		if (bindingResult.hasErrors()) {
-			return "LeaveTypesDetails";
-		}
+		//if (bindingResult.hasErrors()) {
+		//	return "LeaveTypesDetails";
+		//}
 		leavetypeservice.saveLeaveType(leavetypes);
 		return "forward:/leavetypes/list";
 	}
@@ -58,7 +58,7 @@ public class LeaveTypeController {
 	@RequestMapping(value = "/delete/{id}")
 	public String deleteDepartment(@PathVariable("id") Integer id) {
 		leavetypeservice.deleteLeaveType(leavetypeservice.findLeaveTypesById(id));
-		return "forward:/dept/list";
+		return "forward:/leavetypes/list";
 	}
 
 }

@@ -8,22 +8,25 @@
 
 </head>
 <body>
-<h1>Leave Types</h1>
+	<h1>Leave Types</h1>
 
-<!-- Add Hyperlink -->
-	<a href="AddLeaveType.html" th:href="@{/leaveType/add}">Add Leave Type</a>
+	<!-- Add Hyperlink -->
+	<a href="AddLeaveType.html" th:href="@{/leavetypes/add}">Add Leave
+		Type</a>
 
-	<h2 th:if = "${not #lists.isEmpty(ltypelist)}"> Leave Type List</h2> 
+	<h2 th:if="${not #lists.isEmpty(ltypelist)}">Leave Type List</h2>
 
 	<table class="w3-container" th:if="${not #lists.isEmpty(ltypelist)}">
-			<tr th:each="leavetype:${ltypelist}">
-				<td th:text=${leavetype.id}>Id</td>
-				<td th:text=${leavetype.leave_name}>Name</td>
-				<td><a href="EditLeaveType.html"
-					th:href="@{/leavetype/edit/}+${leavetype.id}" >Edit</a></td>
-				<td><a href="Deleteleavetype.html"
-					th:href="@{/leavetype/delete/}+${leavetype.id}">Delete</a></td>
-			</tr>
+		<tr th:each="leavetype:${ltypelist}">
+			<td th:text=${leavetype.id}>Id</td>
+			<td th:text=${leavetype.leaveName}>Name</td>
+			<td th:text=${leavetype.leaveDays}>Days</td>
+			<td><a href="EditLeaveType.html"
+				th:href="@{/leavetypes/edit/}+${leavetype.id}">Edit</a></td>
+			<td><a href="Deleteleavetype.html"
+				th:href="@{/leavetypes/delete/}+${leavetype.id}">Delete</a></td>
+			
+		</tr>
 	</table>
 
 

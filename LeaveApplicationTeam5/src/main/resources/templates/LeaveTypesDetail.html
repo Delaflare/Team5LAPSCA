@@ -8,13 +8,17 @@
 </head>
 <body>
 <h1>Create Leave Type</h1>
-<form action="#" th:object="${leavetype}" th:action="@{/leavetype/save}" method="post" >
+<form action="#" th:object="${leavetype}" th:action="@{/leavetypes/save}" method="post" >
 		<fieldset>
 		<input type="hidden" th:field="*{id}">  
 		</fieldset>
 		<fieldset>
-			Leave Type Name: <input type="text" th:field="*{name}">
-			<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+			Leave Type Name: <input type="text" th:field="*{leaveName}">
+			<p th:if="${#fields.hasErrors('leaveName')}" th:errors="*{leaveName}"></p>
+		</fieldset>
+		<fieldset>
+			Leave Type Days: <input type="text" th:field="*{leaveDays}">
+			<p th:if="${#fields.hasErrors('leaveDays')}" th:errors="*{leaveDays}"></p>
 		</fieldset>
 		<fieldset>
 			<button type="submit" >Save</button>
