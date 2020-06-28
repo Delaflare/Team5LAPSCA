@@ -132,11 +132,41 @@ public class LeaveController {
 		}
 		return"forward:/leave/list";
 	}
-
-	@RequestMapping(value = "/viewLeave")
-	public String viewLeave(Model model) {
-		model.addAttribute("leavelist", leaveservice.findAll());
-		return "viewLeaveRequests";
+	/*
+	 * @RequestMapping(value = "/viewLeave") public String viewLeave(Model model) {
+	 * model.addAttribute("leavelist", leaveservice.findAll()); return
+	 * "viewLeaveRequests"; }
+	 */
+	
+	@RequestMapping("/viewLeave")
+	public String viewLeaveRequest(Model model) {
+		model.addAttribute("ltNames", leavetypeservice.findAllLeaveNames());
+		return "viewLeaveRequests";	
 	}
-
+	
+	@RequestMapping("/getLeave") 
+	public String getLeaveRequest(Model model) {
+	 model.addAttribute("leaveList",leaveservice.findAll());
+		  return "viewLeaveRequests";	  
+	}
+	
+	@RequestMapping("/pendingLeaveDetails/{id}")
+	public String showLeaveDetails(@PathVariable("id")Integer id, Model model) {
+		model.addAttribute("leaveRecord", leaveservice.findLeaveRecordById(id));
+		return "pendingLeaveDetails";
+	}
+	
+	@RequestMapping("/approveLeave/{id}")
+	public String approveLeave(@PathVariable("id") Integer id) {
+		leaveservice.Approve(id);
+		return "redirect:/leave/getLeave";
+	}
+	
+	@RequestMapping("/rejectLeave")
+	public String rejectLeave(@PathVariable("id") Integer id) {
+		leaveservice.Reject(id);
+		return "redirect:/leave/getLeave;";
+	}
+	
+	
 }
