@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<!-- list of compensation leave -->
+<div>
+<h3>Compensation Leave History</h3>
+<h4 th:text="${currentBalance}">45hrs</h4>
+<hr/>
+<table th:if="${not #lists.isEmpty(compensationleave)}">
+<thead>
+	<tr>
+		<th>id</th>
+		<th><a>Start Date</a></th>
+		<th><a>End Date</a></th>
+		<th><a>OT Hours</a></th>
+		<th><a>Status</a></th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	<tr th:each="leave: ${compensationleave}">
+		<td th:text="${leave.id}">1</td>
+		<td th:text="${leave.startDate]">2020-02-02</td>
+		<td th:text="${leave.endDate}">2020-03-03</td>
+		<td th:text="${leave.duration}">3</td>
+		<td th:text="${leave.status}">pending</td>
+		<td><button>Update</button></td>
+		<td><button>Cancel</button></td>
+		<td><button>Delete</button></td>
+	</tr>
+</thead>
+</table>
+</div>
+</body>
+</html>

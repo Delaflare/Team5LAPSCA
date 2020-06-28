@@ -27,6 +27,7 @@ public class PublicHolidays {
 	private Date endDate;
 	//@NotEmpty
 	private int duration;
+<<<<<<< HEAD
 
 	public Date getEndDate() {
 		return endDate;
@@ -35,6 +36,14 @@ public class PublicHolidays {
 		this.endDate = endDate;
 	}
 	public PublicHolidays(int id, @NotEmpty String holidayName, @NotEmpty Date startDate,  @NotEmpty Date endDate,@NotEmpty int duration) {
+=======
+	
+	public PublicHolidays() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public PublicHolidays(@NotEmpty String holidayName, @NotEmpty Date startDate, @NotEmpty int duration) {
+>>>>>>> branch 'master' of https://github.com/Delaflare/Team5LAPSCA
 		super();
 		this.id = id;
 		this.holidayName = holidayName;
@@ -65,9 +74,5 @@ public class PublicHolidays {
 	}
 	public void setDuration(int duration) {
 		this.duration = duration;
-	}
-	public PublicHolidays() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 }

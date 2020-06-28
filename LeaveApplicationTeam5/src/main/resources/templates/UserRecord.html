@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Employee Profile</title>
+</head>
+<body>
+	<div>
+		<h2>Employee Profile Details </h2>
+		<p>Employee ID: <span th:text="${user.id}"></span></p>
+		<p>FirstName: <span th:text="${user.firstName}"></span></p>
+		<p>UserName: <span th:text="${user.userName}"></span></p>
+		<p>Email: <span th:text="${user.email}"></span></p>
+		<p>Employee Role: <span th:text="${user.role}"></span></p>
+		<p>ReportTo: <span th:text="${user.reportsTo}"></span></p>
+		<p>Gender: <span th:text="${user.gender}"></span></p>
+		<p>Department ID: <span th:text="${user.deptId}"></span></p>
+		<p>Title: <span th:text="${user.title}"></span></p>	
+	</div>
+	
+	<div>
+		<h2>Leave Balance</h2>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>AnnualLeave</th>
+					<th>MedicalLeave</th>
+					<th>ChildCareLeave</th>
+					<th>ParentCareLeave</th>
+					<th>CompensationLeave</th>
+					<th>Maternity</th>
+					<th>UnpaidLeave</th>
+					<th>OtherLeave</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div>
+		<h2 th:utext="#{leave.status.page}" th:if="${not #lists.isEmpty(leaves)}">header</h2>
+		<table class="w3-container" th:if="${not #lists.isEmpty(leaves)}">
+		<tr th:each="leave:${leaves}">
+			<thead>
+				<tr>
+					<th>Leave ID</th>
+					<th>Leave Type</th>
+					<th>Start From</th>
+					<th>To</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="leave:${leaves}">
+					<td th:text=${leave.id}>Id</td>
+					<td th:text=${leave.LeaveTypeId}>Id</td>
+					<td th:text="${#dates.format(leave.dom, 'dd-MM-yyyy')}" >Start From</td>
+					<td th:text="${#dates.format(leave.dom, 'dd-MM-yyyy')}" >End Date</td>
+					<td th:text=${leave.status}></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	
+</body>
+</html>

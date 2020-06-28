@@ -8,45 +8,43 @@
 
 </head>
 <body>
-<h1>Leave Form</h1>
-<form action="#" th:object="${leave}" th:action="@{/emp/save}" method="post" >
-		<fieldset>
-		<input type="hidden" th:field="*{id}">  
-		</fieldset>
-		<fieldset>
-		Type of Leave:
-				<select th:field = "*{leave.name}" id= "name">
-				<option th:each = "leaveType : ${leaveType}" 
-				th:value = "${leaveType}" th:text = "${leaveType}" > </option> 
-				</select>
-				<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Days Available/Left: <input type="text" th:field="*{firstName}">
-			</p>
-		</fieldset>
-		<fieldset>
-			Start Date: <input type="text" th:field="*{firstName}">
-			<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
-		
-			End Date: <input type="text" th:field="*{lastName}">
-			<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
-		</fieldset>
-		
-		
-		<fieldset>
-			Leave Reason: <input type="password" th:field="*{password}">
-			<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-		</fieldset>
-		
-		<fieldset>
-			Approver: <input type="text" th:field="*{userName}">
-			<p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
-		</fieldset>
-		
-		<fieldset>
-			<button type="submit" >Save</button>
-			<button type="reset">Reset</button>
-		</fieldset>
-		
-	</form>
+<h1>Leave Application</h1>
+<form action="#" th:object="${leave}" th:action="@{/leave/save}" method="post" >
 
+	Start Date: <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02">	
+	End Date: <input type="date" id="ed" oninput="getDuration()" th:name="endDate" min="2020-02-02">
+	<p>Duration:<span id="duration"></span></p>
+	Type of Leave:
+				<select th:field = "${leaveTypes}">
+				<option th:each = "leaveType : ${leaveTypes}" 
+					th:value = "${leaveType}" th:text = "${leaveType.leaveName}"> </option> 
+				</select>
+	
+	<p>Leave Balance: <span th:text="${balance}"></span></p>
+	<fieldset>
+		Leave Reason: <textarea rows="5" th:field="*{description}"></textarea>
+	</fieldset>
+	
+	<label>Work Dissemination (if any)</label>
+	<input type="text" th:field="*{workDissemination}"/>  
+	<label>Emergency Contact (if any)</label>
+	<input type="text" th:field="*{contactDetails}"/>  
+	<button type="submit">Save</button>
+	<a th:href="@{/leave/list}">Cancel</a>
+	</form>
+	
+<script>
+function getDuration() {
+	var sd = new Date(document.getElementById("sd").value);
+	var ed = new Date(document.getElementById("ed").value);
+	var time= ed.getTime() - sd.getTime();
+	var duration = time /(1000*24*3600);
+  	document.getElementById("duration").innerHTML = duration + " day(s)";
+};
+
+var today=new Date().toISOString().split('T')[0];
+document.getElementById("sd").setAttribute("min", today);
+document.getElementById("ed").setAttribute("min", today);
+</script>
 </body>
 </html>

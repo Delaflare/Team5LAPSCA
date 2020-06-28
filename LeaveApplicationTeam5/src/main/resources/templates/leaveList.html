@@ -2,44 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Department Listing</title>
+<title>Application List</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/style.css" th:href="@{/css/style.css}" />
 <!--  <th:block th:include="~{layout/header}"></th:block> -->
 </head>
 <body>
-<h1>Department Listing</h1>
+<h1>Leave Application Listing</h1>
 
 <!-- Add Hyperlink -->
-	<a href="createLeave.html" th:href="@{/leave/create}">Apply Leave</a>
+	<a href="createLeave.html" th:href="@{/leave/apply}">New Leave</a>
 
-	<h2 th:if = "${not #lists.isEmpty(dlist)}"> Leave History</h2> 
-
-	<table border = 1 , class="w3-container" th:if="${not #lists.isEmpty(dlist)}">
+	<h2 th:if = "${not #lists.isEmpty(leaveList)}"> Leave History</h2> 
+	<table border = 1 , class="w3-container" th:if="${not #lists.isEmpty(leaveList)}">
 			<tr>
-				<th>Leave Id</th>
-				<th>Leave Type</th>
-				<th>Number of Days</th>
+				<th>LeaveType - unsolved</th>
+				<th>Applied Date</th>
+				<th>Duration</th>
 				<th>From</th>
-				<th>To</th>
 				<th>Status</th>
-				<th>Created</th>
-				<th>Action</th>
-				
+				<th></th><th></th><th></th><th></th>		
 			</tr>
-			<tr th:each="department:${dlist}">
-				<td th:text=${leave.id}>leaveId</td>
-				<td th:text=${department.name}>leaveType</td>
-				<td th:text=${department.name}>daysNo</td>
-				<td th:text=${department.name}>startDate</td>
-				<td th:text=${department.name}>endDate</td>
-				<td th:text=${department.name}>leaveStatus</td>
-				<td th:text=${department.name}>creationDate</td>
-				<td><a href="EditDepartment.html"
-					th:href="@{/dept/edit/}+${department.id}" >View Details</a></td>	
+
+			<tr th:each="leave:${leaveList}">
+				<td th:with="id=${leave.id}">idk how<span th:text="${id}"></span></td>
+				<td th:text=${leave.leaveAppliedDate}></td>
+				<td th:text=${leave.duration}></td>
+				<td th:text=${leave.startDate}></td>
+				<td th:text=${leave.status}></td>
+				<td><a th:href="@{/leave/detail/}+${leave.id}">View Details</a></td>
+				<td><a th:href="@{/leave/update/}+${leave.id}">Update</a></td>	
+				<td><a th:href="@{/leave/cancel/}+${leave.id}">Cancel</a></td>	
+				<td><a th:href="@{/leave/delete/}+${leave.id}">Delete</a></td>		
 			</tr>
 	</table>
-
-
 </body>
 </html>

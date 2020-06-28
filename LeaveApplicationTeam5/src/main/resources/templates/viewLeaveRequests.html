@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title th:text="#{viewleave.page.title}"></title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+</head>
+<body>
+<h1 th:text="#{viewleave.page.title}"></h1>
+<h2 th:text="#{search.header}">Search Criteria</h2>
+	<form th:action="@{/viewLeave}" method="get" >
+		<fieldset>
+			Employee Name: <input id="txtSearch" type="text" name="keyword">
+		</fieldset>
+		<fieldset>
+		    Leave Type: 
+		    <select >
+		        <option th:each="ltName:${ltNames}" th:value="${ltName}" th:text="${ltName}"></option>
+		    </select>
+		</fieldset>		
+		<button type="submit" th:text="#{button.search}">search</button>
+		<button type="reset" th:text="#{button.reset}">clear</button>		
+	</form>
+	
+<h2 th:if="${not #lists.isEmpty(leaveList)}" th:text="#{viewleave.page.header}">Leave Requests</h2> 
+	<table class="w3-container" th:if="${not #lists.isEmpty(leavelist)}">
+		<tr>
+			<th>Employee Id</th>
+			<th>Name</th>
+			<th>Leave Type</th>
+			<th>Duration</th>
+			<th>Start Date</th>
+			<th>Reason</th>
+		</tr>
+		<tr th:each="leave:${leavelist}">
+			<td th:text="${leave.user.id}">Employee Id</td>
+			<td th:text="${leave.user.firstName} + ${leave.user.lastName}"> Name </td>
+			<td th:text="${leave.leaveTypes.name}">Leave Type</td>
+			<td th:text="${leave.duration}">Duration</td>
+			<td th:text="${leave.startDate}">Start Date</td>
+			<td th:text="${leave.description}">Description</td>
+			<td th:text="${leave.comment}">Comment</td>
+			<td><a th:href="@{/leave/pendingleaveDetails/}+${leave.id}"  th:text="#{button.details}"></a></td>			
+			<td><a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a></td>
+			<td><a th:href="@{/leave/rejectLeave/}+${leave.id}" th:text="#{button.reject}"></a></td>
+		</tr>
+	</table>
+
+
+
+
+</body>
+</html>
