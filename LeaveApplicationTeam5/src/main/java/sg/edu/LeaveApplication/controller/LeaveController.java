@@ -133,4 +133,10 @@ public class LeaveController {
 		return"forward:/leave/list";
 	}
 
+	@RequestMapping(value = "/viewLeave")
+	public String viewLeave(Model model) {
+		model.addAttribute("leavelist", leaveservice.findAll());
+		return "viewLeaveRequests";
+	}
+
 }

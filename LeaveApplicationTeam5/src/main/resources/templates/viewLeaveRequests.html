@@ -50,16 +50,18 @@
 			<td><a href="" >Reject</a></td>
 		</tr>
 
-		<tr>
-			<td>102</td>
-			<td>Miriam Lee</td>
-			<td>Annual Leave</td>
-			<td>6</td>
-			<td>29/06/2020</td>
-			<td>06/06/2020</td>
-			<td>holiday</td>
-			<td><a href="" >Approve</a></td>
-			<td><a href="" >Reject</a></td>
+		<tr th:each="list:${leavelist}">
+			<td th:text=${list.id}></td>
+			<td th:text=${list.user.firstName}></td>
+			<td th:text=${list.leaveTypes.leaveName}></td>
+			<td th:text=${list.duration}></td>
+			<td th:text="${#dates.format(list.leaveAppliedDate, 'dd-MM-yyyy')}"></td>
+			<td th:text="${#dates.format(list.leaveApprovedDate, 'dd-MM-yyyy')}"></td>
+			<td th:text=${list.description}></td>
+			<td><a href="ApproveLeave.html"
+				th:href="@{/leave/approveLeave/}+${list.id}" th:utext="#{leave.approve.title}">Approve</a></td>
+			<td><a href="RejectLeave.html"
+				th:href="@{/leave/rejectLeave/}+${list.id}" th:utext="#{leave.reject.title}">Reject</a></td>
 		</tr>
 </table>
 <!-- end of dummies -->
