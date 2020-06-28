@@ -47,7 +47,8 @@ public class LeaveController {
 	public void setUservice(UserService uservice) {
 		this.uservice = uservice;
 	}
-
+	
+	
 	@RequestMapping("/list")
 	public String list(Model model) {
 		model.addAttribute("leaveType", leavetypeservice.findAll());
@@ -59,28 +60,24 @@ public class LeaveController {
 	public String applyLeave(Model model) {
 		
 		model.addAttribute("leave", new LeaveRecord());
-		model.addAttribute("fakeleaveType", "Annual Leave");
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
-		model.addAttribute("balance", 2);//will replace
+		model.addAttribute("balance", 2); //will replace
 		return "createLeave";
 	}
 
 	@RequestMapping("/save")
-	public String saveLeave(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult result, Model model, 
+	public String saveLeave(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult result, Model model,
 			@RequestParam("startDate") String sd, @RequestParam("endDate") String ed) throws ParseException {
-
+		Date date1 = new SimpleDateFormat("yyyy-mm-dd").parse(sd);
 		//calculate duration
-		Date date1= new SimpleDateFormat("yyyy-MM-dd").parse(sd);  
-		Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(ed);
-		var temp = date2.getTime() - date1.getTime();
-		Integer duration = (int) (temp / (1000 *3600 * 24));
+		//Integer duration = getDuration(sd,ed);
 		
 		//valid balance
-		leaverecord.setUser(uservice.findUserById(1));//to use session user_id
+		leaverecord.setDuration(4);
+		leaverecord.setUser(uservice.findUserById(7));//to use session user_id
 		leaverecord.setLeaveAppliedDate(new Date());
-		leaverecord.setDuration(duration);
+		//leaverecord.setDuration(duration);
 		leaverecord.setStartDate(date1);
-		
 		//if new record, set to Pending; otherwise as Updated
 		if(leaverecord.getStatus() == null) {
 			leaverecord.setStatus(Status.PENDING);
@@ -96,9 +93,8 @@ public class LeaveController {
 	
 	@RequestMapping("/update/{id}")
 	public String updateLeave(@PathVariable("id") Integer id, Model model) {
-		
-		LeaveRecord lr = leaveservice.findLeaveRecordByID(id);
-		
+		model.addAttribute("leaveTypes", leavetypeservice.findAll());
+		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		//only when Pending, allow update
 		if(lr != null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
 			model.addAttribute("leave", lr);
@@ -109,13 +105,13 @@ public class LeaveController {
 	
 	@RequestMapping("/detail/{id}")
 	public String viewLeave(@PathVariable("id") Integer id, Model model) {
-		model.addAttribute("leave", leaveservice.findLeaveRecordByID(id));
+		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
 		return"leaveDetails";
 	}
 	
 	@RequestMapping("/delete/{id}")
 	public String deleteLeave(@PathVariable("id") Integer id, Model model) {
-		LeaveRecord lr = leaveservice.findLeaveRecordByID(id);
+		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		//only when Pending, allow delete
 		if(lr !=null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
 			leaveservice.deleteLeave(lr);
@@ -125,7 +121,7 @@ public class LeaveController {
 
 	@RequestMapping("/cancel/{id}")
 	public String cancelLeave(@PathVariable("id") Integer id, Model model) {
-		LeaveRecord lr = leaveservice.findLeaveRecordByID(id);
+		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		//have record and before approved, allow cancel
 		if(lr !=null && lr.getStatus()!= Status.APPROVED) {
 			leaveservice.cancelLeave(lr);
@@ -133,10 +129,35 @@ public class LeaveController {
 		return"forward:/leave/list";
 	}
 
-	@RequestMapping(value = "/viewLeave")
-	public String viewLeave(Model model) {
-		model.addAttribute("leavelist", leaveservice.findAll());
-		return "viewLeaveRequests";
+	@RequestMapping("/viewLeave")
+	public String viewLeaveRequest(Model model) {
+		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
+		return "viewLeaveRequests";	
 	}
+	
+	@RequestMapping("/getLeave") 
+	public String getLeaveRequest(Model model) {
+	 model.addAttribute("leaveList",leaveservice.findAll());
+		  return "viewLeaveRequests";	  
+	}
+	
+	@RequestMapping("/pendingLeaveDetails/{id}")
+	public String showLeaveDetails(@PathVariable("id")Integer id, Model model) {
+		model.addAttribute("leaveRecord", leaveservice.findLeaveRecordById(id));
+		return "pendingLeaveDetails";
+	}
+	
+	@RequestMapping("/approveLeave/{id}")
+	public String approveLeave(@PathVariable("id") Integer id) {
+		leaveservice.Approve(id);
+		return "redirect:/leave/getLeave";
+	}
+	
+	@RequestMapping("/rejectLeave")
+	public String rejectLeave(@PathVariable("id") Integer id) {
+		leaveservice.Reject(id);
+		return "redirect:/leave/getLeave;";
+	}
+	
 
 }

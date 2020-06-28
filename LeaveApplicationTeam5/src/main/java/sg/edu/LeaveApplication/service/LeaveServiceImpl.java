@@ -26,26 +26,47 @@ public class LeaveServiceImpl implements LeaveService {
 		ArrayList<LeaveRecord> leavelist = (ArrayList<LeaveRecord>) leaverepo.findAll();
 		return leavelist;
 	}
-	
-	@Override
-	public LeaveRecord findLeaveRecordByID(Integer id) {
-		LeaveRecord leaveRecord = leaverepo.findById(id).get();
-		return leaveRecord;
-	}
-	
+
 	@Override
 	public void deleteLeave(LeaveRecord lr) {
 		leaverepo.delete(lr);
 	}
-	
+	@Override
 	public void cancelLeave(LeaveRecord lr) {
 		lr.setStatus(Status.CANCELLED);
+		leaverepo.save(lr);
 	}
 	
 	@Override
 	public ArrayList<LeaveRecord> findAllPendingLeave() {
 		ArrayList<LeaveRecord> list = (ArrayList<LeaveRecord>) leaverepo.findAllPendingLeave();
 		return list;
+	}	
+	@Override
+	public LeaveRecord findLeaveRecordById(Integer id) {
+		return leaverepo.findById(id).get();
 	}
-
+	
+	@Override
+	public boolean Approve(Integer id) {
+		LeaveRecord leave = findLeaveRecordById(id);
+		if(leave != null) {
+			leave.setStatus(Status.APPROVED);
+			leaverepo.save(leave);
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean Reject(Integer id) {
+		LeaveRecord leave = findLeaveRecordById(id);
+		if(leave != null) {
+			leave.setStatus(Status.REJECTED);
+			leaverepo.save(leave);
+			return true;
+		}
+		return false;
+	}
+	
 }

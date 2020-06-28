@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
@@ -26,6 +27,7 @@ public class LeaveRecord {
 	@ManyToOne
     private User user;
 	@OneToOne
+	@JoinColumn(name="LEAVETYPES_ID")
 	private LeaveTypes leaveTypes;
 	
 	public LeaveRecord() {

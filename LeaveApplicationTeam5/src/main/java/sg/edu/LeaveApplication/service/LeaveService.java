@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import sg.edu.LeaveApplication.model.LeaveRecord;
 
 public interface LeaveService {
-	public boolean saveLeave(LeaveRecord leaverecord);
+	public LeaveRecord findLeaveRecordById(Integer id);
 	public ArrayList<LeaveRecord> findAll();
-	public LeaveRecord findLeaveRecordByID(Integer id);
+	public ArrayList<LeaveRecord> findAllPendingLeave();
+	public boolean saveLeave(LeaveRecord leaverecord);
+	public boolean Approve(Integer id);
+	public boolean Reject(Integer id);
 	public void deleteLeave(LeaveRecord lr);
 	public void cancelLeave(LeaveRecord lr);
-	public ArrayList<LeaveRecord> findAllPendingLeave();
 }
