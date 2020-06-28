@@ -64,6 +64,13 @@ public class LeaveServiceImpl implements LeaveService {
 		if(leave != null) {
 			leave.setStatus(Status.REJECTED);
 			leaverepo.save(leave);
+			
+			// find a way to add comment
+			leave.setDescription("Please ask manager");
+			// need to add comment
+			
+			
+			
 			return true;
 		}
 		return false;
