@@ -42,5 +42,11 @@ public class LeaveServiceImpl implements LeaveService {
 		lr.setStatus(Status.CANCELLED);
 		leaverepo.save(lr);
 	}
+	
+	@Override
+	public ArrayList<LeaveRecord> findAllPendingLeave() {
+		ArrayList<LeaveRecord> list = (ArrayList<LeaveRecord>) leaverepo.findAllPendingLeave();
+		return list;
+	}
 
 }
