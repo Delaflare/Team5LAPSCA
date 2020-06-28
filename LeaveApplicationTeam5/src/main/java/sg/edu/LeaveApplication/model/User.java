@@ -68,6 +68,20 @@ public class User {
 		this.leaveTypes = leaveTypes;
 		this.leaveRecord = leaveRecord;
 	}
+	
+
+	public User(@NotEmpty(message = "First name is required") String firstName,
+			@NotEmpty(message = "Last name is required") String lastName,
+			@NotEmpty(message = "User name is required") String userName,
+			@NotEmpty(message = "Password is required") String password,
+			@NotEmpty(message = "Email is required") @Email String email) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userName = userName;
+		this.password = password;
+		this.email = email;
+	}
 
 	public int getId() {
 		return id;
