@@ -161,7 +161,7 @@ public class LeaveController {
 
 	@RequestMapping("/viewLeave")
 	public String viewLeaveRequest(Model model) {
-		model.addAttribute("ltNames", leavetypeservice.findAllLeaveNames());
+		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
 		return "viewLeaveRequests";	
 	}
 	
