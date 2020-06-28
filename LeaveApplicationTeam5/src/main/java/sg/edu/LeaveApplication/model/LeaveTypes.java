@@ -8,39 +8,42 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 
 @Entity
 public class LeaveTypes {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id;
+	private int id;
 	private String leaveName;
-	private Integer leaveDays;
+	private int leaveDays;
 	@ManyToMany
 	private Collection<User> user;
-	@ManyToOne
-	private LeaveRecord leaveRecord;
-	
 	
 	public LeaveTypes() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public LeaveTypes(String leaveName, Integer leaveDays, Collection<User> user, LeaveRecord leaveRecord) {
+	public LeaveTypes(String leaveName, int leaveDays, Collection<User> user) {
 		super();
 		this.leaveName = leaveName;
 		this.leaveDays = leaveDays;
 		this.user = user;
-		this.leaveRecord = leaveRecord;
 	}
 
-	public Integer getId() {
+	public LeaveTypes(String leaveName, int leaveDays) {
+		super();
+		this.leaveName = leaveName;
+		this.leaveDays = leaveDays;
+	}
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -52,11 +55,11 @@ public class LeaveTypes {
 		this.leaveName = leaveName;
 	}
 
-	public Integer getLeaveDays() {
+	public int getLeaveDays() {
 		return leaveDays;
 	}
 
-	public void setLeaveDays(Integer leaveDays) {
+	public void setLeaveDays(int leaveDays) {
 		this.leaveDays = leaveDays;
 	}
 
@@ -66,14 +69,6 @@ public class LeaveTypes {
 
 	public void setUser(Collection<User> user) {
 		this.user = user;
-	}
-
-	public LeaveRecord getLeaveRecord() {
-		return leaveRecord;
-	}
-
-	public void setLeaveRecord(LeaveRecord leaveRecord) {
-		this.leaveRecord = leaveRecord;
 	}
 
 	@Override

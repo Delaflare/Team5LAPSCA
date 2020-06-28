@@ -9,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 @Entity
 public class LeaveRecord {
 	@Id
 	@GeneratedValue( strategy = GenerationType.AUTO)
 	private int id;
-	@NotEmpty
 	private Date startDate;
 	private int duration;
 	private Status status;
@@ -23,13 +23,12 @@ public class LeaveRecord {
 	private String workDissemination;
 	private String contactDetails;
 	private String comments;
-	@NotEmpty
 	private Date leaveAppliedDate;
 	private Date leaveApprovedDate;
 	@ManyToOne
     private User user;
-	@OneToMany(mappedBy="leaveRecord")
-	private Collection<LeaveTypes> leaveTypes;
+	@OneToOne
+	private LeaveTypes leaveTypes;
 	
 	public LeaveRecord() {
 		super();
@@ -38,7 +37,7 @@ public class LeaveRecord {
 
 	public LeaveRecord(@NotEmpty Date startDate, int duration, Status status, String description,
 			String workDissemination, String contactDetails, String comments, @NotEmpty Date leaveAppliedDate,
-			Date leaveApprovedDate, User user, Collection<LeaveTypes> leaveTypes) {
+			Date leaveApprovedDate, User user, LeaveTypes leaveTypes) {
 		super();
 		this.startDate = startDate;
 		this.duration = duration;
@@ -141,11 +140,11 @@ public class LeaveRecord {
 		this.user = user;
 	}
 
-	public Collection<LeaveTypes> getLeaveTypes() {
+	public LeaveTypes getLeaveTypes() {
 		return leaveTypes;
 	}
 
-	public void setLeaveTypes(Collection<LeaveTypes> leaveTypes) {
+	public void setLeaveTypes(LeaveTypes leaveTypes) {
 		this.leaveTypes = leaveTypes;
 	}
 
