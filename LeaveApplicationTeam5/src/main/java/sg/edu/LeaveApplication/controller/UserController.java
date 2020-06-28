@@ -67,6 +67,5 @@ public class UserController {
 		User user = uservice.findUserById(id);
 		model.addAttribute("user", user);
 		return "userRecord";
-	}
-	
+	}	
 }
