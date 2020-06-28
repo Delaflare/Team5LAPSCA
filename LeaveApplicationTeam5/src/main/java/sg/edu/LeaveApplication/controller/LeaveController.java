@@ -80,7 +80,15 @@ public class LeaveController {
 		leaverecord.setLeaveAppliedDate(new Date());
 		leaverecord.setDuration(duration);
 		leaverecord.setStartDate(date1);
-		leaverecord.setStatus(Status.PENDING);
+		
+		//if new record, set to Pending; otherwise as Updated
+		if(leaverecord.getStatus() == null) {
+			leaverecord.setStatus(Status.PENDING);
+		}
+		else {
+			leaverecord.setStatus(Status.UPDATED);
+		}
+		
 		leaveservice.saveLeave(leaverecord);
 		return "redirect:/leave/list";
 	}
@@ -88,32 +96,41 @@ public class LeaveController {
 	
 	@RequestMapping("/update/{id}")
 	public String updateLeave(@PathVariable("id") Integer id, Model model) {
-		model.addAttribute("leaveRecord", leaveservice.findLeaveRecordByID(id));
-		return"createLeave";
+		
+		LeaveRecord lr = leaveservice.findLeaveRecordByID(id);
+		
+		//only when Pending, allow update
+		if(lr != null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
+			model.addAttribute("leave", lr);
+			return"createLeave";
+		}
+		return "redirect:/leave/list";
 	}
 	
 	@RequestMapping("/detail/{id}")
 	public String viewLeave(@PathVariable("id") Integer id, Model model) {
-		model.addAttribute("leaveRecord", leaveservice.findLeaveRecordByID(id));
+		model.addAttribute("leave", leaveservice.findLeaveRecordByID(id));
 		return"leaveDetails";
 	}
 	
 	@RequestMapping("/delete/{id}")
 	public String deleteLeave(@PathVariable("id") Integer id, Model model) {
 		LeaveRecord lr = leaveservice.findLeaveRecordByID(id);
-		if(lr !=null) {
+		//only when Pending, allow delete
+		if(lr !=null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
 			leaveservice.deleteLeave(lr);
 		}
-		return"leaveDetails";
+		return"forward:/leave/list";
 	}
 
-	@RequestMapping("/delete/{id}")
+	@RequestMapping("/cancel/{id}")
 	public String cancelLeave(@PathVariable("id") Integer id, Model model) {
 		LeaveRecord lr = leaveservice.findLeaveRecordByID(id);
-		if(lr !=null) {
+		//have record and before approved, allow cancel
+		if(lr !=null && lr.getStatus()!= Status.APPROVED) {
 			leaveservice.cancelLeave(lr);
 		}
-		return"leaveDetails";
+		return"forward:/leave/list";
 	}
 
 }
