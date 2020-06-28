@@ -1,5 +1,5 @@
 package sg.edu.LeaveApplication.model;
 
 public enum Status {
-PENDING, APPROVED, REJECTED
+	PENDING, APPROVED, REJECTED
 }
