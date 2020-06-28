@@ -31,7 +31,7 @@ public class LeaveServiceImpl implements LeaveService {
 	public void deleteLeave(LeaveRecord lr) {
 		leaverepo.delete(lr);
 	}
-	
+	@Override
 	public void cancelLeave(LeaveRecord lr) {
 		lr.setStatus(Status.CANCELLED);
 		leaverepo.save(lr);
@@ -41,19 +41,12 @@ public class LeaveServiceImpl implements LeaveService {
 	public ArrayList<LeaveRecord> findAllPendingLeave() {
 		ArrayList<LeaveRecord> list = (ArrayList<LeaveRecord>) leaverepo.findAllPendingLeave();
 		return list;
-	}
-
-	@Override
-	public LeaveRecord findLeaveRecordByID(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
+	}	
 	@Override
 	public LeaveRecord findLeaveRecordById(Integer id) {
-		return leaverepo.findById(id).get();	
+		return leaverepo.findById(id).get();
 	}
+	
 	@Override
 	public boolean Approve(Integer id) {
 		LeaveRecord leave = findLeaveRecordById(id);
