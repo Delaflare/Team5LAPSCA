@@ -74,7 +74,7 @@ public class LeaveController {
 		
 		//valid balance
 		leaverecord.setDuration(4);
-		leaverecord.setUser(uservice.findUserById(7));//to use session user_id
+		leaverecord.setUser(uservice.findUserById(1));//to use session user_id
 		leaverecord.setLeaveAppliedDate(new Date());
 		//leaverecord.setDuration(duration);
 		leaverecord.setStartDate(date1);
@@ -132,33 +132,36 @@ public class LeaveController {
 	@RequestMapping("/viewLeave")
 	public String viewLeaveRequest(Model model) {
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
+		model.addAttribute("leaveList",leaveservice.findAllPendingLeave());
 		return "viewLeaveRequests";	
 	}
 	
 	@RequestMapping("/getLeave") 
 	public String getLeaveRequest(Model model) {
-	 model.addAttribute("leaveList",leaveservice.findAll());
+	 model.addAttribute("leaveList",leaveservice.findAllPendingLeave());
 		  return "viewLeaveRequests";	  
 	}
 	
-	@RequestMapping("/pendingLeaveDetails/{id}")
+	@RequestMapping("/details/{id}")
 	public String showLeaveDetails(@PathVariable("id")Integer id, Model model) {
-		model.addAttribute("leaveRecord", leaveservice.findLeaveRecordById(id));
+		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
 		return "pendingLeaveDetails";
 	}
 	
 	@RequestMapping("/approveLeave/{id}")
 	public String approveLeave(@PathVariable("id") Integer id) {
 		leaveservice.Approve(id);
-		return "redirect:/leave/getLeave";
+		return "redirect:/leave/viewLeave";
 	}
 	
-	@RequestMapping("/rejectLeave")
-	public String rejectLeave(@PathVariable("id") Integer id, @PathVariable("comment") String comment) {
-		leaveservice.Reject(id,comment); // need add comment
-		
-		return "redirect:/leave/getLeave;";
-	}
-	
+
+	  @RequestMapping("/rejectLeave/{id}") 
+	  public String rejectLeave(@ModelAttribute("leave") LeaveRecord leave, @PathVariable("id")Integer id, Model model) 
+	  { 		  
+		leave.setStatus(Status.REJECTED);
+		leaveservice.saveLeave(leave);
+		return "redirect:/leave/viewLeave"; 
+	  }
+
 
 }
