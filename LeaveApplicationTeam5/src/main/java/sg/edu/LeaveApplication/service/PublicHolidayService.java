@@ -13,4 +13,7 @@ public interface PublicHolidayService {
 
 	public void deletePublicHoliday(PublicHolidays holiday);
 
+	public PublicHolidays findPublicHolidayByName(String name);
+	
+	public PublicHolidays findPublicHolidaysById(Integer id);
 }
