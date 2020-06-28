@@ -40,6 +40,7 @@
 			<td th:text="${leave.duration}">Duration</td>
 			<td th:text="${leave.startDate}">Start Date</td>
 			<td th:text="${leave.description}">Description</td>
+			<td th:text="${leave.comment}">Comment</td>
 			<td><a th:href="@{/leave/pendingleaveDetails/}+${leave.id}"  th:text="#{button.details}"></a></td>			
 			<td><a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a></td>
 			<td><a th:href="@{/leave/rejectLeave/}+${leave.id}" th:text="#{button.reject}"></a></td>

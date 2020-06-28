@@ -154,8 +154,9 @@ public class LeaveController {
 	}
 	
 	@RequestMapping("/rejectLeave")
-	public String rejectLeave(@PathVariable("id") Integer id) {
-		leaveservice.Reject(id);
+	public String rejectLeave(@PathVariable("id") Integer id, @PathVariable("comment") String comment) {
+		leaveservice.Reject(id,comment); // need add comment
+		
 		return "redirect:/leave/getLeave;";
 	}
 	
