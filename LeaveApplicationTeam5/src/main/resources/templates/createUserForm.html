@@ -31,8 +31,7 @@
 		<fieldset>
 			Email: <input type="text" th:field="*{email}">
 			<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-		</fieldset>
-		
+		</fieldset>		
 		<fieldset>
 			Role :
 			<select th:field="*{role}" >
@@ -41,8 +40,7 @@
 		            th:text="${role}">
 		    </option>
 			</select>
-		</fieldset>
-		
+		</fieldset>		
 		<fieldset>
 			Report To: <input type="text" th:field="*{reportsTo}">
 			

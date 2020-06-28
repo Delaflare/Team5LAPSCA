@@ -44,7 +44,7 @@ public class UserController {
 	public String saveUser(@ModelAttribute("user") @Valid User user,
 			BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors())
-			return "createUserForm";
+			return "createUserForm"; 
 		uservice.saveUser(user);
 		return "forward:/user/list";
 	}
