@@ -8,9 +8,6 @@ import sg.edu.LeaveApplication.repo.UserRepository;
 
 @SpringBootApplication
 public class LeaveApplication {
-
-	@Autowired
-	UserRepository urepo;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(LeaveApplication.class, args);
