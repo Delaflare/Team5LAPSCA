@@ -30,7 +30,7 @@ public class UserController {
 	@RequestMapping(value = "/list")
 	public String listAll(Model model) {
 		model.addAttribute("users", uservice.findAll());
-		return "userList";
+		return "userProfile";
 	}
 	
 	@RequestMapping(value = "/add")
@@ -44,7 +44,7 @@ public class UserController {
 	public String saveUser(@ModelAttribute("user") @Valid User user,
 			BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors())
-			return "createUserForm";
+			return "createUserForm"; 
 		uservice.saveUser(user);
 		return "forward:/user/list";
 	}
@@ -63,8 +63,10 @@ public class UserController {
 	}
 	
 	@GetMapping("/display/{id}")
-	public String displayUser() {
-		return "userProfile";
+	public String displayUser(Model model, @PathVariable("id") Integer id) {
+		User user = uservice.findUserById(id);
+		model.addAttribute("user", user);
+		return "userRecord";
 	}
 	
 }

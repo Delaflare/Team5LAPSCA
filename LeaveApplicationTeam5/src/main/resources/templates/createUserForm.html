@@ -31,18 +31,16 @@
 		<fieldset>
 			Email: <input type="text" th:field="*{email}">
 			<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-		</fieldset>
-		
+		</fieldset>		
 		<fieldset>
 			Role :
-			<select>
+			<select th:field="*{role}" >
 		    <option th:each="role : ${T(sg.edu.LeaveApplication.model.Role).values()}"
 		            th:value="${role}"
 		            th:text="${role}">
 		    </option>
 			</select>
-		</fieldset>
-		
+		</fieldset>		
 		<fieldset>
 			Report To: <input type="text" th:field="*{reportsTo}">
 			
@@ -50,7 +48,7 @@
 		
 		<fieldset>
 			Gender :
-			<select>
+			<select th:field="*{gender}">
 		    <option th:each="gender : ${T(sg.edu.LeaveApplication.model.Gender).values()}"
 		            th:value="${gender}"
 		            th:text="${gender}">
@@ -65,7 +63,7 @@
 		
 		<fieldset>
 			Title :
-			<select>
+			<select th:field="*{title}">
 		    <option th:each="title : ${T(sg.edu.LeaveApplication.model.Title).values()}"
 		            th:value="${title}"
 		            th:text="${title}">

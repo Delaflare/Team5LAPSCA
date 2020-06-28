@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import sg.edu.LeaveApplication.model.User;
 
 public interface UserService {
-
 	public ArrayList<User> findAll();
 	public boolean saveUser (User user);
 	public void deleteUser (User user);

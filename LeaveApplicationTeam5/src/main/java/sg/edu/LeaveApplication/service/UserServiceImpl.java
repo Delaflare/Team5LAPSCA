@@ -38,12 +38,12 @@ public class UserServiceImpl implements UserService {
 	public User findUserById(Integer id) {
 		return urepo.findById(id).get();
 	}
-
+	
 	@Override
 	public User findUserByName(String username) {
 		ArrayList<User> list = (ArrayList<User>) urepo.findByName(username);
 		System.out.print(list);
-		return list.get(0);
+		return list.get(0); 
 	}
 
 	
