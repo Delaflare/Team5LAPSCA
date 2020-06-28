@@ -1,5 +1,11 @@
 package sg.edu.LeaveApplication.service;
 
-public interface LeaveTypeService {
+import java.util.ArrayList;
 
+import sg.edu.LeaveApplication.model.LeaveTypes;
+
+public interface LeaveTypeService {
+	
+	public ArrayList<LeaveTypes> findAll();
+	
 }
