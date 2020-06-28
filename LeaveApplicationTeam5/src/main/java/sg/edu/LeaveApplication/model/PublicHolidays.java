@@ -19,6 +19,11 @@ public class PublicHolidays {
 	private Date startDate;
 	@NotEmpty
 	private int duration;
+	
+	public PublicHolidays() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public PublicHolidays(@NotEmpty String holidayName, @NotEmpty Date startDate, @NotEmpty int duration) {
 		super();
 		this.holidayName = holidayName;
@@ -42,9 +47,5 @@ public class PublicHolidays {
 	}
 	public void setDuration(int duration) {
 		this.duration = duration;
-	}
-	public PublicHolidays() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 }

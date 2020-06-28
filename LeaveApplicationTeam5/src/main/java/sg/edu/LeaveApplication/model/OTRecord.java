@@ -6,65 +6,95 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class OTRecord {
 	@Id
 	@GeneratedValue( strategy = GenerationType.AUTO)
-	private Integer id;
-	private Integer userId;
+	@NotEmpty
+	private int id;
+	@ManyToOne
+    private User user;
+	
+	@NotEmpty
 	private Date startDate;
+	@NotEmpty
 	private Integer duration;
+	@NotEmpty
 	private String status;
-	private Integer totalOTTime;
+	@NotEmpty
+	private int totalOTTime;
 	
 	public OTRecord() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public OTRecord(Integer userId, Date startDate, Integer duration, String status, Integer totalOTTime) {
+
+	public OTRecord(User user, @NotEmpty Date startDate, @NotEmpty Integer duration, @NotEmpty String status,
+			@NotEmpty int totalOTTime) {
 		super();
-		this.userId = userId;
+		this.user = user;
 		this.startDate = startDate;
 		this.duration = duration;
 		this.status = status;
 		this.totalOTTime = totalOTTime;
 	}
-	public Integer getId() {
+
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	public Integer getUserId() {
-		return userId;
+
+	public User getUser() {
+		return user;
 	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+
+	public void setUser(User user) {
+		this.user = user;
 	}
+
 	public Date getStartDate() {
 		return startDate;
 	}
+
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
+
 	public Integer getDuration() {
 		return duration;
 	}
+
 	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
+
 	public String getStatus() {
 		return status;
 	}
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Integer getTotalOTTime() {
+
+	public int getTotalOTTime() {
 		return totalOTTime;
 	}
-	public void setTotalOTTime(Integer totalOTTime) {
+
+	public void setTotalOTTime(int totalOTTime) {
 		this.totalOTTime = totalOTTime;
 	}
+
+	@Override
+	public String toString() {
+		return "OTRecord [id=" + id + ", startDate=" + startDate + ", duration=" + duration + ", status=" + status
+				+ ", totalOTTime=" + totalOTTime + "]";
+	}
+	 
 	
 }
