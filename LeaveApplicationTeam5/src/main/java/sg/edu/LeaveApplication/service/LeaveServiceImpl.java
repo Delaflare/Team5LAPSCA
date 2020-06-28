@@ -42,7 +42,6 @@ public class LeaveServiceImpl implements LeaveService {
 		ArrayList<LeaveRecord> list = (ArrayList<LeaveRecord>) leaverepo.findAllPendingLeave();
 		return list;
 	}
-<<<<<<< HEAD
 
 	@Override
 	public LeaveRecord findLeaveRecordByID(Integer id) {
@@ -50,7 +49,6 @@ public class LeaveServiceImpl implements LeaveService {
 		return null;
 	}
 	
-=======
 	
 	@Override
 	public LeaveRecord findLeaveRecordById(Integer id) {
@@ -78,7 +76,4 @@ public class LeaveServiceImpl implements LeaveService {
 		return false;
 	}
 	
-	
-
->>>>>>> branch 'master' of https://github.com/Delaflare/Team5LAPSCA.git
 }

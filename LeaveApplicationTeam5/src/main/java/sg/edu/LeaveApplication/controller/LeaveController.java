@@ -56,11 +56,11 @@ public class LeaveController {
 	public void setUservice(UserService uservice) {
 		this.uservice = uservice;
 	}
-	
+	/*
 	@Autowired
 	//get all holidays and insert as param
 	
-	/*
+	
 	public Integer getDuration(String sd, String ed, ArrayList<PublicHolidays> holidays) {
 				
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -78,6 +78,7 @@ public class LeaveController {
 		return duration;
 	}
 	*/
+	
 	@RequestMapping("/list")
 	public String list(Model model) {
 		model.addAttribute("leaveType", leavetypeservice.findAll());
@@ -99,12 +100,13 @@ public class LeaveController {
 			@RequestParam("startDate") String sd, @RequestParam("endDate") String ed) throws ParseException {
 		Date date1 = new SimpleDateFormat("yyyy-mm-dd").parse(sd);
 		//calculate duration
-		Integer duration = getDuration(sd,ed);
+		//Integer duration = getDuration(sd,ed);
 		
 		//valid balance
+		leaverecord.setDuration(4);
 		leaverecord.setUser(uservice.findUserById(7));//to use session user_id
 		leaverecord.setLeaveAppliedDate(new Date());
-		leaverecord.setDuration(duration);
+		//leaverecord.setDuration(duration);
 		leaverecord.setStartDate(date1);
 		//if new record, set to Pending; otherwise as Updated
 		if(leaverecord.getStatus() == null) {
@@ -156,14 +158,7 @@ public class LeaveController {
 		}
 		return"forward:/leave/list";
 	}
-<<<<<<< HEAD
-=======
-	/*
-	 * @RequestMapping(value = "/viewLeave") public String viewLeave(Model model) {
-	 * model.addAttribute("leavelist", leaveservice.findAll()); return
-	 * "viewLeaveRequests"; }
-	 */
-	
+
 	@RequestMapping("/viewLeave")
 	public String viewLeaveRequest(Model model) {
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveNames());
@@ -194,6 +189,5 @@ public class LeaveController {
 		return "redirect:/leave/getLeave;";
 	}
 	
-	
->>>>>>> branch 'master' of https://github.com/Delaflare/Team5LAPSCA.git
+
 }
