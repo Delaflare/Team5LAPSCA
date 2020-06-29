@@ -56,9 +56,11 @@
 			</select>
 		</fieldset>
 		
-		<fieldset>
-			Department ID: <input type="text" th:field="*{deptId}">
-			
+		<fieldset >
+		    Department :
+		    <select th:field="*{department.name}">
+		        <option th:each="d:${dlist}" th:value="${d}" th:text="${d}"></option>
+		    </select>
 		</fieldset>
 		
 		<fieldset>

@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import sg.edu.LeaveApplication.model.Department;
 import sg.edu.LeaveApplication.model.User;
+import sg.edu.LeaveApplication.repo.DepartmentRepository;
 import sg.edu.LeaveApplication.repo.UserRepository;
 
 @SpringBootApplication
@@ -15,6 +17,9 @@ public class LeaveApplication {
 
 	@Autowired
 	UserRepository urepo;
+	
+	@Autowired
+	DepartmentRepository drepo;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(LeaveApplication.class, args);
@@ -24,11 +29,10 @@ public class LeaveApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 	return args -> {
+		//Department d1 = new Department("Engineering", 5);
 		
-		User u1 = new User("first", "last", "user", "pwd123", "abc@email.com");
-		urepo.save(u1);
+		//drepo.save(d1);
 		
-		//Department d1 = new Department("Dept1", 2, u1);	
 		
 	};
 
