@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sg.edu.LeaveApplication.model.LeaveRecord;
+import sg.edu.LeaveApplication.model.LeaveTypes;
+import sg.edu.LeaveApplication.model.PublicHolidays;
 import sg.edu.LeaveApplication.model.Status;
 import sg.edu.LeaveApplication.service.LeaveService;
 import sg.edu.LeaveApplication.service.LeaveTypeService;
@@ -75,14 +79,13 @@ public class LeaveController {
 				&& date.getDayOfWeek() == DayOfWeek.SUNDAY;
 		
 		Predicate<LocalDate> isHoliday = date->holidays.contains(date);
-		long daysBetween = ChronoUnit.DAYS.between(date1, date2);
+		long daysBetween = ChronoUnit.DAYS.between(date1, date2) + 1;
 		
-		long duration = Stream.iterate(date1, date->date.plusDays(1))
+		long leaveCost = Stream.iterate(date1, date->date.plusDays(1))
 				.limit(daysBetween)
 				.filter(isHoliday.or(isWeekend).negate())
 				.count();
-		
-		return (int)duration;
+		return (int)leaveCost;
 	}
 		
 
@@ -94,9 +97,10 @@ public class LeaveController {
 
 	@RequestMapping("/apply")
 	public String applyLeave(Model model) {
-		
+
 		model.addAttribute("leave", new LeaveRecord());
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
+		model.addAttribute("phlist", holiservice.findAll());
 		model.addAttribute("balance", 200); //will replace once balance is ready
 		//model.addAttribute("balance", uservice.findBalanceById());
 		return "createLeave";
@@ -104,7 +108,8 @@ public class LeaveController {
 
 	@RequestMapping("/save")
 	public String saveLeave(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult result, Model model,
-			@RequestParam("startDate") String sd, @RequestParam("endDate") String ed) throws ParseException {
+			@RequestParam("startDate") String sd, @RequestParam("endDate") String ed
+			) throws ParseException {
 	 
 		//calculate duration
 		Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(sd);
@@ -115,19 +120,21 @@ public class LeaveController {
 	    //check PH and weekend
 	    if(duration <= 14) {
 	    	//calculate leave cost = duration - weekend - PH
-			List<LocalDate> holidays = new ArrayList<>();
-		    holidays.add(LocalDate.of(2020, 7, 1));
-		    holidays.add(LocalDate.of(2020, 7, 3));
-			Integer leaveCost = getLeaveCost(sd, ed, holidays);
+			List<PublicHolidays> holidays = holiservice.findAll();
+			List<LocalDate> allPHdays = holidays.stream()
+										.map(PublicHolidays::getDate)
+										.collect(Collectors.toList());
+			
+			Integer leaveCost = getLeaveCost(sd, ed, allPHdays);
+			
 			//set balance - leaveCost
 	    }
 	    else {
 	    	//balance - duration
 	    }
 		//valid balance
-	    
-		leaverecord.setLeaveTypes(leavetypeservice.findLeaveTypesById(5));
-		leaverecord.setUser(uservice.findUserById(1));//to use session user_id
+		//!!leaverecord.setLeaveTypes(leavetypeservice.findLeaveTypesById(1));
+		leaverecord.setUser(uservice.findUserById(6));//to use session user_id
 		leaverecord.setLeaveAppliedDate(new Date());
 		leaverecord.setDuration(duration);
 		leaverecord.setStartDate(date1);
@@ -143,15 +150,19 @@ public class LeaveController {
 			leaveservice.saveLeave(leaverecord);
 		}
 		
-		return "redirect:/leave/list";
+		
+		return "redirect:list";
 	}
 		
 	@RequestMapping("/update/{id}")
 	public String updateLeave(@PathVariable("id") Integer id, Model model) {
+
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
+		model.addAttribute("phlist", holiservice.findAll());
 		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		//only when Pending, allow update
 		if(lr != null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
+			lr.setStatus(Status.UPDATED);
 			model.addAttribute("leave", lr);
 			return"createLeave";
 		}
@@ -211,20 +222,23 @@ public class LeaveController {
 		return "pendingLeaveDetails";
 	}
 	
-	@RequestMapping("/approveLeave/{id}")
-	public String approveLeave(@PathVariable("id") Integer id) {
-		leaveservice.Approve(id);
+	@RequestMapping("/approveLeave/{id}/{comment}")
+	public String approveLeave(@PathVariable("id") Integer id, @PathVariable("comment") String comment) {
+		leaveservice.Approve(id, comment);
 		return "redirect:/leave/viewLeave";
 	}
 	
+	
+	@RequestMapping("/rejectLeave/{id}/{comment}")
+	public String rejectLeave(@PathVariable("id") Integer id, @PathVariable("comment") String comment) {
+		leaveservice.Reject(id,comment);
+		return "redirect:/leave/viewLeave";
+	}
 
-	  @RequestMapping("/rejectLeave/{id}") 
-	  public String rejectLeave(@ModelAttribute("leave") LeaveRecord leave, @PathVariable("id")Integer id, Model model) 
-	  { 		  
-		leave.setStatus(Status.REJECTED);
-		leaveservice.saveLeave(leave);
-		return "redirect:/leave/viewLeave"; 
-	  }
-
-
+	/*
+	 * @RequestMapping("/submit/{id}") public String submit(@ModelAttribute("leave")
+	 * LeaveRecord leave, @PathVariable("id")Integer id ) { leave =
+	 * leaveservice.findLeaveRecordById(id); leaveservice.saveLeave(leave); return
+	 * "redirect:/leave/viewLeave"; }
+	 */
 }
