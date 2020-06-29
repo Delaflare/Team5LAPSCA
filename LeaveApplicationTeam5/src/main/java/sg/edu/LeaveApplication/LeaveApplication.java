@@ -7,16 +7,32 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import sg.edu.LeaveApplication.model.Department;
 import sg.edu.LeaveApplication.model.User;
+import sg.edu.LeaveApplication.repo.DepartmentRepository;
 import sg.edu.LeaveApplication.repo.UserRepository;
 
 @SpringBootApplication
 public class LeaveApplication {
 
 	
+	@Autowired
+	DepartmentRepository drepo;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(LeaveApplication.class, args);
 		
+	}
+	
+	@Bean
+	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+		return args-> {
+			Department d1 = new Department("Engineering", 1);
+			Department d2 = new Department("Account", 2);
+			
+			//drepo.save(d1);
+			//drepo.save(d2);
+		};
 	}
 	
 }

@@ -1,5 +1,8 @@
 package sg.edu.LeaveApplication.controller;
 
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import sg.edu.LeaveApplication.model.Department;
+import sg.edu.LeaveApplication.model.LeaveTypes;
 import sg.edu.LeaveApplication.model.User;
+import sg.edu.LeaveApplication.model.UserLeaveTypes;
+import sg.edu.LeaveApplication.service.DepartmentService;
+import sg.edu.LeaveApplication.service.DepartmentServiceImpl;
+import sg.edu.LeaveApplication.service.LeaveService;
+import sg.edu.LeaveApplication.service.LeaveServiceImpl;
+import sg.edu.LeaveApplication.service.LeaveTypeService;
+import sg.edu.LeaveApplication.service.LeaveTypeServiceImpl;
 import sg.edu.LeaveApplication.service.UserService;
 import sg.edu.LeaveApplication.service.UserServiceImpl;
 
@@ -21,10 +33,21 @@ public class UserController {
 	
 	@Autowired
 	private UserService uservice;
+	@Autowired
+	private DepartmentService dservice;
+	@Autowired
+	private LeaveService lservice;
+	@Autowired
+	private LeaveTypeService ltypeservice;
 	
 	@Autowired
-	public void setUserService(UserServiceImpl userviceImpl) {
+	public void setUserService(UserServiceImpl userviceImpl,
+			DepartmentServiceImpl dserviceImpl,
+			LeaveServiceImpl lserviceImpl, LeaveTypeServiceImpl ltypeserviceImpl) {
 		this.uservice = userviceImpl;
+		this.dservice = dserviceImpl;
+		this.lservice = lserviceImpl;
+		this.ltypeservice = ltypeserviceImpl;
 	}
 	
 	@RequestMapping(value = "/list")
@@ -37,12 +60,16 @@ public class UserController {
 	public String addForm(Model model) {
 		User user = new User();
 		model.addAttribute("user", user);
+		model.addAttribute("dlist" , dservice.findAllDepartmentNames());	
+		//System.out.print(dservice.findAll().size());
 		return "createUserForm";
 	}
 	
 	@RequestMapping(value = "/save")
 	public String saveUser(@ModelAttribute("user") @Valid User user,
 			BindingResult bindingResult, Model model) {
+		Department d = dservice.findDeparmentByName(user.getDepartment().getName());
+		user.setDepartment(d);
 		if(bindingResult.hasErrors())
 			return "createUserForm"; 
 		uservice.saveUser(user);
@@ -68,4 +95,32 @@ public class UserController {
 		model.addAttribute("user", user);
 		return "userRecord";
 	}	
+	
+	@GetMapping("/assignLeave/{id}")
+	public String assignLeave(Model model, @PathVariable("id") Integer id) {
+		UserLeaveTypes ulType = new UserLeaveTypes();
+		model.addAttribute("userleavetypes", ulType);
+		model.addAttribute("leaveTypes", ltypeservice.findAll());
+		model.addAttribute("user", uservice.findUserById(id));
+		System.out.print(ltypeservice.findAll());
+		//model.addAttribute("leavelist", lservice.findAll());		
+		return "assign-leave";
+	}
+	
+	@RequestMapping("/assignleavetype")
+	public String assignLeaveType(HttpServletRequest req, Model model) {
+		ArrayList<String> leaveNames = ltypeservice.findAllLeaveTypeNames();
+		ArrayList<UserLeaveTypes> uList = new ArrayList<UserLeaveTypes>();
+		UserLeaveTypes utype = new UserLeaveTypes();
+		for (String leavename : leaveNames) {
+			LeaveTypes lt = new LeaveTypes();
+			
+			//utype.setLeaveTypes(leavename);
+			utype.setLeaveAllowance(Integer.parseInt(req.getParameter(leavename)));
+			
+		}
+		
+		return"userProfile";
+	}
+	
 }

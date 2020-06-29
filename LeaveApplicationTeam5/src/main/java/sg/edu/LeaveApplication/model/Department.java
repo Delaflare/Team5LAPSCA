@@ -6,15 +6,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
 public class Department {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id;
+	private int id;
 	private String name;
-	private Integer minmumCount;
+	
+	@JoinColumn(name="minmum_count")
+	private int minmumCount;
 	
 	@OneToMany(mappedBy="department")
 	private Collection<User> users;
@@ -29,10 +32,10 @@ public class Department {
 		this.minmumCount = minmumCount;
 		
 	}
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -41,10 +44,10 @@ public class Department {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getMinmumCount() {
+	public int getMinmumCount() {
 		return minmumCount;
 	}
-	public void setMinmumCount(Integer minmumCount) {
+	public void setMinmumCount(int minmumCount) {
 		this.minmumCount = minmumCount;
 	}
 
