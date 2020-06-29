@@ -6,13 +6,38 @@
 </head>
 <body>
 	<h2>Employee Profile Details </h2>
-	<form action="#" th:object="${user}" th:action="@{/user/save}" method="post">
+	<form th:object="${lType}" th:action="@{/user/assignleavetype}" method="post">
 	<div th:object="${user}">
 		<p th:text="${user.userName}"></p>
+		<fieldset>
+		<input type="hidden" th:field="${user.userName}"/> 
+		</fieldset> 
 	</div>
 	<div>
-	
+		<table border="1">
+			<thead>
+				<tr>
+					<th>Leave Name</th>
+					<th>Total leave allowance</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+				<tr th:each="leave:${leaveTypes}">
+					<td><p th:text="${leave.leaveName}"></p></td>
+					
+					<td>
+					<fieldset>
+						<input th:name="${leave.leaveName}" type="number"/>
+					</fieldset>
+					</td>
+					
+				</tr>
+				
+			</tbody>
+		</table>
 	</div>
+	<button type="submit">Save</button>
 	</form>
 </body>
 </html>
