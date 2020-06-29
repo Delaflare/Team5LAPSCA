@@ -24,6 +24,8 @@ import sg.edu.LeaveApplication.service.LeaveService;
 import sg.edu.LeaveApplication.service.LeaveServiceImpl;
 import sg.edu.LeaveApplication.service.LeaveTypeService;
 import sg.edu.LeaveApplication.service.LeaveTypeServiceImpl;
+import sg.edu.LeaveApplication.service.UserLeaveTypesService;
+import sg.edu.LeaveApplication.service.UserLeaveTypesServiceImpl;
 import sg.edu.LeaveApplication.service.UserService;
 import sg.edu.LeaveApplication.service.UserServiceImpl;
 
@@ -39,15 +41,18 @@ public class UserController {
 	private LeaveService lservice;
 	@Autowired
 	private LeaveTypeService ltypeservice;
+	@Autowired
+	private UserLeaveTypesService ultypeservice;
 	
 	@Autowired
 	public void setUserService(UserServiceImpl userviceImpl,
 			DepartmentServiceImpl dserviceImpl,
-			LeaveServiceImpl lserviceImpl, LeaveTypeServiceImpl ltypeserviceImpl) {
+			LeaveServiceImpl lserviceImpl, LeaveTypeServiceImpl ltypeserviceImpl, UserLeaveTypesServiceImpl ultypesserviceImpl) {
 		this.uservice = userviceImpl;
 		this.dservice = dserviceImpl;
 		this.lservice = lserviceImpl;
 		this.ltypeservice = ltypeserviceImpl;
+		this.ultypeservice = ultypesserviceImpl;
 	}
 	
 	@RequestMapping(value = "/list")
@@ -102,7 +107,7 @@ public class UserController {
 		model.addAttribute("userleavetypes", ulType);
 		model.addAttribute("leaveTypes", ltypeservice.findAll());
 		model.addAttribute("user", uservice.findUserById(id));
-		System.out.print(ltypeservice.findAll());
+		//System.out.print(ltypeservice.findAll());
 		//model.addAttribute("leavelist", lservice.findAll());		
 		return "assign-leave";
 	}
@@ -111,14 +116,17 @@ public class UserController {
 	public String assignLeaveType(HttpServletRequest req, Model model) {
 		ArrayList<String> leaveNames = ltypeservice.findAllLeaveTypeNames();
 		ArrayList<UserLeaveTypes> uList = new ArrayList<UserLeaveTypes>();
-		UserLeaveTypes utype = new UserLeaveTypes();
+	
 		for (String leavename : leaveNames) {
-			LeaveTypes lt = new LeaveTypes();
-			
-			//utype.setLeaveTypes(leavename);
+			UserLeaveTypes utype = new UserLeaveTypes();
+			//get user by id and set to userleavetype user 
+			utype.setUser(uservice.findUserById(Integer.parseInt(req.getParameter("id"))));
+			utype.setLeaveName(leavename);
 			utype.setLeaveAllowance(Integer.parseInt(req.getParameter(leavename)));
-			
+			//System.out.print(utype.getUser());
+			ultypeservice.saveUserLeaveType(utype);
 		}
+
 		
 		return"userProfile";
 	}

@@ -19,17 +19,19 @@ public class UserLeaveTypes {
     private User user;
 	@ManyToMany
     private Collection<LeaveTypes> leaveTypes;
-	@NotEmpty
 	private int leaveAllowance;
+	private String leaveName;
+	
 	public UserLeaveTypes() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public UserLeaveTypes(User user, Collection<LeaveTypes> leaveTypes, @NotEmpty int leaveAllowance) {
+	public UserLeaveTypes(User user, Collection<LeaveTypes> leaveTypes, int leaveAllowance, String leaveName) {
 		super();
 		this.user = user;
 		this.leaveTypes = leaveTypes;
 		this.leaveAllowance = leaveAllowance;
+		this.leaveName = leaveName;
 	}
 	public int getId() {
 		return id;
@@ -55,9 +57,15 @@ public class UserLeaveTypes {
 	public void setLeaveAllowance(int leaveAllowance) {
 		this.leaveAllowance = leaveAllowance;
 	}
+	public String leaveName() {
+		return leaveName;
+	}
+	public void setLeaveName(String leaveName) {
+		this.leaveName = leaveName;
+	}
 	@Override
 	public String toString() {
-		return "UserLeaveTypes [id=" + id + ", leaveTypes=" + leaveTypes + ", leaveAllowance=" + leaveAllowance + "]";
+		return "UserLeaveTypes [id=" + id + ", leaveTypes=" + leaveTypes + ", leaveAllowance=" + leaveAllowance + ", leaveName=" + leaveName +"]";
 	}
 	
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import sg.edu.LeaveApplication.model.User;
 import sg.edu.LeaveApplication.repo.UserRepository;
+
 @Service
 public class UserServiceImpl implements UserService {
 
