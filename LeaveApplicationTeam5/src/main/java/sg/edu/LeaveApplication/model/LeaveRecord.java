@@ -1,5 +1,6 @@
 package sg.edu.LeaveApplication.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -15,7 +16,7 @@ public class LeaveRecord {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	private Date startDate;
+	private LocalDate startDate;
 	private int duration;
 	private Status status;
 	private String description;
@@ -35,7 +36,7 @@ public class LeaveRecord {
 		// TODO Auto-generated constructor stub
 	}
 
-	public LeaveRecord(@NotEmpty Date startDate, int duration, Status status, String description,
+	public LeaveRecord(@NotEmpty LocalDate startDate, int duration, Status status, String description,
 			String workDissemination, String contactDetails, String comments, @NotEmpty Date leaveAppliedDate,
 			Date leaveApprovedDate, User user, LeaveTypes leaveTypes) {
 		super();
@@ -60,11 +61,11 @@ public class LeaveRecord {
 		this.id = id;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
