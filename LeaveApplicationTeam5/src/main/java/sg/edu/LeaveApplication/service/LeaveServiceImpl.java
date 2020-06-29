@@ -1,6 +1,7 @@
 package sg.edu.LeaveApplication.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,10 +49,12 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 	
 	@Override
-	public boolean Approve(Integer id) {
+	public boolean Approve(Integer id, String comment) {
 		LeaveRecord leave = findLeaveRecordById(id);
 		if(leave != null) {
 			leave.setStatus(Status.APPROVED);
+			leave.setComments(comment);
+			leave.setLeaveApprovedDate(new Date());
 			leaverepo.save(leave);
 			return true;
 		}
@@ -59,10 +62,12 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 	
 	@Override
-	public boolean Reject(Integer id) {
+	public boolean Reject(Integer id, String comment) {
 		LeaveRecord leave = findLeaveRecordById(id);
 		if(leave != null) {
 			leave.setStatus(Status.REJECTED);
+			leave.setComments(comment);
+			leave.setLeaveApprovedDate(new Date());
 			leaverepo.save(leave);
 			return true;
 		}

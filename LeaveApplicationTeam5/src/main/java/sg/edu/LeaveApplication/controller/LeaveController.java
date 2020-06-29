@@ -211,20 +211,23 @@ public class LeaveController {
 		return "pendingLeaveDetails";
 	}
 	
-	@RequestMapping("/approveLeave/{id}")
-	public String approveLeave(@PathVariable("id") Integer id) {
-		leaveservice.Approve(id);
+	@RequestMapping("/approveLeave/{id}/{comment}")
+	public String approveLeave(@PathVariable("id") Integer id, @PathVariable("comment") String comment) {
+		leaveservice.Approve(id, comment);
 		return "redirect:/leave/viewLeave";
 	}
 	
+	
+	@RequestMapping("/rejectLeave/{id}/{comment}")
+	public String rejectLeave(@PathVariable("id") Integer id, @PathVariable("comment") String comment) {
+		leaveservice.Reject(id,comment);
+		return "redirect:/leave/viewLeave";
+	}
 
-	  @RequestMapping("/rejectLeave/{id}") 
-	  public String rejectLeave(@ModelAttribute("leave") LeaveRecord leave, @PathVariable("id")Integer id, Model model) 
-	  { 		  
-		leave.setStatus(Status.REJECTED);
-		leaveservice.saveLeave(leave);
-		return "redirect:/leave/viewLeave"; 
-	  }
-
-
+	/*
+	 * @RequestMapping("/submit/{id}") public String submit(@ModelAttribute("leave")
+	 * LeaveRecord leave, @PathVariable("id")Integer id ) { leave =
+	 * leaveservice.findLeaveRecordById(id); leaveservice.saveLeave(leave); return
+	 * "redirect:/leave/viewLeave"; }
+	 */
 }

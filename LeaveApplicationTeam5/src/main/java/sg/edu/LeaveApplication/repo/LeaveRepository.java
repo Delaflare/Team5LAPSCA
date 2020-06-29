@@ -11,5 +11,8 @@ public interface LeaveRepository extends JpaRepository<LeaveRecord, Integer> {
 	
 	@Query("Select l from LeaveRecord l where l.status=0")
 	ArrayList<LeaveRecord> findAllPendingLeave();
+	
+	@Query("Select distinct l.status from LeaveRecord l")
+    ArrayList<String> findAllLeaveStatus();
 
 }
