@@ -5,46 +5,69 @@
 <title>Create Leave Form</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/style.css" th:href="@{/css/style.css}" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
 <body>
+<div style="width:50%; float:left">
 <h1>Leave Application</h1>
 <form action="#" th:object="${leave}" th:action="@{/leave/save}" method="post" >
 
 	Start Date: <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02">	
-	End Date: <input type="date" id="ed" oninput="getDuration()" th:name="endDate" min="2020-02-02">
+	End Date: <input type="date" id="ed" th:name="endDate" min="2020-02-02">
 	<p>Duration:<span id="duration"></span></p>
 	Type of Leave:
-				<select th:field = "${leaveTypes}">
+				<select th:field = "*{leaveTypes.id}">
 				<option th:each = "leaveType : ${leaveTypes}" 
-					th:value = "${leaveType}" th:text = "${leaveType.leaveName}"> </option> 
+					th:value = "${leaveType.id}" th:text = "${leaveType.leaveName}"> </option> 
 				</select>
-	
 	<p>Leave Balance: <span th:text="${balance}"></span></p>
 	<fieldset>
 		Leave Reason: <textarea rows="5" th:field="*{description}"></textarea>
 	</fieldset>
 	
-	<label>Work Dissemination (if any)</label>
+	<label>Work Dissemination (if any)</label><br/>
 	<input type="text" th:field="*{workDissemination}"/>  
-	<label>Emergency Contact (if any)</label>
-	<input type="text" th:field="*{contactDetails}"/>  
+	<label>Emergency Contact (if any)</label><br/>
+	<input type="tel" pattern="[0-9]{8}"th:field="*{contactDetails}"/>  
+	<small>Format:12345678</small><br/>
 	<button type="submit">Save</button>
 	<a th:href="@{/leave/list}">Cancel</a>
-	</form>
-	
+</form>
+</div>
+<aside style="width:20%;float:right">
+<div>
+<h1>Public Holidays in 2020</h1>
+<table th:if="${not #lists.isEmpty(phlist)}">
+<tr>
+<th>Holiday Name</th>
+<th>Date</th>
+</tr>
+<tr th:each="ph: ${phlist}">
+<td th:text="${ph.holidayName}"></td>
+<td th:text="${ph.date}"></td>
+</tr>
+</table>
+</div>
+</aside>
 <script>
-function getDuration() {
-	var sd = new Date(document.getElementById("sd").value);
-	var ed = new Date(document.getElementById("ed").value);
-	var time= ed.getTime() - sd.getTime();
-	var duration = time /(1000*24*3600);
-  	document.getElementById("duration").innerHTML = duration + " day(s)";
-};
-
-var today=new Date().toISOString().split('T')[0];
-document.getElementById("sd").setAttribute("min", today);
-document.getElementById("ed").setAttribute("min", today);
+	$(document).ready(function(){
+		$("#ed").on('input',function(){
+			var sd = new Date($("#sd").val());
+			var ed = new Date($("#ed").val());
+			var time= ed.getTime() - sd.getTime();
+			var duration = time /(1000*24*3600)+ 1;
+			$("#duration").text(duration + " day(s)");
+		});
+		var today = new Date().toISOString().split('T')[0];
+		$("#sd").attr('min',today);
+		
+		$("#sd").on('input',function(){
+			var newsd = $("#sd").val();
+			$("#ed").attr('min',newsd);
+		})
+		
+	})
 </script>
 </body>
 </html>

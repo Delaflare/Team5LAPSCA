@@ -133,7 +133,7 @@ public class LeaveController {
 	    	//balance - duration
 	    }
 		//valid balance
-		//!!leaverecord.setLeaveTypes(leavetypeservice.findLeaveTypesById(1));
+		leaverecord.setLeaveTypes(leaverecord.getLeaveTypes());
 		leaverecord.setUser(uservice.findUserById(6));//to use session user_id
 		leaverecord.setLeaveAppliedDate(new Date());
 		leaverecord.setDuration(duration);

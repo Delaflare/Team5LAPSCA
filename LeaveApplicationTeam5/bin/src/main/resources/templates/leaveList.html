@@ -10,25 +10,25 @@
 <body>
 <h1>Leave Application Listing</h1>
 
-<!-- Add Hyperlink -->
 	<a href="createLeave.html" th:href="@{/leave/apply}">New Leave</a>
-
+	<div th:text="${msg}"></div>
 	<h2 th:if = "${not #lists.isEmpty(leaveList)}"> Leave History</h2> 
-	<table border = 1 , class="w3-container" th:if="${not #lists.isEmpty(leaveList)}">
+	<table border = 1 class="w3-container" th:if="${not #lists.isEmpty(leaveList)}">
 			<tr>
 				<th>LeaveType - unsolved</th>
 				<th>Applied Date</th>
-				<th>Duration</th>
+				<th>Days</th>
 				<th>From</th>
+				<th>To</th>
 				<th>Status</th>
 				<th></th><th></th><th></th><th></th>		
 			</tr>
-
 			<tr th:each="leave:${leaveList}">
-				<td th:with="id=${leave.id}">idk how<span th:text="${id}"></span></td>
-				<td th:text=${leave.leaveAppliedDate}></td>
-				<td th:text=${leave.duration}></td>
-				<td th:text=${leave.startDate}></td>
+				<td th:if="${leave.leaveTypes != null}" th:text=${leave.leaveTypes.leaveName}></td>
+				<td th:text="${#dates.format(leave.leaveAppliedDate, 'yyyy-MM-dd')}"></td>
+				<td th:text="${leave.duration}"></td>
+				<td th:text="${#dates.format(leave.startDate,'yyyy-MM-dd')}"></td>
+				<td></td>
 				<td th:text=${leave.status}></td>
 				<td><a th:href="@{/leave/detail/}+${leave.id}">View Details</a></td>
 				<td><a th:href="@{/leave/update/}+${leave.id}">Update</a></td>	
