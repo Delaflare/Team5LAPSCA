@@ -24,7 +24,7 @@
 	</form>
 	
 <h2 th:if="${not #lists.isEmpty(leaveList)}" th:text="#{viewleave.page.header}">Leave Requests</h2> 
-	<table class="w3-container" th:if="${not #lists.isEmpty(leavelist)}">
+	<table class="w3-container" th:if="${not #lists.isEmpty(leaveList)}">
 		<tr>
 			<th>Employee Id</th>
 			<th>Name</th>
@@ -33,22 +33,19 @@
 			<th>Start Date</th>
 			<th>Reason</th>
 		</tr>
-		<tr th:each="leave:${leavelist}">
+		<tr th:each="leave:${leaveList}">
 			<td th:text="${leave.user.id}">Employee Id</td>
 			<td th:text="${leave.user.firstName} + ${leave.user.lastName}"> Name </td>
-			<td th:text="${leave.leaveTypes.name}">Leave Type</td>
+			<td th:text="${leave.id}">Leave Type</td>
 			<td th:text="${leave.duration}">Duration</td>
 			<td th:text="${leave.startDate}">Start Date</td>
 			<td th:text="${leave.description}">Description</td>
-			<td th:text="${leave.comment}">Comment</td>
-			<td><a th:href="@{/leave/pendingleaveDetails/}+${leave.id}"  th:text="#{button.details}"></a></td>			
-			<td><a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a></td>
-			<td><a th:href="@{/leave/rejectLeave/}+${leave.id}" th:text="#{button.reject}"></a></td>
+			<td th:text="${leave.comments}">Comment</td>
+			<td><a th:href="@{/leave/details/}+${leave.id}"  th:text="#{button.details}"></a></td>			
+		<!-- 	<td><a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a></td>
+			<td><a th:href="@{/leave/rejectLeave/}+${leave.id}" th:text="#{button.reject}"></a></td> -->
 		</tr>
 	</table>
-
-
-
 
 </body>
 </html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Leave Assignment</title>
+</head>
+<body>
+	<h2>Employee Profile Details </h2>
+	<form action="#" th:object="${user}" th:action="@{/user/save}" method="post">
+	<div th:object="${user}">
+		<p th:text="${user.userName}"></p>
+	</div>
+	<div>
+	
+	</div>
+	</form>
+</body>
+</html>
