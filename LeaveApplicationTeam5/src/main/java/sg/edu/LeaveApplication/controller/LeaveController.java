@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -137,7 +138,7 @@ public class LeaveController {
 		leaverecord.setUser(uservice.findUserById(6));//to use session user_id
 		leaverecord.setLeaveAppliedDate(new Date());
 		leaverecord.setDuration(duration);
-		leaverecord.setStartDate(date1);
+		leaverecord.setStartDate(date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		
 		//if new record, set to Pending; otherwise as Updated
 		if(leaverecord.getStatus() == null) {
@@ -223,8 +224,10 @@ public class LeaveController {
 	}
 	
 	@RequestMapping("/approveLeave/{id}/{comment}")
-	public String approveLeave(@PathVariable("id") Integer id, @PathVariable("comment") String comment) {
-		leaveservice.Approve(id, comment);
+	public String approveLeave(@PathVariable("id") Integer id, @RequestParam("comments") String comments) {
+		System.out.println(comments);
+		System.out.println(id);
+		leaveservice.Approve(id, comments);
 		return "redirect:/leave/viewLeave";
 	}
 	
