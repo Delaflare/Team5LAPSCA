@@ -12,4 +12,5 @@ public interface LeaveService {
 	public boolean Approve(Integer id);
 	public void deleteLeave(LeaveRecord lr);
 	public void cancelLeave(LeaveRecord lr);
+	public boolean Reject(Integer id);
 }
