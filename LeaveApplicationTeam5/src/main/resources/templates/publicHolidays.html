@@ -10,19 +10,27 @@
 <body>
 	<h1 th:utext="#{publicholiday.page.title}">home</h1>
 	<h2></h2>
-	<a href="AddHoliday.html" th:href="@{/public-holiday/add}" th:utext="#{publicholiday.page.add}">Add</a>
+	<a href="AddHoliday.html" th:href="@{/public-holiday/add}"
+		th:utext="#{publicholiday.page.add}">Add</a>
 	<h2 th:utext="#{publicholiday.page.header}"
 		th:if="${not #lists.isEmpty(holidays)}">header</h2>
 	<table class="w3-container" th:if="${not #lists.isEmpty(holidays)}">
+		<tr>
+			<td>Id</td>
+			<td>Holiday Name</td>
+			<td>Date</td>
+		</tr>
 		<tr th:each="holiday:${holidays}">
 			<td th:text="${holiday.id}">Id</td>
 			<td th:text="${holiday.holidayName}">Holiday Name</td>
-			<td th:text="${#dates.format(holiday.startDate, 'dd-MM-yyyy')}">Start Date</td>
-		    <td th:text="${#dates.format(holiday.endDate, 'dd-MM-yyyy')}">End Date</td> 
-			<td th:text="${holiday.duration}">duration</td>
-		    <td><a th:href="@{/public-holiday/edit/}+${holiday.id}" th:text="#{holidays.page.edit}"></a></td>
-		    <td><a th:href="@{/public-holiday/delete/}+${holiday.id}" th:text="#{holidays.page.delete}"></a></td>
-		    
+			<td th:text="${#dates.format(holiday.date, 'dd-MM-yyyy')}">Date</td>
+			<!--   <td th:text="${#dates.format(holiday.endDate, 'dd-MM-yyyy')}">End Date</td> 
+			<td th:text="${holiday.duration}">duration</td>-->
+			<td><a th:href="@{/public-holiday/edit/}+${holiday.id}"
+				th:text="#{holidays.page.edit}"></a></td>
+			<td><a th:href="@{/public-holiday/delete/}+${holiday.id}"
+				th:text="#{holidays.page.delete}"></a></td>
+
 		</tr>
 	</table>
 </body>

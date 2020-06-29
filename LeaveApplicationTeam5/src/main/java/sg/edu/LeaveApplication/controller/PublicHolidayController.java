@@ -50,12 +50,6 @@ public class PublicHolidayController {
 	@RequestMapping(value="/save")
 	public String savePublicHoliday(@Valid @ModelAttribute("holiday") PublicHolidays holiday) {
 		
-		Instant instant = holiday.getStartDate().toInstant();
-		ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
-		LocalDate date = zdt.toLocalDate();
-		LocalDate local_end_date =  date.plusDays(holiday.getDuration());
-		Date end_date = Date.from(local_end_date.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		holiday.setEndDate(end_date);
 		holiService.createPublicHoliday(holiday);
 		return "forward:/public-holiday/list";
 		

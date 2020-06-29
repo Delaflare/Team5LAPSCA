@@ -1,5 +1,6 @@
 package sg.edu.LeaveApplication.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -21,54 +22,42 @@ public class PublicHolidays {
 	private String holidayName;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
-	private Date startDate;
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd-MM-yyyy")
-	private Date endDate;
+	private LocalDate date;
 	//@NotEmpty
-	private int duration;
-	public Date getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+	//private int duration;
+	
 	
 	public PublicHolidays() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public PublicHolidays(@NotEmpty String holidayName, @NotEmpty Date startDate, @NotEmpty int duration) {
-
+	
+	public PublicHolidays(int id, String holidayName, LocalDate date) {
 		super();
 		this.id = id;
 		this.holidayName = holidayName;
-		this.startDate = startDate;
-		this.duration = duration;
-		this.endDate = endDate;
+		this.date = date;
 	}
+
 	public String getHolidayName() {
 		return holidayName;
 	}
 	public int getId() {
 		return id;
 	}
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
 	public void setHolidayName(String holidayName) {
 		this.holidayName = holidayName;
 	}
-	public Date getStartDate() {
-		return startDate;
-	}
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-	public int getDuration() {
-		return duration;
-	}
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
+	
 }
