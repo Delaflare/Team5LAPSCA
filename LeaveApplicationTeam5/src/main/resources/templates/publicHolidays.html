@@ -5,24 +5,32 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/style.css" th:href="@{/css/style.css}" />
-<title th:utext="#{products.page.title}">Holidays</title>
+<title th:utext="#{publicholiday.page.title}">Holidays</title>
 </head>
 <body>
-	<h1 th:utext="#{products.page.title}">home</h1>
+	<h1 th:utext="#{publicholiday.page.title}">home</h1>
 	<h2></h2>
-	<a href="AddHoliday.html" th:href="@{/holiday/add}" th:utext="#{holidays.page.add}">Add</a>
-	<h2 th:utext="#{holiday.page.header}"
+	<a href="AddHoliday.html" th:href="@{/public-holiday/add}"
+		th:utext="#{publicholiday.page.add}">Add</a>
+	<h2 th:utext="#{publicholiday.page.header}"
 		th:if="${not #lists.isEmpty(holidays)}">header</h2>
 	<table class="w3-container" th:if="${not #lists.isEmpty(holidays)}">
+		<tr>
+			<td>Id</td>
+			<td>Holiday Name</td>
+			<td>Date</td>
+		</tr>
 		<tr th:each="holiday:${holidays}">
 			<td th:text="${holiday.id}">Id</td>
-			<td th:text="${holiday.holiday_name}">Holiday Name</td>
-			<td th:text="${#dates.format(holiday.start_date, 'dd-MM-yyyy')}">Start Date</td>
-			<td th:text="${#dates.format(holiday.end_date, 'dd-MM-yyyy')}">End Date</td>
-			<td th:text="${holiday.duration}">duration</td>
-		    <td><a th:href="@{/holiday/edit/}+${holiday.id}" th:text="#{holidays.page.edit}"></a></td>
-		    <td><a th:href="@{/holiday/delete/}+${holiday.id}" th:text="#{holidays.page.delete}"></a></td>
-		    
+			<td th:text="${holiday.holidayName}">Holiday Name</td>
+			<td th:text="${#dates.format(holiday.date, 'dd-MM-yyyy')}">Date</td>
+			<!--   <td th:text="${#dates.format(holiday.endDate, 'dd-MM-yyyy')}">End Date</td> 
+			<td th:text="${holiday.duration}">duration</td>-->
+			<td><a th:href="@{/public-holiday/edit/}+${holiday.id}"
+				th:text="#{holidays.page.edit}"></a></td>
+			<td><a th:href="@{/public-holiday/delete/}+${holiday.id}"
+				th:text="#{holidays.page.delete}"></a></td>
+
 		</tr>
 	</table>
 </body>

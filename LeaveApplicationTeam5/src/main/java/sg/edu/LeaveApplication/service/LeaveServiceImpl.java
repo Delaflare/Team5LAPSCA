@@ -58,15 +58,5 @@ public class LeaveServiceImpl implements LeaveService {
 		return false;
 	}
 	
-	@Override
-	public boolean Reject(Integer id) {
-		LeaveRecord leave = findLeaveRecordById(id);
-		if(leave != null) {
-			leave.setStatus(Status.REJECTED);
-			leaverepo.save(leave);
-			return true;
-		}
-		return false;
-	}
-	
+
 }

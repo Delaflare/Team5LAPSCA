@@ -10,7 +10,6 @@ public interface LeaveService {
 	public ArrayList<LeaveRecord> findAllPendingLeave();
 	public boolean saveLeave(LeaveRecord leaverecord);
 	public boolean Approve(Integer id);
-	public boolean Reject(Integer id);
 	public void deleteLeave(LeaveRecord lr);
 	public void cancelLeave(LeaveRecord lr);
 }
