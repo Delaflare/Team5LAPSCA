@@ -2,6 +2,7 @@ package sg.edu.LeaveApplication.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.LeaveApplication.model.Department;
+import sg.edu.LeaveApplication.model.LeaveTypes;
 import sg.edu.LeaveApplication.model.User;
+import sg.edu.LeaveApplication.model.UserLeaveTypes;
 import sg.edu.LeaveApplication.service.DepartmentService;
 import sg.edu.LeaveApplication.service.DepartmentServiceImpl;
 import sg.edu.LeaveApplication.service.LeaveService;
@@ -95,11 +98,29 @@ public class UserController {
 	
 	@GetMapping("/assignLeave/{id}")
 	public String assignLeave(Model model, @PathVariable("id") Integer id) {
+		UserLeaveTypes ulType = new UserLeaveTypes();
+		model.addAttribute("userleavetypes", ulType);
 		model.addAttribute("leaveTypes", ltypeservice.findAll());
 		model.addAttribute("user", uservice.findUserById(id));
 		System.out.print(ltypeservice.findAll());
 		//model.addAttribute("leavelist", lservice.findAll());		
 		return "assign-leave";
+	}
+	
+	@RequestMapping("/assignleavetype")
+	public String assignLeaveType(HttpServletRequest req, Model model) {
+		ArrayList<String> leaveNames = ltypeservice.findAllLeaveTypeNames();
+		ArrayList<UserLeaveTypes> uList = new ArrayList<UserLeaveTypes>();
+		UserLeaveTypes utype = new UserLeaveTypes();
+		for (String leavename : leaveNames) {
+			LeaveTypes lt = new LeaveTypes();
+			
+			//utype.setLeaveTypes(leavename);
+			utype.setLeaveAllowance(Integer.parseInt(req.getParameter(leavename)));
+			
+		}
+		
+		return"userProfile";
 	}
 	
 }
