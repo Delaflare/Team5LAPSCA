@@ -19,8 +19,8 @@
 		<!-- <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p> -->
 		<fieldset>
 			 Date:<input type="text" th:field="*{date}"
-				placeholder="dd-MM-yyyy"
-				th:text="${#dates.format(holiday.startDate, 'dd-MM-yyyy')}" />
+				placeholder="dd-MM-yyyy"/>
+			
 		<!-- <p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p> -->	
 		</fieldset>
 	 <!--   <fieldset>

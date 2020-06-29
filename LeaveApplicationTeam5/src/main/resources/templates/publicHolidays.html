@@ -23,8 +23,9 @@
 		<tr th:each="holiday:${holidays}">
 			<td th:text="${holiday.id}">Id</td>
 			<td th:text="${holiday.holidayName}">Holiday Name</td>
-			<td th:text="${#dates.format(holiday.date, 'dd-MM-yyyy')}">Date</td>
-			<!--   <td th:text="${#dates.format(holiday.endDate, 'dd-MM-yyyy')}">End Date</td> 
+				<td th:text="${holiday.date}">Date</td>
+		<!--	<td th:text="${#dates.format(holiday.date, 'dd-MM-yyyy')}">Date</td>
+			   <td th:text="${#dates.format(holiday.endDate, 'dd-MM-yyyy')}">End Date</td> 
 			<td th:text="${holiday.duration}">duration</td>-->
 			<td><a th:href="@{/public-holiday/edit/}+${holiday.id}"
 				th:text="#{holidays.page.edit}"></a></td>
