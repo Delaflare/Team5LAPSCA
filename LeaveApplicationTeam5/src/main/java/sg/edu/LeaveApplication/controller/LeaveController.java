@@ -213,6 +213,17 @@ public class LeaveController {
 			model.addAttribute("leaveList",leaveservice.findAllPendingLeave());
 		return "viewLeaveRequests";	
 	}
+	@GetMapping("/viewLeave/{keyword}")
+	public String viewLeaveRequestWithKW(Model model, @Param("keyword")String keyword) {
+		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
+		if(keyword != null) {
+		model.addAttribute("leaveList",leaveservice.findLeaveByEmployeeName(keyword));
+		}
+		else
+			model.addAttribute("leaveList",leaveservice.findAllPendingLeave());
+		return "viewLeaveRequests";	
+	}
+	
 	
 	@RequestMapping("/getLeave") 
 	public String getLeaveRequest(Model model) {
@@ -242,23 +253,21 @@ public class LeaveController {
 	
 	  @RequestMapping("/submit/{id}") public String submit(@ModelAttribute("leave") LeaveRecord leave, @PathVariable("id")Integer id, @RequestParam("comments") String comments, @RequestParam("status") String status ) 
 	  { 
-		  System.out.println(comments);
-		  System.out.println(status);
-		  System.out.println(id);	  
-		  leave.setComments(comments);
+		  LeaveRecord newLeave=leaveservice.findLeaveRecordById(leave.getId());
+		  newLeave.setComments(comments);
 		  if(status == "APPROVED") {
-			  leave.setStatus(Status.APPROVED);
+			  newLeave.setStatus(Status.APPROVED);
 		  }
 		  else if (status == "REJECTED") {
-			  leave.setStatus(Status.REJECTED);
+			  newLeave.setStatus(Status.REJECTED);
 		  }
 		  else if (status == "PENDING") {
-			  leave.setStatus(Status.PENDING);
+			  newLeave.setStatus(Status.PENDING);
 		  }
 		  else if (status == "CANCELLED") {
-			  leave.setStatus(Status.CANCELLED);
+			  newLeave.setStatus(Status.CANCELLED);
 		  }
-		  leaveservice.saveLeave(leave); 
+		  leaveservice.saveLeave(newLeave); 
 		  return "redirect:/leave/viewLeave"; 
 	  }
 	 
