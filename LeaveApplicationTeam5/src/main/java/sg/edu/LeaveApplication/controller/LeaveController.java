@@ -207,7 +207,7 @@ public class LeaveController {
 	public String viewLeaveRequest(Model model, String keyword,  String ltName) {
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
 		if(keyword != null || ltName != null) {
-		model.addAttribute("leaveList",leaveservice.findLeaveByEmployeeName(keyword, ltName));
+		model.addAttribute("leaveList",leaveservice.findLeaveByEmployeeAndLeave(keyword, ltName));
 		System.out.println(ltName);
 		}
 		else {
@@ -216,17 +216,6 @@ public class LeaveController {
 		}
 		return "viewLeaveRequests";	
 	}
-	@GetMapping("/viewLeave/{keyword}")
-	public String viewLeaveRequestWithKW(Model model, @Param("keyword")String keyword) {
-		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
-		if(keyword != null) {
-		model.addAttribute("leaveList",leaveservice.findLeaveByEmployeeName(keyword));
-		}
-		else
-			model.addAttribute("leaveList",leaveservice.findAllPendingLeave());
-		return "viewLeaveRequests";	
-	}
-	
 	
 	
 	@RequestMapping("/details/{id}")

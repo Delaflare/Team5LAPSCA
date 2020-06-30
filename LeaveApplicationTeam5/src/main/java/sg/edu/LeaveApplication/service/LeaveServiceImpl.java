@@ -81,8 +81,8 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 
 	@Override
-	public ArrayList<LeaveRecord> findLeaveByEmployeeName(String keyword, String ltName) {
-		return leaverepo.findLeaveByEmployeeName(keyword, ltName);
+	public ArrayList<LeaveRecord> findLeaveByEmployeeAndLeave(String keyword, String ltName) {
+		return leaverepo.findLeaveByEmployeeAndLeave(keyword, ltName);
 		
 	}
 	

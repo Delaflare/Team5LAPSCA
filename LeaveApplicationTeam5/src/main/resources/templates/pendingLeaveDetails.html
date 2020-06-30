@@ -9,7 +9,7 @@
 <body>
 <h1 th:text="#{LeaveReqDetails.page.title}">Leave Details</h1>
 
-<fieldset> 
+<!-- <fieldset> 
 		<input type ="hidden" th:field="${leave.id}"></input>
 	</fieldset>
 	<fieldset> 
@@ -43,13 +43,12 @@
 		Manager's Comments: <textarea  th:name="comments" ></textarea>
 	</fieldset>
 	<fieldset>
-		<!-- <a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a>
-		<a th:href="@{/leave/rejectLeave/}+${leave.id}" th:text="#{button.reject}"></a> -->
+		<a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a>
+		<a th:href="@{/leave/rejectLeave/}+${leave.id}" th:text="#{button.reject}"></a>
 		<a th:href="@{/leave/approveLeave/}+${leave.id}+@{/}+${leave.comments}"  th:text="#{button.approve}"></a>
 		<a th:href="@{/leave/rejectLeave/}+${leave.id}+@{/}+${leave.comments}" th:text="#{button.reject}"></a>
-	</fieldset>
-	
-	<h1> Form 2</h1>
+	</fieldset> -->
+
 	
 	<fieldset> 
 		Employee Id: <span th:text="${leave.user.id}">Employee Id</span>
