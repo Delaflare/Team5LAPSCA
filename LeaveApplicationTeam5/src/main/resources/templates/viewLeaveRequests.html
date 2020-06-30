@@ -13,15 +13,17 @@
 		<fieldset>
 			Employee Name: <input id="txtSearch" type="text" name="keyword">
 		</fieldset>
-		<fieldset>
+<!-- 		<fieldset>
 		    Leave Type: 
 		    <select >
 		        <option th:each="ltName:${ltNames}" th:value="${ltName}" th:text="${ltName}"></option>
 		    </select>
-		</fieldset>		
+		</fieldset>	 -->	
 		<button type="submit" th:text="#{button.search}">search</button>
 		<button type="reset" th:text="#{button.reset}">clear</button>		
 	</form>
+	
+
 	
 <h2 th:if="${not #lists.isEmpty(leaveList)}" th:text="#{viewleave.page.header}">Leave Requests</h2> 
 	<table class="w3-container" th:if="${not #lists.isEmpty(leaveList)}">
@@ -36,7 +38,7 @@
 		<tr th:each="leave:${leaveList}">
 			<td th:text="${leave.user.id}">Employee Id</td>
 			<td th:text="${leave.user.firstName} + ${leave.user.lastName}"> Name </td>
-			<td th:text="${leave.id}">Leave Type</td>
+			<td th:if = "${leave.leaveTypes != null}"  th:text="${leave.leaveTypes.leaveName}">Leave Type</td>
 			<td th:text="${leave.duration}">Duration</td>
 			<td th:text="${leave.startDate}">Start Date</td>
 			<td th:text="${leave.description}">Description</td>

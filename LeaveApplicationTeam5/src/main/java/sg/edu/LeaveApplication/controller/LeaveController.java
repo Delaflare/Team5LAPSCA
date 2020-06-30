@@ -8,20 +8,20 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sg.edu.LeaveApplication.model.LeaveRecord;
-import sg.edu.LeaveApplication.model.LeaveTypes;
 import sg.edu.LeaveApplication.model.PublicHolidays;
 import sg.edu.LeaveApplication.model.Status;
 import sg.edu.LeaveApplication.service.LeaveService;
@@ -182,7 +181,7 @@ public class LeaveController {
 		//only when Pending, allow delete
 		if(lr !=null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
 			leaveservice.deleteLeave(lr);
-			model.addAttribute("msg", "Leave is deleted.");
+			model.addAttribute("msg", "Leave is deleted. ");
 		}
 		else {
 			model.addAttribute("msg", "Cannot delete leave after approved or cancelled.");
@@ -194,7 +193,7 @@ public class LeaveController {
 	public String cancelLeave(@PathVariable("id") Integer id, Model model) {
 		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		//have record and after approved, allow cancel
-		if(lr !=null && lr.getStatus() == Status.APPROVED) {
+		if(lr !=null && lr.getStatus() == Status.APPROVED ) {
 			leaveservice.cancelLeave(lr);
 			model.addAttribute("msg", "Leave is cancelled.");
 		}
@@ -204,10 +203,14 @@ public class LeaveController {
 		return"forward:/leave/list";
 	}
 
-	@RequestMapping("/viewLeave")
-	public String viewLeaveRequest(Model model) {
+	@GetMapping("/viewLeave")
+	public String viewLeaveRequest(Model model, @Param("keyword")String keyword) {
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
-		model.addAttribute("leaveList",leaveservice.findAllPendingLeave());
+		if(keyword != null) {
+		model.addAttribute("leaveList",leaveservice.findLeaveByEmployeeName(keyword));
+		}
+		else
+			model.addAttribute("leaveList",leaveservice.findAllPendingLeave());
 		return "viewLeaveRequests";	
 	}
 	
@@ -220,28 +223,57 @@ public class LeaveController {
 	@RequestMapping("/details/{id}")
 	public String showLeaveDetails(@PathVariable("id")Integer id, Model model) {
 		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
+		model.addAttribute("leaveStatus", leaveservice.findAllLeaveStatusName());
 		return "pendingLeaveDetails";
 	}
 	
-	@RequestMapping("/approveLeave/{id}/{comment}")
-	public String approveLeave(@PathVariable("id") Integer id, @RequestParam("comments") String comments) {
-		System.out.println(comments);
-		System.out.println(id);
-		leaveservice.Approve(id, comments);
-		return "redirect:/leave/viewLeave";
-	}
-	
-	
-	@RequestMapping("/rejectLeave/{id}/{comment}")
-	public String rejectLeave(@PathVariable("id") Integer id, @PathVariable("comment") String comment) {
-		leaveservice.Reject(id,comment);
-		return "redirect:/leave/viewLeave";
-	}
+	  @RequestMapping("/approveLeave/{id}/{comments}") public String
+	  approveLeave(@PathVariable("id") Integer id, @PathVariable("comments") String
+	  comments) { System.out.println(comments); System.out.println(id);
+	  leaveservice.Approve(id, comments); return "redirect:/leave/viewLeave"; }
+	  
+	  
+	  @RequestMapping("/rejectLeave/{id}/{comments}") public String
+	  rejectLeave(@PathVariable("id") Integer id, @PathVariable("comments") String
+	  comments) { System.out.println(comments); System.out.println(id);
+	  leaveservice.Reject(id,comments); return "redirect:/leave/viewLeave"; }
+	 
 
-	/*
-	 * @RequestMapping("/submit/{id}") public String submit(@ModelAttribute("leave")
-	 * LeaveRecord leave, @PathVariable("id")Integer id ) { leave =
-	 * leaveservice.findLeaveRecordById(id); leaveservice.saveLeave(leave); return
-	 * "redirect:/leave/viewLeave"; }
-	 */
+	
+	  @RequestMapping("/submit/{id}") public String submit(@ModelAttribute("leave") LeaveRecord leave, @PathVariable("id")Integer id, @RequestParam("comments") String comments, @RequestParam("status") String status ) 
+	  { 
+		  System.out.println(comments);
+		  System.out.println(status);
+		  System.out.println(id);	  
+		  leave.setComments(comments);
+		  if(status == "APPROVED") {
+			  leave.setStatus(Status.APPROVED);
+		  }
+		  else if (status == "REJECTED") {
+			  leave.setStatus(Status.REJECTED);
+		  }
+		  else if (status == "PENDING") {
+			  leave.setStatus(Status.PENDING);
+		  }
+		  else if (status == "CANCELLED") {
+			  leave.setStatus(Status.CANCELLED);
+		  }
+		  leaveservice.saveLeave(leave); 
+		  return "redirect:/leave/viewLeave"; 
+	  }
+	 
+		/*
+		 * @RequestMapping("/approveLeave/{id}") public String
+		 * approveLeave(@PathVariable("id") Integer id, @RequestParam("comments") String
+		 * comments) { System.out.println(comments); System.out.println(id);
+		 * leaveservice.Approve(id, comments); return "redirect:/leave/viewLeave"; }
+		 * 
+		 * 
+		 * @RequestMapping("/rejectLeave/{id}") public String
+		 * rejectLeave(@PathVariable("id") Integer id, @RequestParam("comments") String
+		 * comments) { System.out.println(comments); System.out.println(id);
+		 * leaveservice.Reject(id,comments); return "redirect:/leave/viewLeave"; }
+		 */
+
+	  
 }
