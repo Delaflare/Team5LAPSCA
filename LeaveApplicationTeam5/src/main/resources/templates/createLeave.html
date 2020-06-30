@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Create Leave Form</title>
+<title>Apply New Leave</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/style.css" th:href="@{/css/style.css}" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -12,23 +12,22 @@
 <div style="width:50%; float:left">
 <h1>Leave Application</h1>
 <form action="#" th:object="${leave}" th:action="@{/leave/save}" method="post" >
-
+	<div th:text="${msg}"></div>
 	Start Date: <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02">	
 	End Date: <input type="date" id="ed" th:name="endDate" min="2020-02-02">
-	<p>Duration:<span id="duration"></span></p>
+	<p>Duration:<span id="duration" th:name="duration"></span></p>
 	Type of Leave:
-				<select th:field = "*{leaveTypes.id}">
+				<select th:field = "*{leaveTypes}">
 				<option th:each = "leaveType : ${leaveTypes}" 
-					th:value = "${leaveType.id}" th:text = "${leaveType.leaveName}"> </option> 
+					th:value = "${leaveType.leaveName}" th:text = "${leaveType.leaveName}"> </option> 
 				</select>
-	<p>Leave Balance: <span th:text="${balance}"></span></p>
-	<fieldset>
-		Leave Reason: <textarea rows="5" th:field="*{description}"></textarea>
-	</fieldset>
-	
-	<label>Work Dissemination (if any)</label><br/>
-	<input type="text" th:field="*{workDissemination}"/>  
-	<label>Emergency Contact (if any)</label><br/>
+	</br>
+	Leave Reason: 
+	<textarea rows="5" th:field="*{description}"></textarea>
+	</br>
+	<label>Work Dissemination (if any)</label>
+	<input type="text" th:field="*{workDissemination}"/><br/>  
+	<label>Emergency Contact (if any)</label>
 	<input type="tel" pattern="[0-9]{8}"th:field="*{contactDetails}"/>  
 	<small>Format:12345678</small><br/>
 	<button type="submit">Save</button>
@@ -37,17 +36,27 @@
 </div>
 <aside style="width:20%;float:right">
 <div>
+<h1>Leave Balance:</h1>
+	<table>
+		<tr th:each="balance: ${balanceList}">
+			<td th:text="${balance.id}">Leave Name</td>
+			<td th:text="${balance.leaveAllowance}"></td>
+		</tr>
+	</table>
+</div>
+
+<div>
 <h1>Public Holidays in 2020</h1>
-<table th:if="${not #lists.isEmpty(phlist)}">
-<tr>
-<th>Holiday Name</th>
-<th>Date</th>
-</tr>
-<tr th:each="ph: ${phlist}">
-<td th:text="${ph.holidayName}"></td>
-<td th:text="${ph.date}"></td>
-</tr>
-</table>
+	<table th:if="${not #lists.isEmpty(phlist)}">
+		<tr>
+			<th>Holiday Name</th>
+			<th>Date</th>
+		</tr>
+		<tr th:each="ph: ${phlist}">
+			<td th:text="${ph.holidayName}"></td>
+			<td th:text="${ph.date}"></td>
+		</tr>
+	</table>
 </div>
 </aside>
 <script>

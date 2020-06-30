@@ -16,4 +16,6 @@ public interface UserLeaveTypesService {
 
 	public void update(User user, String leaveName, Integer leaveCost);
 	
+	public Integer findleaveAllowance(Integer userId, String leaveName);
+	
 }

@@ -5,9 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
@@ -31,9 +31,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import sg.edu.LeaveApplication.model.LeaveRecord;
 import sg.edu.LeaveApplication.model.PublicHolidays;
 import sg.edu.LeaveApplication.model.Status;
+import sg.edu.LeaveApplication.model.User;
+import sg.edu.LeaveApplication.model.UserLeaveTypes;
 import sg.edu.LeaveApplication.service.LeaveService;
 import sg.edu.LeaveApplication.service.LeaveTypeService;
 import sg.edu.LeaveApplication.service.PublicHolidayService;
+import sg.edu.LeaveApplication.service.UserLeaveTypesService;
 import sg.edu.LeaveApplication.service.UserService;
 
 @Controller
@@ -46,26 +49,39 @@ public class LeaveController {
 	public void setLeaveservice(LeaveService leaveservice) {
 		this.leaveservice = leaveservice;
 	}
-	
 	@Autowired
 	LeaveTypeService leavetypeservice;
 	@Autowired
 	public void setLeavetypeservice(LeaveTypeService leavetypeservice) {
 		this.leavetypeservice = leavetypeservice;
 	}
-	
 	@Autowired
 	UserService uservice;
 	@Autowired
 	public void setUservice(UserService uservice) {
 		this.uservice = uservice;
-	}
-	
+	}	
 	@Autowired
 	PublicHolidayService holiservice;
 	@Autowired
 	public void setHoliservice(PublicHolidayService holiservice) {
 		this.holiservice = holiservice;
+	}
+	@Autowired
+	UserLeaveTypesService ultservice;
+	@Autowired
+	public void setUltservice(UserLeaveTypesService ultservice) {
+		this.ultservice = ultservice;
+	}
+	
+		
+	//check balance function
+	public Boolean isBalanceEnough(Integer userId, String leaveName, Integer leaveCost) {
+		
+		if(ultservice.findleaveAllowance(userId, leaveName) >= leaveCost) {
+			return true;
+		}
+		return false;
 	}
 	
 	//to move to leave service after done
@@ -97,12 +113,13 @@ public class LeaveController {
 
 	@RequestMapping("/apply")
 	public String applyLeave(Model model) {
-
+		//replace once user session is ready
+		User sessionUser = uservice.findUserById(45);
+		
 		model.addAttribute("leave", new LeaveRecord());
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
 		model.addAttribute("phlist", holiservice.findAll());
-		model.addAttribute("balance", 200); //will replace once balance is ready
-		//model.addAttribute("balance", uservice.findBalanceById());
+		model.addAttribute("balanceList", ultservice.findAllByUser(sessionUser));	
 		return "createLeave";
 	}
 
@@ -110,64 +127,69 @@ public class LeaveController {
 	public String saveLeave(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult result, Model model,
 			@RequestParam("startDate") String sd, @RequestParam("endDate") String ed
 			) throws ParseException {
-	 
+		
+		//replace when session is ready
+		User sessionUser = uservice.findUserById(45);
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");	
 		//calculate duration
 		Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(sd);
 		Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(ed);
-		
 	    long time = date2.getTime() - date1.getTime();
-	    int duration = (int)time/(1000*3600*24) +1;
-	    //check PH and weekend
+	    Integer duration = (int)time/(1000*3600*24) +1;
+	    
+	    //check whether need to deduct PH and weekend
+	    Integer balance = ultservice.findleaveAllowance(sessionUser.getId(), leaverecord.getLeaveTypes().getLeaveName());
+	    
 	    if(duration <= 14) {
 	    	//calculate leave cost = duration - weekend - PH
 			List<PublicHolidays> holidays = holiservice.findAll();
 			List<LocalDate> allPHdays = holidays.stream()
 										.map(PublicHolidays::getDate)
 										.collect(Collectors.toList());
-			
 			Integer leaveCost = getLeaveCost(sd, ed, allPHdays);
-			
-			//set balance - leaveCost
+			//validate balance
+			if(isBalanceEnough(sessionUser.getId(), leaverecord.getLeaveTypes().getLeaveName(),leaveCost)) {
+				//set balance - leaveCost
+				ultservice.update(sessionUser, leaverecord.getLeaveTypes().getLeaveName(), balance-leaveCost);
+			}
+			else {
+				model.addAttribute("msg", "You do not have enough balance.");
+				return "redirect:apply";
+			}
 	    }
 	    else {
-	    	//balance - duration
+	    	
+	    	//validate balance
+	    	if(isBalanceEnough(sessionUser.getId(), leaverecord.getLeaveTypes().getLeaveName(),duration)) {
+	    		//balance - duration
+				ultservice.update(sessionUser, leaverecord.getLeaveTypes().getLeaveName(), balance-duration);
+			}
+			else {
+				model.addAttribute("msg", "You do not have enough balance.");
+				return "redirect:apply";
 	    }
-		//valid balance
+	    
 		leaverecord.setLeaveTypes(leaverecord.getLeaveTypes());
 		leaverecord.setUser(uservice.findUserById(6));//to use session user_id
 		leaverecord.setLeaveAppliedDate(new Date());
 		leaverecord.setDuration(duration);
-		leaverecord.setStartDate(date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+		leaverecord.setStartDate(LocalDate.parse(sd,formatter));
 		
 		//if new record, set to Pending; otherwise as Updated
 		if(leaverecord.getStatus() == null) {
 			leaverecord.setStatus(Status.PENDING);
 			leaveservice.saveLeave(leaverecord);
 		}
-		else 
+		else
 		{
 			leaverecord.setStatus(Status.UPDATED);
 			leaveservice.saveLeave(leaverecord);
 		}
-		
-		
-		return "redirect:list";
-	}
-		
-	@RequestMapping("/update/{id}")
-	public String updateLeave(@PathVariable("id") Integer id, Model model) {
-
-		model.addAttribute("leaveTypes", leavetypeservice.findAll());
-		model.addAttribute("phlist", holiservice.findAll());
-		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
-		//only when Pending, allow update
-		if(lr != null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
-			lr.setStatus(Status.UPDATED);
-			model.addAttribute("leave", lr);
-			return"createLeave";
-		}
-		return "redirect:/leave/list";
-	}
+	}   
+	    return"redirect:list";
+}
+	
 	
 	@RequestMapping("/detail/{id}")
 	public String viewLeave(@PathVariable("id") Integer id, Model model) {
