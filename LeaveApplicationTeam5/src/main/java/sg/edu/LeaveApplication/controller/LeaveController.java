@@ -181,7 +181,7 @@ public class LeaveController {
 		//only when Pending, allow delete
 		if(lr !=null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
 			leaveservice.deleteLeave(lr);
-			model.addAttribute("msg", "Leave is deleted.");
+			model.addAttribute("msg", "Leave is deleted. ");
 		}
 		else {
 			model.addAttribute("msg", "Cannot delete leave after approved or cancelled.");
