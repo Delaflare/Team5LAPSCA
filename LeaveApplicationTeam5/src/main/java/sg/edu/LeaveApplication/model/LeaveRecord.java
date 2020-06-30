@@ -18,6 +18,7 @@ public class LeaveRecord {
 	private int id;
 	private LocalDate startDate;
 	private int duration;
+	private int leaveDayCost;
 	private Status status;
 	private String description;
 	private String workDissemination;
@@ -36,12 +37,13 @@ public class LeaveRecord {
 		// TODO Auto-generated constructor stub
 	}
 
-	public LeaveRecord(@NotEmpty LocalDate startDate, int duration, Status status, String description,
-			String workDissemination, String contactDetails, String comments, @NotEmpty Date leaveAppliedDate,
+	public LeaveRecord(LocalDate startDate, int duration, int leaveDayCost, Status status, String description,
+			String workDissemination, String contactDetails, String comments, Date leaveAppliedDate,
 			Date leaveApprovedDate, User user, LeaveTypes leaveTypes) {
 		super();
 		this.startDate = startDate;
 		this.duration = duration;
+		this.leaveDayCost = leaveDayCost;
 		this.status = status;
 		this.description = description;
 		this.workDissemination = workDissemination;
@@ -52,6 +54,9 @@ public class LeaveRecord {
 		this.user = user;
 		this.leaveTypes = leaveTypes;
 	}
+
+
+
 
 	public int getId() {
 		return id;
@@ -149,12 +154,22 @@ public class LeaveRecord {
 		this.leaveTypes = leaveTypes;
 	}
 
+	public int getLeaveDayCost() {
+		return leaveDayCost;
+	}
+
+
+
+	public void setLeaveDayCost(int leaveDayCost) {
+		this.leaveDayCost = leaveDayCost;
+	}
+
 	@Override
 	public String toString() {
-		return "LeaveRecord [id=" + id + ", startDate=" + startDate + ", duration=" + duration + ", status=" + status
-				+ ", description=" + description + ", workDissemination=" + workDissemination + ", contactDetails="
-				+ contactDetails + ", comments=" + comments + ", leaveAppliedDate=" + leaveAppliedDate
-				+ ", leaveApprovedDate=" + leaveApprovedDate + "]";
+		return "LeaveRecord [id=" + id + ", startDate=" + startDate + ", duration=" + duration + ", leaveDayCost="
+				+ leaveDayCost + ", status=" + status + ", description=" + description + ", workDissemination="
+				+ workDissemination + ", contactDetails=" + contactDetails + ", comments=" + comments
+				+ ", leaveAppliedDate=" + leaveAppliedDate + ", leaveApprovedDate=" + leaveApprovedDate + "]";
 	}
-	
+
 }
