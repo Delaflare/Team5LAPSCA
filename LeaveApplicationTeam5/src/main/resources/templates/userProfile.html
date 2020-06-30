@@ -44,12 +44,10 @@
 				th:href="@{/user/edit/}+${user.id}" th:utext="#{users.page.edit}"> Edit </a></td>
 			<td><a href="DeleteUser.html"
 				th:href="@{/user/delete/}+${user.id}" th:utext="#{users.page.delete}"> Delete </a></td>
-			<td><a href="DisplayUser.html"
-				th:href="@{/user/display/}+${user.id}" th:utext="#{users.page.display}"> Display </a></td>
 			<td><a href="AssignLeave.html"
 				th:href="@{/user/assignLeave/}+${user.id}" th:utext="#{leave.page.display}"> Assign </a></td>
-			<td><a href="LeaveDisplay.html"
-				th:href="@{/user/displayLeave/}+${user.id}" th:utext="#{user.leave.display}"> Assign </a></td>
+			<td><a href="DisplayUser.html"
+				th:href="@{/user/display/}+${user.id}" th:utext="#{users.page.display}"> Display </a></td>
 		</tr>
 	</table>
 

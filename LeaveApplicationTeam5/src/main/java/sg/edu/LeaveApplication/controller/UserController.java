@@ -97,7 +97,11 @@ public class UserController {
 	@GetMapping("/display/{id}")
 	public String displayUser(Model model, @PathVariable("id") Integer id) {
 		User user = uservice.findUserById(id);
+		ArrayList<UserLeaveTypes> uleave = ultypeservice.findByUserId(id);
+		user.setUserLeaveTypes(uleave);		
 		model.addAttribute("user", user);
+		System.out.print(user);
+		System.out.print(user.getUserLeaveTypes());
 		return "userRecord";
 	}	
 	
@@ -129,9 +133,4 @@ public class UserController {
 		return"forward:/user/list";
 	}
 	
-	@RequestMapping(value = "/displayLeave/{id}")
-	public String displayLeave(Model model) {
-		model.addAttribute("users", uservice.findAll());
-		return "userLeaveDisplay";
-	}
 }

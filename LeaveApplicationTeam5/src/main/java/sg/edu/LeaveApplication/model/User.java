@@ -42,7 +42,8 @@ public class User {
 	private Collection<LeaveTypes> leaveTypes;
 	@OneToMany(mappedBy="user")
 	private Collection<LeaveRecord> leaveRecord;
-	
+	@OneToMany(mappedBy="user")
+	private Collection<UserLeaveTypes> userLeaveTypes;
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -54,7 +55,7 @@ public class User {
 			@NotEmpty(message = "Password is required") String password,
 			@NotEmpty(message = "Email is required") @Email String email, String reportsTo, Role role, Gender gender,
 			Title title, Department department, Collection<LeaveTypes> leaveTypes,
-			Collection<LeaveRecord> leaveRecord) {
+			Collection<LeaveRecord> leaveRecord, Collection<UserLeaveTypes> userLeaveTypes) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -68,6 +69,7 @@ public class User {
 		this.department = department;
 		this.leaveTypes = leaveTypes;
 		this.leaveRecord = leaveRecord;
+		this.userLeaveTypes = userLeaveTypes;
 	}
 	
 
@@ -188,6 +190,13 @@ public class User {
 		this.leaveRecord = leaveRecord;
 	}
 
+	public Collection<UserLeaveTypes> getUserLeaveTypes() {
+		return userLeaveTypes;
+	}
+
+	public void setUserLeaveTypes(Collection<UserLeaveTypes> userLeaveTypes) {
+		this.userLeaveTypes = userLeaveTypes;
+	}
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", userName=" + userName

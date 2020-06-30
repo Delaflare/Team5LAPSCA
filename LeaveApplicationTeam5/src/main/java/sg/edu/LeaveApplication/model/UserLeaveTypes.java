@@ -57,7 +57,7 @@ public class UserLeaveTypes {
 	public void setLeaveAllowance(int leaveAllowance) {
 		this.leaveAllowance = leaveAllowance;
 	}
-	public String leaveName() {
+	public String getLeaveName() {
 		return leaveName;
 	}
 	public void setLeaveName(String leaveName) {

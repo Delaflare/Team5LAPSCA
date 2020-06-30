@@ -14,38 +14,18 @@
 		<p>Employee Role: <span th:text="${user.role}"></span></p>
 		<p>ReportTo: <span th:text="${user.reportsTo}"></span></p>
 		<p>Gender: <span th:text="${user.gender}"></span></p>
-		<p>Department : <span th:text="${user.department}"></span></p>
+		<p>Department : <span th:each="d:${user.department}" th:text=${d.name}></span></p>
 		<p>Title: <span th:text="${user.title}"></span></p>	
 	</div>
 	
 	<div>
-		<h2>Leave Balance</h2>
-		<table border="1">
-			<thead>
-				<tr>
-					<th>AnnualLeave</th>
-					<th>MedicalLeave</th>
-					<th>ChildCareLeave</th>
-					<th>ParentCareLeave</th>
-					<th>CompensationLeave</th>
-					<th>Maternity</th>
-					<th>UnpaidLeave</th>
-					<th>OtherLeave</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-			</tbody>
-		</table>
+		<h2 th:utext="#{leave.balance.page}"></h2>
+		<div th:each="leave:${user.userLeaveTypes}" >
+			<p>
+				<span th:text=${leave.leaveName}></span> : 
+				<span th:text=${leave.leaveAllowance}></span>
+			</p>
+		</div>
 	</div>
 	
 	<div>
