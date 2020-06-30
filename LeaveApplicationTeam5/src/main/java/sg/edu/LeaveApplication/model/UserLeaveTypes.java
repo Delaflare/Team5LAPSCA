@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class UserLeaveTypes {
@@ -58,10 +57,10 @@ public class UserLeaveTypes {
 		this.leaveAllowance = leaveAllowance;
 	}
 
-	public String getleaveName() {
+	public String getLeaveName() {
 		return leaveName;
 	}
-	public void setleaveName(String leaveName) {
+	public void setLeaveName(String leaveName) {
 		this.leaveName = leaveName;
 	}
 	@Override

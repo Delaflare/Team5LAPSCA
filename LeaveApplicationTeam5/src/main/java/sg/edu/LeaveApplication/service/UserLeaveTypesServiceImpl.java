@@ -46,7 +46,7 @@ public class UserLeaveTypesServiceImpl implements UserLeaveTypesService {
 	@Override
 	public void update(User user, String leaveName, Integer newAllowance) {
 		ArrayList<UserLeaveTypes> list = ulRepo.findAllByUser(user);
-		UserLeaveTypes ult = (UserLeaveTypes) list.stream().filter(u->u.getleaveName()==leaveName);
+		UserLeaveTypes ult = (UserLeaveTypes) list.stream().filter(u->u.getLeaveName()==leaveName);
 		ult.setLeaveAllowance(newAllowance);
 		ulRepo.save(ult);
 	}

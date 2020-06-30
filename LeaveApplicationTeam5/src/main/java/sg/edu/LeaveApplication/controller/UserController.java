@@ -87,6 +87,16 @@ public class UserController {
 		return "createUserForm";
 	}
 	
+	@GetMapping("/editLeave/{id}")
+	public String editLeaveForm(Model model, @PathVariable("id") Integer id) {	
+		User user = uservice.findUserById(id);
+		ArrayList<UserLeaveTypes> uleave = ultypeservice.findByUserId(id);
+		user.setUserLeaveTypes(uleave);		
+		System.out.print(uleave);
+		model.addAttribute("user", user);
+		return "assign-edit-leave";
+	}
+	
 	@GetMapping("/delete/{id}")
 	public String deleteUser(Model model, @PathVariable("id") Integer id) {
 		User user = uservice.findUserById(id);
@@ -100,8 +110,8 @@ public class UserController {
 		ArrayList<UserLeaveTypes> uleave = ultypeservice.findByUserId(id);
 		user.setUserLeaveTypes(uleave);		
 		model.addAttribute("user", user);
-		System.out.print(user);
-		System.out.print(user.getUserLeaveTypes());
+//		System.out.print(user);
+//		System.out.print(user.getUserLeaveTypes());
 		return "userRecord";
 	}	
 	
@@ -125,12 +135,17 @@ public class UserController {
 			UserLeaveTypes utype = new UserLeaveTypes();
 			//get user by id and set to userleavetype user 
 			utype.setUser(uservice.findUserById(Integer.parseInt(req.getParameter("id"))));
-			utype.setleaveName(leavename);
+			utype.setLeaveName(leavename);
 			utype.setLeaveAllowance(Integer.parseInt(req.getParameter(leavename)));
 			//System.out.print(utype.getUser());
 			ultypeservice.saveUserLeaveType(utype);
 		}
 		return"forward:/user/list";
+	}
+	
+	@RequestMapping("/updateLeave/{id}")
+	public String updateLeave(Model model, @PathVariable("id") Integer id) {
+		return"userRecord";
 	}
 	
 }

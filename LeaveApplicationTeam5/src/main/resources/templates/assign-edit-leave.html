@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Edit Leave Allowance</title>
+</head>
+<body>
+	<h2>Edit Employee Leave Allowance </h2>
+	<form th:object="${lType}" th:action="@{/user/updateLeave}" method="post">
+	<div th:object="${user}">
+		<p th:text="${user.userName}"></p>
+		<fieldset>
+		<input type="hidden" th:name="${userId}" th:field="${user.id}"/> 
+		</fieldset> 
+	</div>
+	<div>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>Leave Name</th>
+					<th>Total leave allowance</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+				<tr th:each="leave:${user.userLeaveTypes}">
+					<td><p th:text="${leave.leaveName}"></p></td>
+					<td>
+					<fieldset>
+						<input th:name="${leave.leaveName}" type="number" th:value="${leave.leaveAllowance}"/>
+					</fieldset>
+					</td>
+					
+				</tr>
+				
+			</tbody>
+		</table>
+	</div>
+	<button type="submit">Update</button>
+	</form>
+</body>
+</html>
+	
