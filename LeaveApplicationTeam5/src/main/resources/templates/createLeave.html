@@ -39,7 +39,7 @@
 <h1>Leave Balance:</h1>
 	<table>
 		<tr th:each="balance: ${balanceList}">
-			<td th:text="${balance.id}">Leave Name</td>
+			<td th:text="${balance.leaveName}">Leave Name</td>
 			<td th:text="${balance.leaveAllowance}"></td>
 		</tr>
 	</table>

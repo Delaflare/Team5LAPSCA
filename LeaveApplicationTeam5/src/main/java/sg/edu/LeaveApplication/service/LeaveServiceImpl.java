@@ -31,7 +31,9 @@ public class LeaveServiceImpl implements LeaveService {
 
 	@Override
 	public void deleteLeave(LeaveRecord lr) {
-		leaverepo.delete(lr);
+		lr.setStatus(Status.DELETED);
+		leaverepo.save(lr);
+		
 	}
 	@Override
 	public void cancelLeave(LeaveRecord lr) {

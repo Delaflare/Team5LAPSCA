@@ -3,6 +3,7 @@ package sg.edu.LeaveApplication.model;
 import java.time.LocalDate;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,16 +11,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 @Entity
 public class LeaveRecord {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	@FutureOrPresent
 	private LocalDate startDate;
+	@Positive (message="Duration must be 1 or more days.")
 	private int duration;
 	private int leaveDayCost;
 	private Status status;
+	@NotEmpty(message="Description cannot be empty.")
 	private String description;
 	private String workDissemination;
 	private String contactDetails;
@@ -28,7 +32,7 @@ public class LeaveRecord {
 	private Date leaveApprovedDate;
 	@ManyToOne
     private User user;
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="LEAVETYPES_ID")
 	private LeaveTypes leaveTypes;
 	

@@ -121,7 +121,7 @@ public class LeaveController {
 	@RequestMapping("/apply")
 	public String applyLeave(Model model) {
 		//replace once user session is ready
-		User sessionUser = uservice.findUserById(45);
+		User sessionUser = uservice.findUserById(102);
 		
 		model.addAttribute("leave", new LeaveRecord());
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
@@ -136,7 +136,7 @@ public class LeaveController {
 			) throws ParseException {
 		
 		//replace when session is ready
-		User sessionUser = uservice.findUserById(45);
+		User sessionUser = uservice.findUserById(102);
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");	
 		//calculate duration
@@ -181,7 +181,7 @@ public class LeaveController {
 	    }
 	    
 		leaverecord.setLeaveTypes(leaverecord.getLeaveTypes());
-		leaverecord.setUser(uservice.findUserById(6));//to use session user_id
+		leaverecord.setUser(uservice.findUserById(102));//to use session user_id
 		leaverecord.setLeaveAppliedDate(new Date());
 		leaverecord.setDuration(duration);
 		leaverecord.setStartDate(LocalDate.parse(sd,formatter));
@@ -200,6 +200,20 @@ public class LeaveController {
 	    return"redirect:list";
 }
 	
+	@RequestMapping("/update/{id}")
+	public String updateLeave(@PathVariable("id") Integer id, Model model) {
+
+		model.addAttribute("leaveTypes", leavetypeservice.findAll());
+		model.addAttribute("phlist", holiservice.findAll());
+		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
+		//only when Pending, allow update
+		if(lr != null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
+			lr.setStatus(Status.UPDATED);
+			model.addAttribute("leave", lr);
+			return"createLeave";
+		}
+		return "redirect:/leave/list";
+	}
 	
 	@RequestMapping("/detail/{id}")
 	public String viewLeave(@PathVariable("id") Integer id, Model model) {
@@ -212,8 +226,8 @@ public class LeaveController {
 		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		//only when Pending, allow delete
 		if(lr !=null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
-			leaveservice.deleteLeave(lr);
 			returnLeave(lr);
+			leaveservice.deleteLeave(lr);
 			model.addAttribute("msg", "Leave is deleted. ");
 		}
 		else {
@@ -232,7 +246,7 @@ public class LeaveController {
 			model.addAttribute("msg", "Leave is cancelled.");
 		}
 		else {
-			model.addAttribute("msg", "Leave cannot be canceld after approved.");
+			model.addAttribute("msg", "Leave can only be canceld after approved.");
 		}
 		return"forward:/leave/list";
 	}

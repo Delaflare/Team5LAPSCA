@@ -13,7 +13,7 @@
 <ul th:object="${leave}">
 <li>Id: <b th:text="*{id}"></b></li>
 <li>Applied Date: <b th:text="${#dates.format(leave.leaveAppliedDate, 'yyyy-MM-dd')}"></b></li>
-<li>Start Date: <b th:text="${#dates.format(leave.startDate,'yyyy-MM-dd')}"></b></li>
+<li>Start Date: <b th:text="${leave.startDate}"></b></li>
 <li>End Date:</li>
 <li>Days: <b th:text="*{duration}"></b></li>
 <li>Description: <b th:text="*{description}"></b></li>
