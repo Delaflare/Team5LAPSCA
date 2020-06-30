@@ -31,29 +31,71 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-6">
-			<div class="col-md-12">From</div>
-			<div class="form-group row">
-   				<input class="form-control" type="date" value="2011-08-19" id="example-date-input">
-			</div>
-			<div class="col-md-12">To</div>
-			<div class="form-group row">
-   				<input class="form-control" type="date" value="2011-08-19" id="example-date-input">
-			</div>
-			<div>
-				<tr th:each="leave:${leaveList}">
-					<td th:with="id=${leave.id}">idk how<span th:text="${id}"></span></td>
-					<td th:text=${leave.leaveAppliedDate}></td>
-					<td th:text=${leave.duration}></td>
-					<td th:text=${leave.startDate}></td>
-					<td th:text=${leave.status}></td>
-				</tr>
-			</div>
+			<div class="col-sm-12">
+				<div>Leave Remaining</div>
+				<table th:if="${not #lists.isEmpty(leaveList)}">
+					<tr>
+						<th>Leave Type</th>
+						<th>Number of Days</th>
+					</tr>
+					<tr th:each="leavetype:${ltypelist}">
+						<td th:text="${leavetype.leaveName}">Name</td>
+						<td th:text="${leavetype.leaveDays}">Days</td>
+					</tr>
+				</table>
+			</div>		
+			<div class="col-sm-12">
+				<div>Since you were gone...</div>
+				<table th:if="${not #lists.isEmpty(leaveList)}">
+					<tr>
+						<th>Type</th>
+						<th>Start Date</th>
+						<th>Duration</th>
+						<th>Applied On</th>
+					</tr>
+					<tr th:each="leavetype:${ltypelist}">
+						<td th:text="${leavetype.leaveName}">Apple</td>
+						<td th:text="${leavetype.leaveDays}">10/10/2020</td>
+						<td th:text="${leavetype.leaveDays}">2</td>
+						<td th:text="${leavetype.leaveDays}">09/09/2020</td>
+					</tr>
+				</table>
+			</div>	
 		</div>
 		<div class="col-sm-6">
-			<div>Leave Remaining</div>
-			<div th:each="leavetype:${ltypelist}">
-				<span th:text="${leavetype.leaveName}">Name</span>
-				<span th:text="${leavetype.leaveDays}">Days</span>
+			<div class="col-sm-12">
+				<div>Pending Leave Application</div>
+				<table th:if="${not #lists.isEmpty(leaveList)}">
+					<tr>
+						<th>Type</th>
+						<th>Start Date</th>
+						<th>Duration</th>
+						<th>Applied On</th>
+					</tr>
+					<tr th:each="leave:${llist}">
+						<td th:text="${leavetype.type}">Annual</td>
+						<td th:text="${leavetype.startdate}">10/10/2020</td>
+						<td th:text="${leavetype.duration}">3</td>
+						<td th:text="${leavetype.appliedon}">09/09/2020</td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-sm-12">
+				<div>Pending OT Claims</div>
+				<table th:if="${not #lists.isEmpty(leaveList)}">
+					<tr>
+						<th>Type</th>
+						<th>Start Date</th>
+						<th>Duration</th>
+						<th>Applied On</th>
+					</tr>
+					<tr th:each="leave:${llist}">
+						<td th:text="${leavetype.type}">Annual</td>
+						<td th:text="${leavetype.startdate}">10/10/2020</td>
+						<td th:text="${leavetype.duration}">3</td>
+						<td th:text="${leavetype.appliedon}">09/09/2020</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>

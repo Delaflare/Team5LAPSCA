@@ -20,7 +20,7 @@
 		<tr th:each="leavetype:${ltypelist}">
 			<td th:text=${leavetype.id}>Id</td>
 			<td th:text=${leavetype.leaveName}>Name</td>
-			<td th:text=${leavetype.leaveDays}>Days</td>
+			
 			<td><a href="EditLeaveType.html"
 				th:href="@{/leavetypes/edit/}+${leavetype.id}">Edit</a></td>
 			<td><a href="Deleteleavetype.html"
