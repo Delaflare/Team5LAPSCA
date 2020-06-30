@@ -46,9 +46,24 @@ public class UserLeaveTypesServiceImpl implements UserLeaveTypesService {
 	@Override
 	public void update(User user, String leaveName, Integer newAllowance) {
 		ArrayList<UserLeaveTypes> list = ulRepo.findAllByUser(user);
-		UserLeaveTypes ult = (UserLeaveTypes) list.stream().filter(u->u.getleaveName()==leaveName);
-		ult.setLeaveAllowance(newAllowance);
-		ulRepo.save(ult);
+		for(int i = 0; i<= list.size()-1; i++) {
+			if(list.get(i).getleaveName().equalsIgnoreCase(leaveName)) {
+				System.out.println(list.get(i).getLeaveAllowance());
+				list.get(i).setLeaveAllowance(newAllowance);
+				ulRepo.save(list.get(i));
+				System.out.println(list.get(i).getLeaveAllowance());
+			}
+		};
 	}
 	
+	@Override
+	public Integer findleaveAllowance(Integer userId, String leaveName) {
+		ArrayList<UserLeaveTypes> ultList = (ArrayList<UserLeaveTypes>) ulRepo.findAll();
+		List<UserLeaveTypes> balanceList = ultList.stream()
+							.filter(u->u.getUser().getId() == userId && u.getleaveName().equalsIgnoreCase(leaveName))
+							.collect(Collectors.toList());
+		
+		Integer balance = balanceList.get(0).getLeaveAllowance();
+		return balance;
+	}
 }
