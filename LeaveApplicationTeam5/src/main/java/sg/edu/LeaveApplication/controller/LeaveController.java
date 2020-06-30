@@ -7,7 +7,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
@@ -17,11 +16,9 @@ import java.util.stream.Stream;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +29,6 @@ import sg.edu.LeaveApplication.model.LeaveRecord;
 import sg.edu.LeaveApplication.model.PublicHolidays;
 import sg.edu.LeaveApplication.model.Status;
 import sg.edu.LeaveApplication.model.User;
-import sg.edu.LeaveApplication.model.UserLeaveTypes;
 import sg.edu.LeaveApplication.service.LeaveService;
 import sg.edu.LeaveApplication.service.LeaveTypeService;
 import sg.edu.LeaveApplication.service.PublicHolidayService;
@@ -267,6 +263,7 @@ public class LeaveController {
 		  newLeave.setComments(comments);
 		  newLeave.setStatus(status);
 		  leaveservice.saveLeave(newLeave);
+		  SendEamilController.SendEmailSSL(status.name(),newLeave.getUser().getFirstName()+" "+newLeave.getUser().getLastName(),comments,newLeave.getUser().getEmail());
 		  return "redirect:/leave/viewLeave";
 	  }
 
