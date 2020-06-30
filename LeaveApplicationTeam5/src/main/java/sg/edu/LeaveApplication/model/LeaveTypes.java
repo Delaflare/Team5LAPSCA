@@ -17,7 +17,6 @@ public class LeaveTypes {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	private String leaveName;
-	private int leaveDays;
 	@ManyToMany
 	private Collection<User> user;
 	
@@ -26,17 +25,15 @@ public class LeaveTypes {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public LeaveTypes(String leaveName, int leaveDays, Collection<User> user) {
+	public LeaveTypes(String leaveName, Collection<User> user) {
 		super();
 		this.leaveName = leaveName;
-		this.leaveDays = leaveDays;
 		this.user = user;
 	}
 
-	public LeaveTypes(String leaveName, int leaveDays) {
+	public LeaveTypes(String leaveName) {
 		super();
 		this.leaveName = leaveName;
-		this.leaveDays = leaveDays;
 	}
 
 	public int getId() {
@@ -55,13 +52,7 @@ public class LeaveTypes {
 		this.leaveName = leaveName;
 	}
 
-	public int getLeaveDays() {
-		return leaveDays;
-	}
-
-	public void setLeaveDays(int leaveDays) {
-		this.leaveDays = leaveDays;
-	}
+	
 
 	public Collection<User> getUser() {
 		return user;
@@ -73,7 +64,7 @@ public class LeaveTypes {
 
 	@Override
 	public String toString() {
-		return "LeaveTypes [id=" + id + ", leaveName=" + leaveName + ", leaveDays=" + leaveDays + "]";
+		return "LeaveTypes [id=" + id + ", leaveName=" + leaveName + "]";
 	}
 
 	
