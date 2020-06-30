@@ -2,5 +2,15 @@ package sg.edu.LeaveApplication.model;
 
 public enum Status {
 
-PENDING, APPROVED, REJECTED, CANCELLED,UPDATED
+PENDING("PENDING"), APPROVED("APPROVED"), REJECTED("REJECTED"), CANCELLED("CANCELLED"),UPDATED("UPDATED");
+	
+	private final String displayValue;
+	
+	private Status (String displayValue) {
+		this.displayValue = displayValue;
+	}
+	
+	public String getDisplayValue() {
+		return displayValue;
+	}
 }

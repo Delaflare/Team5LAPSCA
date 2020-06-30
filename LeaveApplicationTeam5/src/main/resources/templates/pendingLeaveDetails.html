@@ -78,17 +78,22 @@
 		Applied Date: <span th:text="${leave.leaveAppliedDate}"></span>
 	</fieldset>
 
-	<form action="#" th:object="${leave}" th:action="@{/leave/submit/}+${leave.id}" method="post">
+	<form action="#" th:object="${leave}"
+		th:action="@{/leave/submit/}+${leave.id}" method="post">
 		<fieldset>
-			<input type="hidden" th:field="*{id}" ></input>
+			<input type="hidden" th:field="*{id}"></input>
 		</fieldset>
-	<fieldset> 
-		Manager's Comments: <textarea th:id = "comments" th:field="*{comments}"></textarea>
-	</fieldset>
 		<fieldset>
-			Status: <select th:name="status">
-				<option th:each="status:${leaveStatus}" th:value="${status}"
-					th:text="${status}"></option>
+			Manager's Comments:
+			<textarea th:id="comments" th:field="*{comments}"></textarea>
+		</fieldset>
+		<fieldset>
+			Status: <select name="status">
+				<option value=""></option>
+				<option
+					th:each="status: ${T(sg.edu.LeaveApplication.model.Status).values()}"
+					th:value="${status}" th:text="${status.displayValue}"></option>
+
 			</select>
 		</fieldset>
 		<fieldset>
@@ -96,18 +101,5 @@
 		</fieldset>
 	</form>
 
-<!-- 	<fieldset>
-		<a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a>
-	</fieldset>
-	<fieldset> 
-		Comments: <input th:field="*{comments}"></input>
-	</fieldset>
-	<fieldset>
-		<button type="submit" th:text="#{button.reject}"></button>
-	</fieldset>
-</form> -->
-	
 </body>
-
-
 </html>
