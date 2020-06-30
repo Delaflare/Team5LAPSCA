@@ -40,68 +40,64 @@
 		Applied Date: <span th:text="${leave.leaveAppliedDate}"></span>
 	</fieldset>
 	<fieldset> 
-		Manager's Comments: <textarea name = "comment" th:field="${leave.comments}"></textarea>
+		Manager's Comments: <textarea  th:name="comments" ></textarea>
 	</fieldset>
 	<fieldset>
-	<!-- 	<a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a>
+		<!-- <a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a>
 		<a th:href="@{/leave/rejectLeave/}+${leave.id}" th:text="#{button.reject}"></a> -->
 		<a th:href="@{/leave/approveLeave/}+${leave.id}+@{/}+${leave.comments}"  th:text="#{button.approve}"></a>
 		<a th:href="@{/leave/rejectLeave/}+${leave.id}+@{/}+${leave.comments}" th:text="#{button.reject}"></a>
 	</fieldset>
 	
-	<!-- <form action="#" th:object="${leave}" th:action="@{/leave/submit/}+${leave.id}" method="post">
+	<h1> Form 2</h1>
+	
+	<fieldset> 
+		Employee Id: <span th:text="${leave.user.id}">Employee Id</span>
+	</fieldset>
+	<fieldset> 
+		Name: <span th:text="${leave.user.firstName} + ${leave.user.lastName}"> Name </span>
+	</fieldset>
+	<fieldset> 
+		Leave Type: <span  th:if = "${leave.leaveTypes != null}"  th:text="${leave.leaveTypes.leaveName}">Leave Type</span>
+	</fieldset>
+	<fieldset> 
+		Duration:  <span th:text="${leave.duration}">Duration</span>
+	</fieldset>
+	<fieldset> 
+		Start Date: <span th:text="${leave.startDate}">Start Date</span>
+	</fieldset>
+	<fieldset> 
+		Description: <span th:text="${leave.description}">Description</span>
+	</fieldset>
+	<fieldset> 
+		Work Dissemination: <span th:text="${leave.workDissemination}"></span>
+	</fieldset>
+	<fieldset> 
+		Contact Details: <span th:text="${leave.contactDetails}"></span>
+	</fieldset>
+	<fieldset> 
+		Applied Date: <span th:text="${leave.leaveAppliedDate}"></span>
+	</fieldset>
+
+	<form action="#" th:object="${leave}" th:action="@{/leave/submit/}+${leave.id}" method="post">
 		<fieldset>
 			<input type="hidden" th:field="*{id}" ></input>
-			<input type="hidden" th:field="*{user.firstName}" ></input>
-			<input type="hidden" th:field="*{user.lastName}" ></input>
 		</fieldset>
+	<fieldset> 
+		Manager's Comments: <textarea th:id = "comments" th:field="*{comments}"></textarea>
+	</fieldset>
 		<fieldset>
-			Employee Id: <span th:field="*{user.id}" th:text="*{user.id}">Employee Id</span>
-		</fieldset>
-		<fieldset>
-			Name: <span th:text="*{user.firstName} + *{user.lastName}">
-				Name </span>
-		</fieldset>
-		<fieldset>
-			Leave Type: <span th:text="*{id}">Leave Type</span>
-		</fieldset>
-		<fieldset>
-			Duration: <span th:text="*{duration}">Duration</span>
-		</fieldset>
-		<fieldset>
-			Start Date: <span th:text="*{startDate}">Start Date</span>
-		</fieldset>
-		<fieldset>
-			Description: <span th:text="*{description}">Description</span>
-		</fieldset>
-		<fieldset>
-			Work Dissemination: <span th:text="*{workDissemination}"></span>
-		</fieldset>
-		<fieldset>
-			Contact Details: <span th:text="*{contactDetails}"></span>
-		</fieldset>
-		<fieldset>
-			Applied Date: <span th:text="*{leaveAppliedDate}"></span>
-		</fieldset>
-		<fieldset>
-			Comments: <textarea name ="comments" th:field="*{comments}"></textarea>
-		</fieldset>
-		<fieldset>
-			Status: <select>
+			Status: <select th:name="status">
 				<option th:each="status:${leaveStatus}" th:value="${status}"
 					th:text="${status}"></option>
 			</select>
 		</fieldset>
 		<fieldset>
-			<a th:href="@{/leave/submit/approve/}+${leave.id}"
-				th:text="#{button.approve}"></a>
-		</fieldset>
-		<fieldset>
 			<button type="submit" th:text="#{button.save}"></button>
 		</fieldset>
-	</form> -->
-<!-- 
-	<fieldset>
+	</form>
+
+<!-- 	<fieldset>
 		<a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a>
 	</fieldset>
 	<fieldset> 
@@ -113,4 +109,6 @@
 </form> -->
 	
 </body>
+
+
 </html>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sg.edu.LeaveApplication.model.LeaveRecord;
+import sg.edu.LeaveApplication.model.LeaveTypes;
 import sg.edu.LeaveApplication.model.Status;
 import sg.edu.LeaveApplication.repo.LeaveRepository;
 
@@ -73,4 +74,11 @@ public class LeaveServiceImpl implements LeaveService {
 		}
 		return false;
 	}
+
+	@Override
+	public ArrayList<String> findAllLeaveStatusName() {
+		return leaverepo.findAllLeaveStatus();
+	}
+	
+	
 }

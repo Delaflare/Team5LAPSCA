@@ -36,7 +36,7 @@
 		<tr th:each="leave:${leaveList}">
 			<td th:text="${leave.user.id}">Employee Id</td>
 			<td th:text="${leave.user.firstName} + ${leave.user.lastName}"> Name </td>
-			<td th:text="${leave.id}">Leave Type</td>
+			<td th:if = "${leave.leaveTypes != null}"  th:text="${leave.leaveTypes.leaveName}">Leave Type</td>
 			<td th:text="${leave.duration}">Duration</td>
 			<td th:text="${leave.startDate}">Start Date</td>
 			<td th:text="${leave.description}">Description</td>

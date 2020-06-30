@@ -220,28 +220,57 @@ public class LeaveController {
 	@RequestMapping("/details/{id}")
 	public String showLeaveDetails(@PathVariable("id")Integer id, Model model) {
 		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
+		model.addAttribute("leaveStatus", leaveservice.findAllLeaveStatusName());
 		return "pendingLeaveDetails";
 	}
 	
-	@RequestMapping("/approveLeave/{id}/{comment}")
-	public String approveLeave(@PathVariable("id") Integer id, @RequestParam("comments") String comments) {
-		System.out.println(comments);
-		System.out.println(id);
-		leaveservice.Approve(id, comments);
-		return "redirect:/leave/viewLeave";
-	}
-	
-	
-	@RequestMapping("/rejectLeave/{id}/{comment}")
-	public String rejectLeave(@PathVariable("id") Integer id, @PathVariable("comment") String comment) {
-		leaveservice.Reject(id,comment);
-		return "redirect:/leave/viewLeave";
-	}
+	  @RequestMapping("/approveLeave/{id}/{comments}") public String
+	  approveLeave(@PathVariable("id") Integer id, @PathVariable("comments") String
+	  comments) { System.out.println(comments); System.out.println(id);
+	  leaveservice.Approve(id, comments); return "redirect:/leave/viewLeave"; }
+	  
+	  
+	  @RequestMapping("/rejectLeave/{id}/{comments}") public String
+	  rejectLeave(@PathVariable("id") Integer id, @PathVariable("comments") String
+	  comments) { System.out.println(comments); System.out.println(id);
+	  leaveservice.Reject(id,comments); return "redirect:/leave/viewLeave"; }
+	 
 
-	/*
-	 * @RequestMapping("/submit/{id}") public String submit(@ModelAttribute("leave")
-	 * LeaveRecord leave, @PathVariable("id")Integer id ) { leave =
-	 * leaveservice.findLeaveRecordById(id); leaveservice.saveLeave(leave); return
-	 * "redirect:/leave/viewLeave"; }
-	 */
+	
+	  @RequestMapping("/submit/{id}") public String submit(@ModelAttribute("leave") LeaveRecord leave, @PathVariable("id")Integer id, @RequestParam("comments") String comments, @RequestParam("status") String status ) 
+	  { 
+		  System.out.println(comments);
+		  System.out.println(status);
+		  System.out.println(id);	  
+		  leave.setComments(comments);
+		  if(status == "APPROVED") {
+			  leave.setStatus(Status.APPROVED);
+		  }
+		  else if (status == "REJECTED") {
+			  leave.setStatus(Status.REJECTED);
+		  }
+		  else if (status == "PENDING") {
+			  leave.setStatus(Status.PENDING);
+		  }
+		  else if (status == "CANCELLED") {
+			  leave.setStatus(Status.CANCELLED);
+		  }
+		  leaveservice.saveLeave(leave); 
+		  return "redirect:/leave/viewLeave"; 
+	  }
+	 
+		/*
+		 * @RequestMapping("/approveLeave/{id}") public String
+		 * approveLeave(@PathVariable("id") Integer id, @RequestParam("comments") String
+		 * comments) { System.out.println(comments); System.out.println(id);
+		 * leaveservice.Approve(id, comments); return "redirect:/leave/viewLeave"; }
+		 * 
+		 * 
+		 * @RequestMapping("/rejectLeave/{id}") public String
+		 * rejectLeave(@PathVariable("id") Integer id, @RequestParam("comments") String
+		 * comments) { System.out.println(comments); System.out.println(id);
+		 * leaveservice.Reject(id,comments); return "redirect:/leave/viewLeave"; }
+		 */
+
+	  
 }
