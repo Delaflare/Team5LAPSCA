@@ -14,5 +14,5 @@ public interface LeaveService {
 	public void cancelLeave(LeaveRecord lr);
 	public boolean Reject(Integer id, String comment);
 	public ArrayList<String> findAllLeaveStatusName();
-	public ArrayList<LeaveRecord> findLeaveByEmployeeName(String keyword);
+	public ArrayList<LeaveRecord> findLeaveByEmployeeAndLeave(String keyword, String ltName);
 }

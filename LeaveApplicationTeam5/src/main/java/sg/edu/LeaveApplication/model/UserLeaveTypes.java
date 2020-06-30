@@ -57,15 +57,18 @@ public class UserLeaveTypes {
 	public void setLeaveAllowance(int leaveAllowance) {
 		this.leaveAllowance = leaveAllowance;
 	}
+<<<<<<< HEAD
 	public String getLeaveName() {
+=======
+	public String getleaveName() {
+>>>>>>> branch 'master' of https://github.com/Delaflare/Team5LAPSCA.git
 		return leaveName;
 	}
-	public void setLeaveName(String leaveName) {
+	public void setleaveName(String leaveName) {
 		this.leaveName = leaveName;
 	}
 	@Override
 	public String toString() {
 		return "UserLeaveTypes [id=" + id + ", leaveTypes=" + leaveTypes + ", leaveAllowance=" + leaveAllowance + ", leaveName=" + leaveName +"]";
 	}
-	
 }

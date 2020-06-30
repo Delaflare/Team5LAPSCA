@@ -9,18 +9,20 @@
 <body>
 <h1 th:text="#{viewleave.page.title}"></h1>
 <h2 th:text="#{search.header}">Search Criteria</h2>
-	<form th:action="@{/viewLeave}" method="get" >
+	<form th:action="@{/leave/viewLeave}" method="get" >
 		<fieldset>
 			Employee Name: <input id="txtSearch" type="text" name="keyword">
 		</fieldset>
-<!-- 		<fieldset>
+		<fieldset >
 		    Leave Type: 
-		    <select >
+		    <select name ="ltName">
+		    	<option value=""></option>
 		        <option th:each="ltName:${ltNames}" th:value="${ltName}" th:text="${ltName}"></option>
 		    </select>
-		</fieldset>	 -->	
+		</fieldset>		
 		<button type="submit" th:text="#{button.search}">search</button>
-		<button type="reset" th:text="#{button.reset}">clear</button>		
+		<!-- <button type="reset" th:text="#{button.reset}">clear</button> -->	
+		<a th:text="#{button.reset}" th:href="@{/leave/viewLeave}"></a>	
 	</form>
 	
 
