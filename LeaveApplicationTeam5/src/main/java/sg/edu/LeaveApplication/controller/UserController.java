@@ -126,9 +126,12 @@ public class UserController {
 			//System.out.print(utype.getUser());
 			ultypeservice.saveUserLeaveType(utype);
 		}
-
-		
-		return"userProfile";
+		return"forward:/user/list";
 	}
 	
+	@RequestMapping(value = "/displayLeave/{id}")
+	public String displayLeave(Model model) {
+		model.addAttribute("users", uservice.findAll());
+		return "userLeaveDisplay";
+	}
 }
