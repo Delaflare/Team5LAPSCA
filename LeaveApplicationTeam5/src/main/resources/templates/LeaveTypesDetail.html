@@ -16,10 +16,7 @@
 			Leave Type Name: <input type="text" th:field="*{leaveName}">
 			<p th:if="${#fields.hasErrors('leaveName')}" th:errors="*{leaveName}"></p>
 		</fieldset>
-		<fieldset>
-			Leave Type Days: <input type="text" th:field="*{leaveDays}">
-			<p th:if="${#fields.hasErrors('leaveDays')}" th:errors="*{leaveDays}"></p>
-		</fieldset>
+		
 		<fieldset>
 			<button type="submit" >Save</button>
 			<button type="reset">Reset</button>
