@@ -1,85 +1,90 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Claim Compensation Leave</title>
+<title>Create Department</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
 <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
 	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+	integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+	integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+	crossorigin="anonymous"></script>
 </head>
+
 <body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="#">T5 LAPS</a>
-
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-     <li class="nav-item">
-        <a class="nav-link" href="#">My Account</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Tasks</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Report</a>
-      </li>
-    </ul>
-    <a class="nav-link" th:href="@{/logout}">Log out</a>
-  </div>
-</nav>
-<!-- list of employees on leave monthly -->
-<div>
-<h3>Approved Leave Summary</h3>
-<hr/>
-<table style="width: 40%; float: left" th:if="${not #lists.isEmpty(approvedLeaves)}">
-<thead>
-<tr>
-	<th><a>Employee Name</a></th>
-	<th><a>Start Date</a></th>
-	<th><a>End Date</a></th>
-</tr>
-<tr th:each="leave: ${approvedLeaves}">
-	<td th:text="${leave.user.firstName + leave.user.lastName}">abc</td>
-	<td th:text="${leave.startDate]">2020-02-02</td>
-	<td th:text="${leave.startDate + duration}">2020-03-03</td>
-</tr>
-</thead>
-</table>
-</div>
-
-
-<!-- list of pending approval tasks -->
-<div>
-<aside style="width:30%; float: right">
-<h3>Leaves Pending Approval</h3>
-<hr/>
-<table th:if="${not #lists.isEmpty(pendingLeaves)}">
-<thead>
-<tr>
-	<th>Employee Name</th>
-	<th>Start Date</th>
-	<th>End Date</th>
-	<th>Type</th>
-</tr>
-<tr th:each="leave: ${pendingLeaves}">
-	<td th:text="${leave.user.firstName + leave.user.lastName">test</td>
-	<td th:text="${leave.startDate]">2020-02-09</td>
-	<td th:text="${leave.startDate + duration}">2020-02-10</td>
-	<td th:text="${leave.leaveTypes.leaveName}">Annual Leave</td>
-	<td><a>View</a></td>
-</tr>
-</thead>
-</table>
-<a th:href="#">View All</a>
-</aside>
-</div>
-
-</body>
-</html>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="nav-link" href="#">Home
+						<span class="sr-only">(current)</span>
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Admin</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="row">
+		<div class="col-sm-12">
+			<a href="leavehistory" class="btn btn-info" role="button">View by
+				Employee/Search Employee Leave History</a> <a href="printreport"
+				class="btn btn-info" role="button">Print Leave Report</a>
+		</div>
+		<div class="col-sm-12 row">
+			<div class="col-sm-6">
+				<div class="col-sm-12">
+					<div>Pending Leave Application</div>
+					<table th:if="${not #lists.isEmpty(leaveList)}">
+						<tr>
+							<th>EmpName</th>
+							<th>Start Date</th>
+							<th>Duration</th>
+							<th>Applied On</th>
+						</tr>
+						<tr th:each="leave:${llist}">
+							<td th:text="${leavetype.type}">Annual</td>
+							<td th:text="${leavetype.startdate}">10/10/2020</td>
+							<td th:text="${leavetype.duration}">3</td>
+							<td th:text="${leavetype.appliedon}">09/09/2020</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="col-sm-12">
+					<div>Pending Leave Application</div>
+					<table th:if="${not #lists.isEmpty(leaveList)}">
+						<tr>
+							<th>EmpName</th>
+							<th>Date</th>
+							<th>No of Hours</th>
+							<th>Claimed On</th>
+						</tr>
+						<tr th:each="leave:${llist}">
+							<td th:text="${leavetype.type}">Annual</td>
+							<td th:text="${leavetype.startdate}">10/10/2020</td>
+							<td th:text="${leavetype.duration}">3</td>
+							<td th:text="${leavetype.appliedon}">09/09/2020</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
