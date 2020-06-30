@@ -43,6 +43,4 @@ public class UserLeaveTypesServiceImpl implements UserLeaveTypesService {
 		ulRepo.save(ult);
 	}
 	
-	
-	
 }

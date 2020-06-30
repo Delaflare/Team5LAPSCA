@@ -13,4 +13,5 @@ public interface UserLeaveTypesService {
 	public ArrayList<UserLeaveTypes> findAllByUser(User user);
 
 	public void update(User user, String leaveName, Integer leaveCost);
+	
 }

@@ -10,5 +10,4 @@ import sg.edu.LeaveApplication.model.UserLeaveTypes;
 public interface UserLeaveTypesRepository extends JpaRepository<UserLeaveTypes, Integer> {
 
 	ArrayList<UserLeaveTypes> findAllByUser(User user);
-	
 }

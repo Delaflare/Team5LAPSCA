@@ -67,5 +67,4 @@ public class UserLeaveTypes {
 	public String toString() {
 		return "UserLeaveTypes [id=" + id + ", leaveTypes=" + leaveTypes + ", leaveAllowance=" + leaveAllowance + ", leaveName=" + leaveName +"]";
 	}
-	
 }
