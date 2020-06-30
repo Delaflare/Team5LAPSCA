@@ -57,15 +57,14 @@ public class UserLeaveTypes {
 	public void setLeaveAllowance(int leaveAllowance) {
 		this.leaveAllowance = leaveAllowance;
 	}
-	public String leaveName() {
+	public String getleaveName() {
 		return leaveName;
 	}
-	public void setLeaveName(String leaveName) {
+	public void setleaveName(String leaveName) {
 		this.leaveName = leaveName;
 	}
 	@Override
 	public String toString() {
 		return "UserLeaveTypes [id=" + id + ", leaveTypes=" + leaveTypes + ", leaveAllowance=" + leaveAllowance + ", leaveName=" + leaveName +"]";
 	}
-	
 }
