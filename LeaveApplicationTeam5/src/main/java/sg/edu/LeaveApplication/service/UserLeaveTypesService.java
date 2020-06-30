@@ -2,10 +2,8 @@ package sg.edu.LeaveApplication.service;
 
 import java.util.ArrayList;
 
-<<<<<<< HEAD
-=======
 import sg.edu.LeaveApplication.model.User;
->>>>>>> branch 'master' of https://github.com/Delaflare/Team5LAPSCA.git
+
 import sg.edu.LeaveApplication.model.UserLeaveTypes;
 
 public interface UserLeaveTypesService {

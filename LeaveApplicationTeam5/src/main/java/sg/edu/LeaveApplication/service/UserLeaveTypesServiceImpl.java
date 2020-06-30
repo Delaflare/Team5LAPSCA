@@ -1,11 +1,10 @@
 package sg.edu.LeaveApplication.service;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
+
 import java.util.List;
 import java.util.stream.Collectors;
->>>>>>> branch 'master' of https://github.com/Delaflare/Team5LAPSCA.git
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,14 +26,12 @@ public class UserLeaveTypesServiceImpl implements UserLeaveTypesService {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public ArrayList<UserLeaveTypes> findByUserId(Integer id) {
 		ArrayList<UserLeaveTypes> list = new ArrayList<UserLeaveTypes>();
 		list = ulRepo.findByUserId(id);
 		return  list;
 	}
 
-=======
 	public ArrayList<UserLeaveTypes> findAll(){
 		return (ArrayList<UserLeaveTypes>) ulRepo.findAll();
 	}
@@ -54,5 +51,4 @@ public class UserLeaveTypesServiceImpl implements UserLeaveTypesService {
 		ulRepo.save(ult);
 	}
 	
->>>>>>> branch 'master' of https://github.com/Delaflare/Team5LAPSCA.git
 }
