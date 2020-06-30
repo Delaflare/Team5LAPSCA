@@ -79,6 +79,12 @@ public class LeaveServiceImpl implements LeaveService {
 	public ArrayList<String> findAllLeaveStatusName() {
 		return leaverepo.findAllLeaveStatus();
 	}
+
+	@Override
+	public ArrayList<LeaveRecord> findLeaveByEmployeeName(String keyword) {
+		leaverepo.findLeaveByEmployeeName(keyword);
+		return null;
+	}
 	
 	
 }
