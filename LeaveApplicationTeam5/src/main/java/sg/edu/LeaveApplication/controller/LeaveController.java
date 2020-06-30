@@ -193,7 +193,7 @@ public class LeaveController {
 	public String cancelLeave(@PathVariable("id") Integer id, Model model) {
 		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		//have record and after approved, allow cancel
-		if(lr !=null && lr.getStatus() == Status.APPROVED) {
+		if(lr !=null && lr.getStatus() == Status.APPROVED ) {
 			leaveservice.cancelLeave(lr);
 			model.addAttribute("msg", "Leave is cancelled.");
 		}
