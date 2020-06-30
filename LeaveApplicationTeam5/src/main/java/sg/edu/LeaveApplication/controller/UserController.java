@@ -121,7 +121,7 @@ public class UserController {
 			UserLeaveTypes utype = new UserLeaveTypes();
 			//get user by id and set to userleavetype user 
 			utype.setUser(uservice.findUserById(Integer.parseInt(req.getParameter("id"))));
-			utype.setLeaveName(leavename);
+			utype.setleaveName(leavename);
 			utype.setLeaveAllowance(Integer.parseInt(req.getParameter(leavename)));
 			//System.out.print(utype.getUser());
 			ultypeservice.saveUserLeaveType(utype);
