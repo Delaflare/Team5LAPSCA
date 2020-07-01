@@ -1,5 +1,6 @@
 package sg.edu.LeaveApplication.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sg.edu.LeaveApplication.model.LeaveRecord;
-import sg.edu.LeaveApplication.model.LeaveTypes;
 import sg.edu.LeaveApplication.model.Status;
 import sg.edu.LeaveApplication.repo.LeaveRepository;
 
@@ -86,6 +86,12 @@ public class LeaveServiceImpl implements LeaveService {
 	public ArrayList<LeaveRecord> findLeaveByEmployeeAndLeave(String keyword, String ltName) {
 		return leaverepo.findLeaveByEmployeeAndLeave(keyword, ltName);
 		
+	}
+
+	@Override
+	public ArrayList<LeaveRecord> findLeaveHistory(String keyword, LocalDate startDate, LocalDate endDate, String ltName,
+			Status int_status) {
+		return leaverepo.findLeaveHistory(keyword,startDate,endDate, ltName,int_status);
 	}
 	
 	
