@@ -12,13 +12,13 @@
 <div style="width:50%; float:left">
 <h1>Leave Application</h1>
 <form action="#" th:object="${leave}" th:action="@{/leave/save}" method="post" >
-	<div th:text="${msg}"></div>
+	<p th:text="${msg}"></p>
 	Start Date: <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02">	
 	End Date: <input type="date" id="ed" th:name="endDate" min="2020-02-02">
 	<p>Duration:<span id="duration" th:name="duration"></span></p>
 	Type of Leave:
 				<select th:field = "*{leaveTypes}">
-				<option th:each = "leaveType : ${leaveTypes}" 
+				<option th:each = "leaveType : ${leaveTypes}" th:if="${leaveType.leaveName != 'Compensation Leave'}" 
 					th:value = "${leaveType.leaveName}" th:text = "${leaveType.leaveName}"> </option> 
 				</select>
 	</br>
