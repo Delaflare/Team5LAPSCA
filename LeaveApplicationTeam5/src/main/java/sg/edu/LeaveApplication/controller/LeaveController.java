@@ -265,8 +265,8 @@ public class LeaveController {
 		  leaveservice.saveLeave(newLeave);
 		  SendEamilController.SendEmailSSL(status.name(),newLeave.getUser().getFirstName()+" "+newLeave.getUser().getLastName(),comments,newLeave.getUser().getEmail());
 		  return "redirect:/leave/viewLeave";
-	  }
-
+	  } 
+ 
 
 	  
 }
