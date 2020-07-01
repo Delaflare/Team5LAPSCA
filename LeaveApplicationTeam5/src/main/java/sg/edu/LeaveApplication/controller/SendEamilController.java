@@ -14,6 +14,7 @@ public class SendEamilController{
 			        final String username = "team5leavesystem.sa50@gmail.com";
 			        final String password = "hupptktyehwzgwgb";
 
+			        
 			        Properties prop = new Properties();
 					prop.put("mail.smtp.host", "smtp.gmail.com");
 			        prop.put("mail.smtp.port", "465");
