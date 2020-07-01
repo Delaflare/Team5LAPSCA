@@ -66,9 +66,15 @@
 			<div class="col-sm-12">
 				<div>Employees Currently On Leave</div>
 				<table>
-					<tr><th>Name</th></tr>
+					<tr>
+						<th>Name</th>
+						<th>Leave Start Date</th>
+						<th>Leave Duration</th>
+					</tr>
 					<tr th:each="empName:${onleave}">
 						<td th:text="${empName.user.firstName + ' ' + empName.user.lastName}">name</td>
+						<td th:text="${empName.startDate}">10/10/2020</td>
+						<td th:text="${empName.duration}">3</td>
 				</table>
 			</div>
 			<div class="col-sm-12">

@@ -12,7 +12,7 @@ import sg.edu.LeaveApplication.model.Status;
 
 public interface LeaveRepository extends JpaRepository<LeaveRecord, Integer> {
 	
-	@Query("Select l from LeaveRecord l")
+	@Query(value = "SELECT * FROM testtest.leave_record where CURDATE() BETWEEN start_date AND DATE_ADD(start_date, INTERVAL duration DAY)", nativeQuery = true)
 	ArrayList<LeaveRecord> findOnLeave();
 	
 	@Query("Select l from LeaveRecord l where l.status=0 OR l.status='PENDING'")
