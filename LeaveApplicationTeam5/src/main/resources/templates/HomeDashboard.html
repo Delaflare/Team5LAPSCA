@@ -65,7 +65,7 @@
 		<div class="col-sm-6">
 			<div class="col-sm-12">
 				<div>Pending Leave Application</div>
-				<table th:if="${not #lists.isEmpty(pendingLeave)}">
+				<table>
 					<tr>
 						<th>Type</th>
 						<th>Start Date</th>
@@ -73,27 +73,23 @@
 						<th>Applied On</th>
 					</tr>
 					<tr th:each="leave:${pendingLeave}">
-						<td th:text="${leave.leavetypes_id`}">Annual</td>
-						<td th:text="${leave.start_date}">10/10/2020</td>
+						<td th:text="${leave.leaveTypes.leaveName}">Annual</td>
+						<td th:text="${leave.startDate}">10/10/2020</td>
 						<td th:text="${leave.duration}">3</td>
-						<td th:text="${leave.leave_applied_date}">09/09/2020</td>
+						<td th:text="${leave.leaveAppliedDate}">09/09/2020</td>
 					</tr>
 				</table>
 			</div>
 			<div class="col-sm-12">
 				<div>Pending OT Claims</div>
-				<table th:if="${not #lists.isEmpty(pendingOT)}">
+				<table>
 					<tr>
-						<th>Type</th>
 						<th>Start Date</th>
 						<th>Duration</th>
-						<th>Applied On</th>
 					</tr>
 					<tr th:each="OT:${pendingOT}">
-						<td>OT Claim</td>
-						<td th:text="${OT.start_date}">10/10/2020</td>
+						<td th:text="${OT.startDate}">10/10/2020</td>
 						<td th:text="${OT.duration}">3</td>
-						<td th:text="${OT.OT_applied_date}">09/09/2020</td>
 					</tr>
 				</table>
 			</div>

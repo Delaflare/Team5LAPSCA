@@ -26,7 +26,7 @@ public class DashboardController {
 		this.OTservice = OTservice;
 	}
 	
-	@RequestMapping(value = "/dashboard")
+	@RequestMapping(value = "/home")
 	public String pendingLeave(Model model)
 	{
 		model.addAttribute("pendingLeave", leaveservice.findAllPendingLeave());
