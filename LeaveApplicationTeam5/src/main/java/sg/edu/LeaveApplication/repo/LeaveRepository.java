@@ -17,7 +17,8 @@ public interface LeaveRepository extends JpaRepository<LeaveRecord, Integer> {
     ArrayList<String> findAllLeaveStatus();
 
 	@Query("SELECT l from LeaveRecord l JOIN l.user u JOIN l.leaveTypes lt  "
-			+ "WHERE (:keyword is null OR u.firstName LIKE %:keyword% OR u.lastName LIKE %:keyword% ) "
+			+ "WHERE l.status=0"
+			+ "AND (:keyword is null OR u.firstName LIKE %:keyword% OR u.lastName LIKE %:keyword% ) "
 			+ "AND (:ltName is null OR lt.leaveName = :ltName)")
 	ArrayList<LeaveRecord> findLeaveByEmployeeAndLeave(@Param("keyword") String keyword, @Param("ltName") String leaveName);
 }
