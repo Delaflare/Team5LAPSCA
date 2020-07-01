@@ -33,14 +33,14 @@
 		<div class="col-sm-6">
 			<div class="col-sm-12">
 				<div>Leave Remaining</div>
-				<table th:if="${not #lists.isEmpty(leaveList)}">
+				<table>
 					<tr>
 						<th>Leave Type</th>
 						<th>Number of Days</th>
 					</tr>
-					<tr th:each="leavetype:${ltypelist}">
-						<td th:text="${leavetype.leaveName}">Name</td>
-						<td th:text="${leavetype.leaveDays}">Days</td>
+					<tr th:each="LR:${leaveRemaining}">
+						<td th:text="${LR.leaveName}">Name</td>
+						<td th:text="${LR.leaveAllowance}">Days</td>
 					</tr>
 				</table>
 			</div>		

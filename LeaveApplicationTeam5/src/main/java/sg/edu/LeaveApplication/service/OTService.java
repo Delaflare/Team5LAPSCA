@@ -6,5 +6,5 @@ import sg.edu.LeaveApplication.model.OTRecord;
 
 public interface OTService {
 	public ArrayList<OTRecord> findAll();
-	public ArrayList<OTRecord> findAllBystatus();
+	public ArrayList<OTRecord> findAllPendingOT();
 }
