@@ -94,5 +94,8 @@ public class LeaveServiceImpl implements LeaveService {
 		return leaverepo.findLeaveHistory(keyword,startDate,endDate, ltName,int_status);
 	}
 	
-	
+	@Override
+	public ArrayList<LeaveRecord> findOnLeave() {
+		return leaverepo.findOnLeave();
+	}
 }

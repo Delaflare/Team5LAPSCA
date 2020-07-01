@@ -12,6 +12,6 @@ public interface OTRepository extends JpaRepository<OTRecord, Integer> {
 //	@Query("Select l from otrecord l")
 //	ArrayList<OTRecord> findAll();
 	
-	@Query("Select l from OTRecord l where l.status=0")
+	@Query("Select l from OTRecord l where l.status=0 OR l.status='PENDING'")
 	ArrayList<OTRecord> findAllPendingOT();
 }

@@ -18,4 +18,5 @@ public interface LeaveService {
 	public ArrayList<String> findAllLeaveStatusName();
 	public ArrayList<LeaveRecord> findLeaveByEmployeeAndLeave(String keyword, String ltName);
 	public ArrayList<LeaveRecord> findLeaveHistory(String keyword,LocalDate startDate,LocalDate endDate, String ltName,Status int_status);
+	public ArrayList<LeaveRecord> findOnLeave();
 }

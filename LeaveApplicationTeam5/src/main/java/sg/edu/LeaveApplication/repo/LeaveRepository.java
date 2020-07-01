@@ -12,7 +12,10 @@ import sg.edu.LeaveApplication.model.Status;
 
 public interface LeaveRepository extends JpaRepository<LeaveRecord, Integer> {
 	
-	@Query("Select l from LeaveRecord l where l.status=0")
+	@Query("Select l from LeaveRecord l")
+	ArrayList<LeaveRecord> findOnLeave();
+	
+	@Query("Select l from LeaveRecord l where l.status=0 OR l.status='PENDING'")
 	ArrayList<LeaveRecord> findAllPendingLeave();
 	
 	@Query("Select distinct l.status from LeaveRecord l")

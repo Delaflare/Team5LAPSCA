@@ -64,16 +64,24 @@
 		</div>
 		<div class="col-sm-6">
 			<div class="col-sm-12">
-				<div>Pending Leave Application</div>
+				<div>Employees Currently On Leave</div>
+				<table>
+					<tr><th>Name</th></tr>
+					<tr th:each="empName:${onleave}">
+						<td th:text="${empName.user.firstName + ' ' + empName.user.lastName}">name</td>
+				</table>
+			</div>
+			<div class="col-sm-12">
+				<div>Employees Pending Leave Application</div>
 				<table>
 					<tr>
-						<th>Type</th>
+						<th>Name</th>
 						<th>Start Date</th>
 						<th>Duration</th>
 						<th>Applied On</th>
 					</tr>
 					<tr th:each="leave:${pendingLeave}">
-						<td th:text="${leave.leaveTypes.leaveName}">Annual</td>
+						<td th:text="${leave.user.firstName + ' ' + leave.user.lastName}">name</td>
 						<td th:text="${leave.startDate}">10/10/2020</td>
 						<td th:text="${leave.duration}">3</td>
 						<td th:text="${leave.leaveAppliedDate}">09/09/2020</td>
@@ -81,15 +89,17 @@
 				</table>
 			</div>
 			<div class="col-sm-12">
-				<div>Pending OT Claims</div>
+				<div>Employees Pending OT Claims</div>
 				<table>
 					<tr>
+						<th>Name</th>
 						<th>Start Date</th>
-						<th>Duration</th>
+						<th>End Date</th>
 					</tr>
 					<tr th:each="OT:${pendingOT}">
+						<td th:text="${OT.user.firstName + ' ' + OT.user.lastName}">name</td>
 						<td th:text="${OT.startDate}">10/10/2020</td>
-						<td th:text="${OT.duration}">3</td>
+						<td th:text="${OT.endDate}">11/11/2020</td>
 					</tr>
 				</table>
 			</div>
