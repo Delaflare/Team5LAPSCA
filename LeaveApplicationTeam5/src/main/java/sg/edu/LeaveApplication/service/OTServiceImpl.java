@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import sg.edu.LeaveApplication.model.OTRecord;
 import sg.edu.LeaveApplication.model.Status;
+import sg.edu.LeaveApplication.model.User;
 import sg.edu.LeaveApplication.repo.OTRepository;
 
 @Service
@@ -52,5 +53,10 @@ public class OTServiceImpl implements OTService {
 	public OTRecord findById(Integer id) {
 		OTRecord ot = OTrepo.findById(id).get();
 		return ot;
+	}
+	
+	@Override
+	public ArrayList<OTRecord> findByUser(User user) {
+		return OTrepo.findByUser(user);
 	}
 }

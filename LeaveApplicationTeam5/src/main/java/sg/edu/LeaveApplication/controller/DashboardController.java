@@ -49,6 +49,8 @@ public class DashboardController {
 		User currentUser = uservice.findUserById(45);
 		model.addAttribute("leaveRemaining", ultservice.findAllByUser(currentUser));
 		model.addAttribute("onleave", leaveservice.findOnLeave());
+		model.addAttribute("myleave", leaveservice.findByUser(currentUser));
+		model.addAttribute("myOT", OTservice.findByUser(currentUser));
 		model.addAttribute("pendingLeave", leaveservice.findAllPendingLeave());
 		model.addAttribute("pendingOT", OTservice.findAllPendingOT());
 		return "HomeDashboard";

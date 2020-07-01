@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import sg.edu.LeaveApplication.model.LeaveRecord;
 import sg.edu.LeaveApplication.model.Status;
+import sg.edu.LeaveApplication.model.User;
 import sg.edu.LeaveApplication.repo.LeaveRepository;
 
 @Service
@@ -97,5 +98,10 @@ public class LeaveServiceImpl implements LeaveService {
 	@Override
 	public ArrayList<LeaveRecord> findOnLeave() {
 		return leaverepo.findOnLeave();
+	}
+	
+	@Override
+	public ArrayList<LeaveRecord> findByUser(User user) {
+		return leaverepo.findByUser(user);
 	}
 }
