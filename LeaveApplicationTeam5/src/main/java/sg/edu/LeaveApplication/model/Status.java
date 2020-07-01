@@ -2,7 +2,7 @@ package sg.edu.LeaveApplication.model;
 
 public enum Status {
 
-PENDING("PENDING"), APPROVED("APPROVED"), REJECTED("REJECTED"), CANCELLED("CANCELLED"),UPDATED("UPDATED");
+PENDING("PENDING"), APPROVED("APPROVED"), REJECTED("REJECTED"), CANCELLED("CANCELLED"),UPDATED("UPDATED"), DELETED("DELECTED");
 	
 	private final String displayValue;
 	
