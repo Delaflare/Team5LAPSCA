@@ -9,26 +9,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.PastOrPresent;
 
 @Entity
 public class OTRecord {
 	@Id
 	@GeneratedValue( strategy = GenerationType.AUTO)
-	@NotEmpty
 	private int id;
 	@ManyToOne
     private User user;
-	@NotEmpty
+	@PastOrPresent
 	private LocalDate startDate;
-	@NotEmpty
-	private Integer duration;
-	@NotEmpty
-	private String status;
-	@NotEmpty
+	@PastOrPresent
+	private LocalDate endDate;
+	private String description;
+	private Status status;
 	private int totalOTTime;
-	@NotEmpty
 	private Date submitDate;
-	@NotEmpty
 	private Date approvedDate;
 	
 	public OTRecord() {
@@ -36,19 +33,18 @@ public class OTRecord {
 		// TODO Auto-generated constructor stub
 	}
 
-	
 
-	public OTRecord(User user, @NotEmpty LocalDate startDate, @NotEmpty Integer duration, @NotEmpty String status,
-			@NotEmpty int totalOTTime, @NotEmpty Date submitDate, @NotEmpty Date approvedDate) {
+	public OTRecord(@PastOrPresent LocalDate startDate, @PastOrPresent LocalDate endDate, Status status,
+			int totalOTTime, Date submitDate, Date approvedDate) {
 		super();
-		this.user = user;
 		this.startDate = startDate;
-		this.duration = duration;
+		this.endDate = endDate;
 		this.status = status;
 		this.totalOTTime = totalOTTime;
 		this.submitDate = submitDate;
 		this.approvedDate = approvedDate;
 	}
+
 
 	public int getId() {
 		return id;
@@ -102,23 +98,36 @@ public class OTRecord {
 		this.approvedDate = approvedDate;
 	}
 
-
-
-	public Integer getDuration() {
-		return duration;
+	
+	public LocalDate getEndDate() {
+		return endDate;
 	}
 
-	public void setDuration(Integer duration) {
-		this.duration = duration;
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
 	}
 
-	public String getStatus() {
+
+	public String getDescription() {
+		return description;
+	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+
+	public void setStatus(Status status) {
 		this.status = status;
 	}
+
 
 	public int getTotalOTTime() {
 		return totalOTTime;
@@ -128,11 +137,13 @@ public class OTRecord {
 		this.totalOTTime = totalOTTime;
 	}
 
+
 	@Override
 	public String toString() {
-		return "OTRecord [id=" + id + ", startDate=" + startDate + ", duration=" + duration + ", status=" + status
-				+ ", totalOTTime=" + totalOTTime + "]";
+		return "OTRecord [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status
+				+ ", totalOTTime=" + totalOTTime + ", submitDate=" + submitDate + ", approvedDate=" + approvedDate
+				+ "]";
 	}
-	 
+
 	
 }

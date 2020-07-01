@@ -2,15 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>OT Claim Record</title>
 </head>
 <body>
 <!-- list of compensation leave -->
 <div>
-<h3>Compensation Leave History</h3>
-<h4 th:text="${currentBalance}">45hrs</h4>
+<h3>OT Claim Record</h3>
+<h4>Current Balance: </h4><p th:text=${OTBalance}></p>
 <hr/>
-<table th:if="${not #lists.isEmpty(compensationleave)}">
+<a th:action="@{/leave/claimOT}">Claim OT</a>
+<table border = 1 class="w3-container" th:if="${not #lists.isEmpty(OTList)}">
 <thead>
 	<tr>
 		<th>id</th>
@@ -18,19 +19,20 @@
 		<th><a>End Date</a></th>
 		<th><a>OT Hours</a></th>
 		<th><a>Status</a></th>
-		<th></th>
+		<th><a>Approved/Reject Date</a></th>		
 		<th></th>
 		<th></th>
 	</tr>
-	<tr th:each="leave: ${compensationleave}">
-		<td th:text="${leave.id}">1</td>
-		<td th:text="${leave.startDate]">2020-02-02</td>
-		<td th:text="${leave.endDate}">2020-03-03</td>
-		<td th:text="${leave.duration}">3</td>
-		<td th:text="${leave.status}">pending</td>
-		<td><button>Update</button></td>
-		<td><button>Cancel</button></td>
-		<td><button>Delete</button></td>
+	<tr th:each="OT: ${OTList}">
+		<td th:text="*{OT.id}"></td>
+		<td th:text="${OT.startDate}"></td>
+		<td th:text="${OT.endDate}"></td>
+		<td th:text="${OT.totalOTTime}"></td>
+		<td th:text="${OT.status}"></td>
+		<td th:if="${OT.approvedDate != null}" th:text="${OT.approvedDate}"></td>
+		
+		<td><a th:href="@{/leave/updateOT}">Update</a></td>
+		<td><a th:href="@{/leave/deleteOT}">Delete</a></td>
 	</tr>
 </thead>
 </table>

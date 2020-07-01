@@ -1,11 +1,15 @@
 package sg.edu.LeaveApplication.service;
 
 import java.util.ArrayList;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sg.edu.LeaveApplication.model.OTRecord;
+import sg.edu.LeaveApplication.model.Status;
 import sg.edu.LeaveApplication.repo.OTRepository;
 
 @Service
@@ -26,4 +30,27 @@ public class OTServiceImpl implements OTService {
 		return list;
 	}
 		
+	@Override
+	public void saveOTRecord(@Valid OTRecord otRecord) {
+		OTrepo.save(otRecord);
+	}
+
+	@Override
+	public void cancelOTRecord(@Valid OTRecord otRecord) {
+		otRecord.setStatus(Status.CANCELLED);
+		 OTrepo.save(otRecord);
+		
+	}
+
+	@Override
+	public void deleteOTRecord(@Valid OTRecord otRecord) {
+		 otRecord.setStatus(Status.DELETED);
+		 OTrepo.save(otRecord);
+	}
+
+	@Override
+	public OTRecord findById(Integer id) {
+		OTRecord ot = OTrepo.findById(id).get();
+		return ot;
+	}
 }
