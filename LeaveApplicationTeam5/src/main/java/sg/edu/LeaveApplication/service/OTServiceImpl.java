@@ -21,8 +21,9 @@ public class OTServiceImpl implements OTService {
 	}
 	
 	@Override
-	public ArrayList<OTRecord> findAllPendingOT() {
-		ArrayList<OTRecord> list = (ArrayList<OTRecord>) OTrepo.findAllPendingOT();
+	public ArrayList<OTRecord> findAllBystatus() {
+		ArrayList<OTRecord> list = (ArrayList<OTRecord>) OTrepo.findAll();
 		return list;
-	}	
+	}
+		
 }
