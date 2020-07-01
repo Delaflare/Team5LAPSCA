@@ -2,6 +2,10 @@ package sg.edu.LeaveApplication.service;
 
 import java.util.ArrayList;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.repository.query.Param;
+
 import sg.edu.LeaveApplication.model.User;
 
 import sg.edu.LeaveApplication.model.UserLeaveTypes;
@@ -17,5 +21,9 @@ public interface UserLeaveTypesService {
 	public void update(User user, String leaveName, Integer leaveCost);
 	
 	public Integer findleaveAllowance(Integer userId, String leaveName);
+	
+	//public void updateUserLeaveAllowance(ArrayList<UserLeaveTypes> ulist);
+	
+	public void deleteByUser(ArrayList<UserLeaveTypes> ulist);
 	
 }

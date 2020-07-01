@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sg.edu.LeaveApplication.model.LeaveRecord;
+import sg.edu.LeaveApplication.model.LeaveTypes;
 import sg.edu.LeaveApplication.model.PublicHolidays;
 import sg.edu.LeaveApplication.model.Status;
 import sg.edu.LeaveApplication.model.User;
@@ -70,18 +71,24 @@ public class LeaveController {
 		this.ultservice = ultservice;
 	}
 	
+	//return leaveDayCost upon cancel/delete/reject
+	public void returnLeave(LeaveRecord lr) {
+		int currentBalance = ultservice.findleaveAllowance(lr.getUser().getId(), lr.getLeaveTypes().getLeaveName());
+		lr.setLeaveDayCost(currentBalance + lr.getLeaveDayCost());
+		leaveservice.saveLeave(lr);
+	}
 		
 	//check balance function
-	public Boolean isBalanceEnough(Integer userId, String leaveName, Integer leaveCost) {
+	public Boolean isBalanceEnough(User user, String leaveName, Integer leaveCost) {
 		
-		if(ultservice.findleaveAllowance(userId, leaveName) >= leaveCost) {
+		if(ultservice.findleaveAllowance(user.getId(), leaveName) >= leaveCost) {
 			return true;
 		}
 		return false;
 	}
 	
 	//to move to leave service after done
-	public static Integer getLeaveCost(String sd, String ed, List<LocalDate> holidays) {
+	public static Integer getLeaveDayCost(String sd, String ed, List<LocalDate> holidays) {
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate date1= LocalDate.parse(sd, formatter);  
@@ -110,7 +117,7 @@ public class LeaveController {
 	@RequestMapping("/apply")
 	public String applyLeave(Model model) {
 		//replace once user session is ready
-		User sessionUser = uservice.findUserById(45);
+		User sessionUser = uservice.findUserById(102);
 		
 		model.addAttribute("leave", new LeaveRecord());
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
@@ -125,7 +132,7 @@ public class LeaveController {
 			) throws ParseException {
 		
 		//replace when session is ready
-		User sessionUser = uservice.findUserById(45);
+		User sessionUser = uservice.findUserById(102);
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");	
 		//calculate duration
@@ -143,11 +150,12 @@ public class LeaveController {
 			List<LocalDate> allPHdays = holidays.stream()
 										.map(PublicHolidays::getDate)
 										.collect(Collectors.toList());
-			Integer leaveCost = getLeaveCost(sd, ed, allPHdays);
+			Integer leaveCost = getLeaveDayCost(sd, ed, allPHdays);
 			//validate balance
-			if(isBalanceEnough(sessionUser.getId(), leaverecord.getLeaveTypes().getLeaveName(),leaveCost)) {
+			if(isBalanceEnough(sessionUser, leaverecord.getLeaveTypes().getLeaveName(),leaveCost)) {
 				//set balance - leaveCost
 				ultservice.update(sessionUser, leaverecord.getLeaveTypes().getLeaveName(), balance-leaveCost);
+				leaverecord.setLeaveDayCost(leaveCost);
 			}
 			else {
 				model.addAttribute("msg", "You do not have enough balance.");
@@ -157,35 +165,51 @@ public class LeaveController {
 	    else {
 	    	
 	    	//validate balance
-	    	if(isBalanceEnough(sessionUser.getId(), leaverecord.getLeaveTypes().getLeaveName(),duration)) {
+	    	if(isBalanceEnough(sessionUser, leaverecord.getLeaveTypes().getLeaveName(),duration)) {
 	    		//balance - duration
 				ultservice.update(sessionUser, leaverecord.getLeaveTypes().getLeaveName(), balance-duration);
+				leaverecord.setLeaveDayCost(duration);
 			}
 			else {
 				model.addAttribute("msg", "You do not have enough balance.");
 				return "redirect:apply";
+			}
 	    }
 	    
 		leaverecord.setLeaveTypes(leaverecord.getLeaveTypes());
-		leaverecord.setUser(uservice.findUserById(6));//to use session user_id
+		leaverecord.setUser(uservice.findUserById(102));//to use session user_id
 		leaverecord.setLeaveAppliedDate(new Date());
 		leaverecord.setDuration(duration);
 		leaverecord.setStartDate(LocalDate.parse(sd,formatter));
 		
 		//if new record, set to Pending; otherwise as Updated
 		if(leaverecord.getStatus() == null) {
+			
 			leaverecord.setStatus(Status.PENDING);
-			leaveservice.saveLeave(leaverecord);
 		}
 		else
 		{
 			leaverecord.setStatus(Status.UPDATED);
-			leaveservice.saveLeave(leaverecord);
 		}
-	}   
+		
+		leaveservice.saveLeave(leaverecord);
 	    return"redirect:list";
 }
 	
+	@RequestMapping("/update/{id}")
+	public String updateLeave(@PathVariable("id") Integer id, Model model) {
+
+		model.addAttribute("leaveTypes", leavetypeservice.findAll());
+		model.addAttribute("phlist", holiservice.findAll());
+		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
+		//only when Pending, allow update
+		if(lr != null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
+			lr.setStatus(Status.UPDATED);
+			model.addAttribute("leave", lr);
+			return"createLeave";
+		}
+		return "redirect:/leave/list";
+	}
 	
 	@RequestMapping("/detail/{id}")
 	public String viewLeave(@PathVariable("id") Integer id, Model model) {
@@ -198,6 +222,7 @@ public class LeaveController {
 		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		//only when Pending, allow delete
 		if(lr !=null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
+			returnLeave(lr);
 			leaveservice.deleteLeave(lr);
 			model.addAttribute("msg", "Leave is deleted. ");
 		}
@@ -213,10 +238,11 @@ public class LeaveController {
 		//have record and after approved, allow cancel
 		if(lr !=null && lr.getStatus() == Status.APPROVED ) {
 			leaveservice.cancelLeave(lr);
+			returnLeave(lr);
 			model.addAttribute("msg", "Leave is cancelled.");
 		}
 		else {
-			model.addAttribute("msg", "Leave cannot be canceld after approved.");
+			model.addAttribute("msg", "Leave can only be canceld after approved.");
 		}
 		return"forward:/leave/list";
 	}

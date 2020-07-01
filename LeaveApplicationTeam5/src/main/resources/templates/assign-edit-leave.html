@@ -24,7 +24,10 @@
 			<tbody>
 				
 				<tr th:each="leave:${user.userLeaveTypes}">
-					<td><p th:text="${leave.leaveName}"></p></td>
+					<td>
+						<p th:text="${leave.leaveName}"></p>
+						<input th:name="leaveid" type="hidden" th:value="${leave.id}"/>
+					</td>
 					<td>
 					<fieldset>
 						<input th:name="${leave.leaveName}" type="number" th:value="${leave.leaveAllowance}"/>

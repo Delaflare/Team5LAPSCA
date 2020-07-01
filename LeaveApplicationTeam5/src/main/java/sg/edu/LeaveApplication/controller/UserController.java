@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.LeaveApplication.model.Department;
-import sg.edu.LeaveApplication.model.LeaveTypes;
 import sg.edu.LeaveApplication.model.User;
 import sg.edu.LeaveApplication.model.UserLeaveTypes;
 import sg.edu.LeaveApplication.service.DepartmentService;
@@ -92,14 +91,16 @@ public class UserController {
 		User user = uservice.findUserById(id);
 		ArrayList<UserLeaveTypes> uleave = ultypeservice.findByUserId(id);
 		user.setUserLeaveTypes(uleave);		
-		System.out.print(uleave);
+		//System.out.print(uleave);
 		model.addAttribute("user", user);
 		return "assign-edit-leave";
 	}
 	
 	@GetMapping("/delete/{id}")
 	public String deleteUser(Model model, @PathVariable("id") Integer id) {
-		User user = uservice.findUserById(id);
+		ArrayList<UserLeaveTypes> ul = ultypeservice.findByUserId(id);
+		ultypeservice.deleteByUser(ul);
+		User user = uservice.findUserById(id);		
 		uservice.deleteUser(user);
 		return "forward:/user/list";
 	}
@@ -129,7 +130,6 @@ public class UserController {
 	@RequestMapping("/assignleavetype")
 	public String assignLeaveType(HttpServletRequest req, Model model) {
 		ArrayList<String> leaveNames = ltypeservice.findAllLeaveTypeNames();
-		ArrayList<UserLeaveTypes> uList = new ArrayList<UserLeaveTypes>();
 	
 		for (String leavename : leaveNames) {
 			UserLeaveTypes utype = new UserLeaveTypes();
@@ -143,9 +143,24 @@ public class UserController {
 		return"forward:/user/list";
 	}
 	
-	@RequestMapping("/updateLeave/{id}")
-	public String updateLeave(Model model, @PathVariable("id") Integer id) {
-		return"userRecord";
+	@RequestMapping("/updateLeave")
+	public String updateLeave(HttpServletRequest req, Model model) {
+		User user = uservice.findUserById(Integer.parseInt(req.getParameter("id")));
+		ArrayList<String> leaveNames = ltypeservice.findAllLeaveTypeNames();
+		ArrayList<UserLeaveTypes> ulist = new ArrayList<UserLeaveTypes>();
+		for (String leavename : leaveNames) {	
+			UserLeaveTypes ul = new UserLeaveTypes();
+			ul.setUser(user);
+			ul.setId(Integer.parseInt(req.getParameter("leaveid")));
+			ul.setLeaveName(leavename);
+			ul.setLeaveAllowance(Integer.parseInt(req.getParameter(leavename)));
+			ulist.add(ul);
+			
+			ultypeservice.update(ul.getUser(), leavename, ul.getLeaveAllowance());
+			
+		}
+		//.updateUserLeaveAllowance(ulist);
+		return"forward:/user/list";
 	}
 	
 }

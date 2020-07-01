@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,4 +68,31 @@ public class UserLeaveTypesServiceImpl implements UserLeaveTypesService {
 		Integer balance = balanceList.get(0).getLeaveAllowance();
 		return balance;
 	}
+
+	@Transactional
+	@Override
+	public void deleteByUser(ArrayList<UserLeaveTypes> ul) {
+		
+			ulRepo.deleteInBatch(ul);
+		
+		// TODO Auto-generated method stub
+		
+	}
+
+//	@Transactional
+//	@Override	
+//	public void updateUserLeaveAllowance(ArrayList<UserLeaveTypes> ulist) {
+//		for (int i = 0; i < ulist.size(); i++) {
+//			ulRepo.save(ulist.get(i));
+//			//ulRepo.updateUserLeaveAllowance(ulist.get(i).getLeaveAllowance(), ulist.get(i).getLeaveName(), ulist.get(i).getId());
+//		}
+//		
+//		
+//		
+//	}
+
+	
+
+	
+
 }

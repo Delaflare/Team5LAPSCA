@@ -172,3 +172,7 @@ fieldset{
 	background-color: blue;
 	border: 1px solid black;
 }
+
+.btn {
+	width: 80px;
+}
