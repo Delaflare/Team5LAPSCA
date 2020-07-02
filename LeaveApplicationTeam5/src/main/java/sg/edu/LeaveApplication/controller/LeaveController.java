@@ -122,7 +122,7 @@ public class LeaveController {
 	@RequestMapping("/apply")
 	public String applyLeave(Model model) {
 		// replace once user session is ready
-		User sessionUser = uservice.findUserById(102);
+		User sessionUser = uservice.findUserById(21);
 
 		model.addAttribute("leave", new LeaveRecord());
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
@@ -136,7 +136,7 @@ public class LeaveController {
 			@RequestParam("startDate") String sd, @RequestParam("endDate") String ed) throws ParseException {
 
 		// replace when session is ready
-		User sessionUser = uservice.findUserById(102);
+		User sessionUser = uservice.findUserById(21);
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		// calculate duration

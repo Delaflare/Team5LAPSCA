@@ -81,7 +81,7 @@ public class OTController {
 	@RequestMapping("/OTList")
 	public String list(Model model) {
 		
-		User sessionuser = uservice.findUserById(0);
+		User sessionuser = uservice.findUserById(21);
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionuser.getId(), "Compensation Leave"));
 		model.addAttribute("OTList", otservice.findAll());
 		return "OTHistory";
@@ -89,7 +89,7 @@ public class OTController {
 	
 	@RequestMapping("/claimOT")
 	public String claimOT(Model model) {
-		User sessionuser = uservice.findUserById(0);
+		User sessionuser = uservice.findUserById(21);
 		
 		model.addAttribute("OTRecord", new OTRecord());
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionuser.getId(), "Compensation Leave"));
@@ -178,7 +178,7 @@ public class OTController {
 		@RequestMapping("/compleave/apply")
 		public String applyForm(Model model) {
 			//replace once user session is ready
-			User sessionUser = uservice.findUserById(0);
+			User sessionUser = uservice.findUserById(21);
 			
 			model.addAttribute("leave", new LeaveRecord());
 			model.addAttribute("leaveTypes", leavetypeservice.findAll());
@@ -194,7 +194,7 @@ public class OTController {
 				throws ParseException {
 
 			// replace when session is ready
-			User sessionUser = uservice.findUserById(0);
+			User sessionUser = uservice.findUserById(21);
 
 			String leaveType = "Compensation Leave";
 
