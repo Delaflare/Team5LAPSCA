@@ -294,6 +294,14 @@ public class LeaveController {
 		LeaveRecord newLeave = leaveservice.findLeaveRecordById(leave.getId());
 		newLeave.setComments(comments);
 		newLeave.setStatus(status);
+		if(status.equals(status.REJECTED)){
+			int addback = newLeave.getLeaveDayCost();
+			int userId = newLeave.getUser().getId();
+			String leaveName = newLeave.getLeaveTypes().getLeaveName();
+			int leaveAllowance = ultservice.findleaveAllowance(userId, leaveName);
+			int newAllowance = leaveAllowance + addback;
+			ultservice.update(newLeave.getUser(), leaveName, newAllowance);
+		}	
 		leaveservice.saveLeave(newLeave);
 		SendEamilController.SendEmailSSL(status.name(),
 				newLeave.getUser().getFirstName() + " " + newLeave.getUser().getLastName(), comments,
