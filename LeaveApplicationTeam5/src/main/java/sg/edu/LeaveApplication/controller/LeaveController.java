@@ -255,30 +255,48 @@ public class LeaveController {
 		}
 		return "viewLeaveRequests";
 	}
-	
+
 	@RequestMapping("/viewLeaveHistory")
-	public String viewLeaveHistory(Model model, String keyword,String fromDate,String toDate, String ltName,String status) {
+	public String viewLeaveHistory(Model model, String keyword, String fromDate, String toDate, String ltName,
+			String status) {
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
-		//System.out.println("k"+keyword);System.out.println("Sd"+startDate);System.out.println("ed"+endDate);System.out.println("na"+ltName);System.out.println("status"+status);
-		if (keyword != null || ltName != null || fromDate !=null || toDate !=null || status !=null) {
-			LocalDate startDate = LocalDate.parse(fromDate);
-			LocalDate endDate = LocalDate.parse(toDate);
-			Status  int_status=Status.PENDING;
-			if(status=="Pending")int_status=Status.PENDING;
-			if(status=="Approved")int_status=Status.APPROVED;
-			if(status=="Rejected")int_status=Status.REJECTED;
-			if(status=="Updated")int_status=Status.UPDATED;
-			if(status=="Cancelled")int_status=Status.CANCELLED;
-			if(status=="Deleted")int_status=Status.DELETED;
-			model.addAttribute("leaveHistoryList", leaveservice.findLeaveHistory(keyword,startDate,endDate, ltName,int_status));
-			System.out.println(ltName);
+		// System.out.println("k"+keyword);System.out.println("Sd"+startDate);System.out.println("ed"+endDate);System.out.println("na"+ltName);System.out.println("status"+status);
+		if (keyword != null || ltName != null || fromDate != null || toDate != null || status != null) { // Search Part
+
+			Status int_status = Status.PENDING;
+			if (status == "Pending")
+				int_status = Status.PENDING;
+			if (status == "Approved")
+				int_status = Status.APPROVED;
+			if (status == "Rejected")
+				int_status = Status.REJECTED;
+			if (status == "Updated")
+				int_status = Status.UPDATED;
+			if (status == "Cancelled")
+				int_status = Status.CANCELLED;
+			if (status == "Deleted")
+				int_status = Status.DELETED;
+
+			if (fromDate != null || toDate != null)// Search with date
+			{
+
+				LocalDate startDate = LocalDate.parse(fromDate);
+				LocalDate endDate = LocalDate.parse(toDate);
+				model.addAttribute("leaveHistoryList",
+						leaveservice.findLeaveHistoryByDate(keyword, startDate, endDate, ltName, int_status));
+				System.out.println(ltName);
+			} else // Search Without date
+			{
+				model.addAttribute("leaveHistoryList", leaveservice.findLeaveHistory(keyword, ltName, int_status));
+
+			}
+
 		} else {
 			model.addAttribute("leaveHistoryList", leaveservice.findAll());
 			System.out.println(ltName);
 		}
 		return "viewLeaveHistory";
 	}
-		
 
 	@RequestMapping("/details/{id}")
 	public String showLeaveDetails(@PathVariable("id") Integer id, Model model) {
@@ -287,21 +305,20 @@ public class LeaveController {
 		return "pendingLeaveDetails";
 	}
 
-
 	@RequestMapping("/submit/{id}")
 	public String submit(@ModelAttribute("leave") LeaveRecord leave, @PathVariable("id") Integer id,
 			@RequestParam("comments") String comments, @RequestParam("status") Status status) {
 		LeaveRecord newLeave = leaveservice.findLeaveRecordById(leave.getId());
 		newLeave.setComments(comments);
 		newLeave.setStatus(status);
-		if(status.equals(status.REJECTED)){
+		if (status.equals(status.REJECTED)) {
 			int addback = newLeave.getLeaveDayCost();
 			int userId = newLeave.getUser().getId();
 			String leaveName = newLeave.getLeaveTypes().getLeaveName();
 			int leaveAllowance = ultservice.findleaveAllowance(userId, leaveName);
 			int newAllowance = leaveAllowance + addback;
 			ultservice.update(newLeave.getUser(), leaveName, newAllowance);
-		}	
+		}
 		leaveservice.saveLeave(newLeave);
 		SendEamilController.SendEmailSSL(status.name(),
 				newLeave.getUser().getFirstName() + " " + newLeave.getUser().getLastName(), comments,
