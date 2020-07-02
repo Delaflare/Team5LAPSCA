@@ -21,9 +21,9 @@ public class DbInit implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-		this.ltrepo.deleteAll();
-		this.urepo.deleteAll();
-		this.drepo.deleteAll();
+		//this.ltrepo.deleteAll();
+		//this.urepo.deleteAll();
+		//this.drepo.deleteAll();
 
 		Department d1 = new Department("Engineering", 1);
 		Department d2 = new Department("Account", 2);
@@ -35,9 +35,9 @@ public class DbInit implements CommandLineRunner {
 		LeaveTypes lt3 = new LeaveTypes("Medical Leave");
 		LeaveTypes lt4 = new LeaveTypes("Unpaid Leave");
 		
-		drepo.save(d1);drepo.save(d2);
-		urepo.save(u1);urepo.save(u2);urepo.save(u3);
-		ltrepo.save(lt1);ltrepo.save(lt2);ltrepo.save(lt3);ltrepo.save(lt4);
+		//drepo.save(d1);drepo.save(d2);
+		//urepo.save(u1);urepo.save(u2);urepo.save(u3);
+		//ltrepo.save(lt1);ltrepo.save(lt2);ltrepo.save(lt3);ltrepo.save(lt4);
 	}
 
 }
