@@ -261,7 +261,7 @@ public class LeaveController {
 			String status) {
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
 		// System.out.println("k"+keyword);System.out.println("Sd"+startDate);System.out.println("ed"+endDate);System.out.println("na"+ltName);System.out.println("status"+status);
-		if (keyword != null || ltName != null || fromDate != null || toDate != null || status != null) { // Search Part
+		if (keyword != "" || ltName != "" || fromDate != "" || toDate != "" || status != "") { // Search Part
 
 			Status int_status = Status.PENDING;
 			if (status == "Pending")
