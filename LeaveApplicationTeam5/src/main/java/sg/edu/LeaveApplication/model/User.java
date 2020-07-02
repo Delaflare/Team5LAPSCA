@@ -206,5 +206,4 @@ public class User {
 	public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-	
 }

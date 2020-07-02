@@ -46,6 +46,7 @@ public class DbInit implements CommandLineRunner {
 		 * drepo.save(d1);drepo.save(d2); urepo.save(u1);urepo.save(u2);urepo.save(u3);
 		 * ltrepo.save(lt1);ltrepo.save(lt2);ltrepo.save(lt3);ltrepo.save(lt4);
 		 */
+		
 	}
 
 }
