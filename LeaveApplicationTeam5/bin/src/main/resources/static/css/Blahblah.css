@@ -1,0 +1,11 @@
+@charset "ISO-8859-1";
+
+.boxed {
+	height: 100px;
+	background-color: blue;
+	border: 1px solid black;
+}
+
+.col-sm-12 {
+	padding: 60px;
+}

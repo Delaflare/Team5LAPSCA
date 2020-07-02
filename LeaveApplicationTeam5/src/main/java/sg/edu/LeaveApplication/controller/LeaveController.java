@@ -114,13 +114,13 @@ public class LeaveController {
 		return (int) leaveCost;
 	}
 
-	@RequestMapping("/leave/list")
+	@RequestMapping("/emp/leave/list")
 	public String list(Model model) {
 		model.addAttribute("leaveList", leaveservice.findAll());
 		return "leaveList";
 	}
 
-	@RequestMapping("/leave/apply")
+	@RequestMapping("/emp/leave/apply")
 	public String applyLeave(Model model) {
 		// replace once user session is ready
 		User sessionUser = uservice.findUserById(21);
@@ -132,7 +132,7 @@ public class LeaveController {
 		return "createLeave";
 	}
 
-	@RequestMapping("/save")
+	@RequestMapping("/emp/save")
 	public String saveLeave(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult result, Model model,
 			@RequestParam("startDate") String sd, @RequestParam("endDate") String ed) throws ParseException {
 
@@ -162,7 +162,7 @@ public class LeaveController {
 				leaverecord.setLeaveDayCost(leaveCost);
 			} else {
 				model.addAttribute("msg", "You do not have enough balance.");
-				return "redirect:apply";
+				return "redirect:/emp/apply";
 			}
 		} else {
 
@@ -173,7 +173,7 @@ public class LeaveController {
 				leaverecord.setLeaveDayCost(duration);
 			} else {
 				model.addAttribute("msg", "You do not have enough balance.");
-				return "redirect:apply";
+				return "redirect:/emp/apply";
 			}
 		}
 
@@ -192,10 +192,10 @@ public class LeaveController {
 		}
 
 		leaveservice.saveLeave(leaverecord);
-		return "redirect:list";
+		return "redirect:/emp/list";
 	}
 
-	@RequestMapping("/update/{id}")
+	@RequestMapping("/emp/update/{id}")
 	public String updateLeave(@PathVariable("id") Integer id, Model model) {
 
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
@@ -210,13 +210,13 @@ public class LeaveController {
 		return "redirect:/leave/list";
 	}
 
-	@RequestMapping("/detail/{id}")
+	@RequestMapping("/emp/detail/{id}")
 	public String viewLeave(@PathVariable("id") Integer id, Model model) {
 		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
 		return "leaveDetails";
 	}
 
-	@RequestMapping("/delete/{id}")
+	@RequestMapping("/emp/delete/{id}")
 	public String deleteLeave(@PathVariable("id") Integer id, Model model) {
 		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		// only when Pending, allow delete
@@ -230,7 +230,7 @@ public class LeaveController {
 		return "forward:/leave/list";
 	}
 
-	@RequestMapping("/cancel/{id}")
+	@RequestMapping("/emp/cancel/{id}")
 	public String cancelLeave(@PathVariable("id") Integer id, Model model) {
 		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		// have record and after approved, allow cancel

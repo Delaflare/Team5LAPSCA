@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title th:text="#{viewleave.page.title}"></title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+</head>
+<body>
+	<h1 th:text="#{viewleave.page.title}"></h1>
+	<h2 th:text="#{search.header}">Search Criteria</h2>
+	<form th:action="@{/leave/viewLeaveHistory}"  th:object="${search}" method="get">
+		<fieldset>
+			Employee Name: <input id="txtSearch" type="text" name="keyword">
+		</fieldset>
+		<fieldset>
+			Start Date: <input type="date"  id="sd" th:name="fromDate"
+				min="2020-02-02"> End Date: <input type="date" id="ed"
+				th:name="toDate" min="2020-02-02">
+		</fieldset>
+		<fieldset>
+			Leave Type: <select name="ltName">
+				<option value=""></option>
+				<option th:each="ltName:${ltNames}" th:value="${ltName}"
+					th:text="${ltName}"></option>
+			</select>
+		</fieldset>
+		<fieldset>
+			Status: <select name="status">
+				<option value=""></option>
+				<option
+					th:each="status: ${T(sg.edu.LeaveApplication.model.Status).values()}"
+					th:value="${status}" th:text="${status.displayValue}"></option>
+			</select>
+		</fieldset>
+		<button type="submit" th:text="#{button.search}">search</button>
+		<!-- <button type="reset" th:text="#{button.reset}">clear</button> -->
+		<a th:text="#{button.reset}" th:href="@{/leave/viewLeave}"></a>
+		<fieldset>
+		<button th:text="#{button.print}" onclick="PrintClick();">Export HTML table to CSV file</button>
+			<a href="#" th:text="#{button.print}" th:href="@{/leave/viewLeave}">Print</a>
+		</fieldset>
+		<fieldset>
+			<a href="#" th:text="#{button.download}" th:href="@{/leave/viewLeave}">Download</a>
+		</fieldset>
+	</form>
+
+
+
+	<h2 th:if="${not #lists.isEmpty(leaveHistoryList)}"
+		th:text="#{viewleave.page.header}">Leave Requests</h2>
+	<table class="w3-container"
+		th:if="${not #lists.isEmpty(leaveHistoryList)}">
+		<tr>
+			<th>Employee Id</th>
+			<th>Name</th>
+			<th>Leave Type</th>
+			<th>Start Date</th>
+			<!-- <th>End Date</th> -->
+			<th>Duration</th>
+		</tr>
+		<tr th:each="leave:${leaveHistoryList}">
+			<td th:text="${leave.user.id}">Employee Id</td>
+			<td th:text="${leave.user.firstName} + ${leave.user.lastName}">
+				Name</td>
+			<td th:if="${leave.leaveTypes != null}"
+				th:text="${leave.leaveTypes.leaveName}">Leave Type</td>
+			<td th:if="${leave.leaveTypes == null}"><span>&nbsp;&nbsp;&nbsp;</span></td>
+			<td th:text="${leave.startDate}">Start Date </td>
+			<!-- <td th:text="${leave.startDate}">End Date</td> -->
+			<td th:text="${leave.duration}">Duration</td>
+			<td><a th:href="@{/leave/details/}+${leave.id}"
+				th:text="#{button.details}"></a></td>
+			<td><a href="EditLeaveType.html"
+				th:href="@{/leave/detail/}+${leave.id}">View Details</a></td>
+
+		</tr>
+	</table>
+
+</body>
+<script>
+	$(document).ready(function(){
+	
+		var today = new Date().toISOString().split('T')[0];
+		$("#sd").attr('min',today);
+		
+		$("#sd").on('input',function(){
+			var newsd = $("#sd").val();
+			$("#ed").attr('min',newsd);
+		})
+		
+	})
+	
+	function download_csv(csv, filename) {
+    var csvFile;
+    var downloadLink;
+
+    // CSV FILE
+    csvFile = new Blob([csv], {type: "text/csv"});
+
+    // Download link
+    downloadLink = document.createElement("a");
+
+    // File name
+    downloadLink.download = filename;
+
+    // We have to create a link to the file
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+
+    // Make sure that the link is not displayed
+    downloadLink.style.display = "none";
+
+    // Add the link to your DOM
+    document.body.appendChild(downloadLink);
+
+    // Lanzamos
+    downloadLink.click();
+}
+
+function export_table_to_csv(html, filename) {
+	var csv = [];
+	var rows = document.querySelectorAll("table tr");
+	
+    for (var i = 0; i < rows.length; i++) {
+		var row = [], cols = rows[i].querySelectorAll("td, th");
+		
+        for (var j = 0; j < cols.length; j++) 
+            row.push(cols[j].innerText);
+        
+		csv.push(row.join(","));		
+	}
+
+    // Download CSV
+    download_csv(csv.join("\n"), filename);
+}
+function PrintClick()
+{ 
+	var html = document.querySelector("table").outerHTML;
+    export_table_to_csv(html, "table.csv");
+}
+
+</script>
+</html>
+
+<Manager>

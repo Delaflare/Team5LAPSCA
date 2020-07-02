@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Application List</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+<!--  <th:block th:include="~{layout/header}"></th:block> -->
+</head>
+<body>
+<h1>Leave Application Listing</h1>
+
+	<a href="createCompLeave.html" th:href="@{/leave/compleave/apply}">New Leave</a>
+	<div th:text="${msg}"></div>
+	<h2> Leave History</h2> 
+	<table border = 1 class="w3-container" th:if="${not #lists.isEmpty(leaveList)}">
+			<tr>
+				<th>Applied Date</th>
+				<th>Status</th>
+				<th>LeaveType</th>
+				<th>From</th>
+				<th>To</th>
+				<th>Days</th>
+				<th></th><th></th><th></th><th></th>		
+			</tr>
+				<tr th:each="leave:${leaveList}">
+				<td th:text="${#dates.format(leave.leaveAppliedDate, 'yyyy-MM-dd')}"></td>
+				<td th:text=${leave.status}></td>
+				<td th:if="${leave.leaveTypes != null}" th:text=${leave.leaveTypes.leaveName}></td>
+				<td th:text="${leave.startDate}"></td>
+				<td th:if="${leave.startDate != null}" th:text="${leave.startDate.plusDays(leave.duration)}"></td>
+				<td th:text="${leave.duration}"></td>
+				<td><a th:href="@{/leave/detail/}+${leave.id}">View Details</a></td>
+				<td><a th:href="@{/leave/compleave/update/}+${leave.id}">Update</a></td>	
+				<td><a th:href="@{/leave/cancel/}+${leave.id}">Cancel</a></td>	
+				<td><a th:href="@{/leave/delete/}+${leave.id}">Delete</a></td>		
+			</tr>
+	</table>
+</body>
+</html>
+
+<User>
