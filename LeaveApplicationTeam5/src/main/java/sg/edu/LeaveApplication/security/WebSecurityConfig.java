@@ -65,11 +65,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         
         http.authorizeRequests()
-            //.anyRequest().authenticated()
-            //.antMatchers("/").hasAnyAuthority("ADMIN","MANAGER","EMPLOYEE")
-            .antMatchers("/user/**").hasAuthority("ADMIN")
-            .antMatchers("/leave/**").hasAuthority("MANAGER")
-            .antMatchers("/leave/emp/**").hasAuthority("EMPLOYEE")
+        //.anyRequest().authenticated()
+        //.antMatchers("/").hasAnyAuthority("ADMIN","MANAGER","EMPLOYEE")
+	        .antMatchers("/user/**").hasAuthority("ADMIN")
+	        .antMatchers("/leave/**").hasAuthority("MANAGER")
+	        .antMatchers("/leave/emp/**").hasAuthority("EMPLOYEE")
             .and()
             .formLogin()
             .loginPage("/login").permitAll()

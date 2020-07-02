@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -79,11 +77,8 @@ public class UserController {
 		Department d = dservice.findDeparmentByName(user.getDepartment().getName());
 		
 		user.setDepartment(d);
-		/*
-		 * if(bindingResult.hasErrors()) return "/admin/createUserForm";
-		 */
-		System.out.println(user);
-		System.out.println(user.getPassword());
+		if(bindingResult.hasErrors())
+			return "createUserForm"; 
 		uservice.saveUser(user);
 		return "forward:/user/list";
 	}
@@ -91,6 +86,7 @@ public class UserController {
 	@GetMapping("/edit/{id}")
 	public String editForm(Model model, @PathVariable("id") Integer id) {	
 		model.addAttribute("user", uservice.findUserById(id));
+		model.addAttribute("dlist" , dservice.findDeparmentById(id));
 		return "/admin/createUserForm";
 	}
 	
