@@ -15,7 +15,7 @@ import javax.persistence.OneToOne;
 public class LeaveTypes {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private Integer id;
 	private String leaveName;
 	@ManyToMany
 	private Collection<User> user;
@@ -25,22 +25,17 @@ public class LeaveTypes {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public LeaveTypes(String leaveName, Collection<User> user) {
-		super();
-		this.leaveName = leaveName;
-		this.user = user;
-	}
 
 	public LeaveTypes(String leaveName) {
 		super();
 		this.leaveName = leaveName;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

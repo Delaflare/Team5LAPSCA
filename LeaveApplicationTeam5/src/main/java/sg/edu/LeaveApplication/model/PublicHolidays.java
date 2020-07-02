@@ -14,14 +14,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class PublicHolidays {
 	@Id
 	@GeneratedValue( strategy = GenerationType.AUTO)
-	private int id;
-	//@NotEmpty
+	private Integer id;
 	private String holidayName;
-	//@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private LocalDate date;
-	//@NotEmpty
-	//private int duration;
 	
 	
 	public PublicHolidays() {
@@ -29,7 +25,7 @@ public class PublicHolidays {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public PublicHolidays(int id, String holidayName, LocalDate date) {
+	public PublicHolidays(Integer id, String holidayName, LocalDate date) {
 		super();
 		this.id = id;
 		this.holidayName = holidayName;
@@ -39,7 +35,7 @@ public class PublicHolidays {
 	public String getHolidayName() {
 		return holidayName;
 	}
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	public LocalDate getDate() {
@@ -50,7 +46,7 @@ public class PublicHolidays {
 		this.date = date;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public void setHolidayName(String holidayName) {

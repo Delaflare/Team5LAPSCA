@@ -30,13 +30,13 @@ public class LeaveTypeController {
 	@RequestMapping(value = "/list")
 	public String list(Model model) {
 		model.addAttribute("ltypelist", leavetypeservice.findAll());
-		return "LeaveTypes";
+		return "/Admin/LeaveTypes";
 	}
 
 	@RequestMapping(value = "/add")
 	public String addForm(Model model) {
 		model.addAttribute("leavetype", new LeaveTypes());
-		return "LeaveTypesDetail";
+		return "/Admin/LeaveTypesDetail";
 	}
 
 	@RequestMapping(value = "/edit/{id}")

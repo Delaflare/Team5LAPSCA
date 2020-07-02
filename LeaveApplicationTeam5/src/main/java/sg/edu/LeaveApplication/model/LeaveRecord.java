@@ -16,11 +16,11 @@ import javax.validation.constraints.*;
 public class LeaveRecord {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Integer id;
 	@FutureOrPresent
 	private LocalDate startDate;
 	@Positive (message="Duration must be 1 or more days.")
-	private int duration;
+	private double duration;
 	private int leaveDayCost;
 	private Status status;
 	@NotEmpty(message="Description cannot be empty.")
@@ -78,11 +78,11 @@ public class LeaveRecord {
 		this.startDate = startDate;
 	}
 
-	public int getDuration() {
+	public double getDuration() {
 		return duration;
 	}
 
-	public void setDuration(int duration) {
+	public void setDuration(double duration) {
 		this.duration = duration;
 	}
 

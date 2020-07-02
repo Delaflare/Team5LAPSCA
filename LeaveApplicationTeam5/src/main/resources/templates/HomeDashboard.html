@@ -32,68 +32,95 @@
 	<div class="row">
 		<div class="col-sm-6">
 			<div class="col-sm-12">
-				<div>Leave Remaining</div>
-				<table th:if="${not #lists.isEmpty(leaveList)}">
+				<div>Your Remaining Leave</div>
+				<table>
 					<tr>
 						<th>Leave Type</th>
 						<th>Number of Days</th>
 					</tr>
-					<tr th:each="leavetype:${ltypelist}">
-						<td th:text="${leavetype.leaveName}">Name</td>
-						<td th:text="${leavetype.leaveDays}">Days</td>
+					<tr th:each="LR:${leaveRemaining}">
+						<td th:text="${LR.leaveName}">Name</td>
+						<td th:text="${LR.leaveAllowance}">Days</td>
 					</tr>
 				</table>
 			</div>		
 			<div class="col-sm-12">
-				<div>Since you were gone...</div>
-				<table th:if="${not #lists.isEmpty(leaveList)}">
+				<div>Your Pending Leave Applications</div>
+				<table>
 					<tr>
-						<th>Type</th>
+						<th>Leave Type</th>
 						<th>Start Date</th>
 						<th>Duration</th>
 						<th>Applied On</th>
 					</tr>
-					<tr th:each="leavetype:${ltypelist}">
-						<td th:text="${leavetype.leaveName}">Apple</td>
-						<td th:text="${leavetype.leaveDays}">10/10/2020</td>
-						<td th:text="${leavetype.leaveDays}">2</td>
-						<td th:text="${leavetype.leaveDays}">09/09/2020</td>
+					<tr th:each="mine1:${myleave}">
+						<td th:text="${mine1.leaveTypes.leaveName}">Apple</td>
+						<td th:text="${mine1.startDate}">10/10/2020</td>
+						<td th:text="${mine1.duration}">2</td>
+						<td th:text="${mine1.leaveAppliedDate}">09/09/2020</td>
 					</tr>
 				</table>
-			</div>	
+			</div>
+			<div class="col-sm-12">
+				<div>Your Pending OT Applications</div>
+				<table>
+					<tr>
+						<th>Start Date</th>
+						<th>Total OT Time</th>
+						<th>Claim Submitted On</th>
+					</tr>
+					<tr th:each="mine2:${myOT}">
+						<td th:text="${mine2.startDate}">10/10/2020</td>
+						<td th:text="${mine2.totalOTTime}">2</td>
+						<td th:text="${mine2.submitDate}">09/09/2020</td>
+					</tr>
+				</table>
+			</div>		
 		</div>
 		<div class="col-sm-6">
 			<div class="col-sm-12">
-				<div>Pending Leave Application</div>
-				<table th:if="${not #lists.isEmpty(pendingLeave)}">
+				<div>Employees Currently On Leave</div>
+				<table>
 					<tr>
-						<th>Type</th>
+						<th>Name</th>
+						<th>Start Date</th>
+						<th>Duration</th>
+					</tr>
+					<tr th:each="empName:${onleave}">
+						<td th:text="${empName.user.firstName + ' ' + empName.user.lastName}">name</td>
+						<td th:text="${empName.startDate}">10/10/2020</td>
+						<td th:text="${empName.duration}">3</td>
+				</table>
+			</div>
+			<div class="col-sm-12">
+				<div>Employees Pending Leave Application</div>
+				<table>
+					<tr>
+						<th>Name</th>
 						<th>Start Date</th>
 						<th>Duration</th>
 						<th>Applied On</th>
 					</tr>
 					<tr th:each="leave:${pendingLeave}">
-						<td th:text="${leave.leavetypes_id`}">Annual</td>
-						<td th:text="${leave.start_date}">10/10/2020</td>
+						<td th:text="${leave.user.firstName + ' ' + leave.user.lastName}">name</td>
+						<td th:text="${leave.startDate}">10/10/2020</td>
 						<td th:text="${leave.duration}">3</td>
-						<td th:text="${leave.leave_applied_date}">09/09/2020</td>
+						<td th:text="${leave.leaveAppliedDate}">09/09/2020</td>
 					</tr>
 				</table>
 			</div>
 			<div class="col-sm-12">
-				<div>Pending OT Claims</div>
-				<table th:if="${not #lists.isEmpty(pendingOT)}">
+				<div>Employees Pending OT Claims</div>
+				<table>
 					<tr>
-						<th>Type</th>
+						<th>Name</th>
 						<th>Start Date</th>
-						<th>Duration</th>
-						<th>Applied On</th>
+						<th>Total OT Time</th>
 					</tr>
 					<tr th:each="OT:${pendingOT}">
-						<td>OT Claim</td>
-						<td th:text="${OT.start_date}">10/10/2020</td>
-						<td th:text="${OT.duration}">3</td>
-						<td th:text="${OT.OT_applied_date}">09/09/2020</td>
+						<td th:text="${OT.user.firstName + ' ' + OT.user.lastName}">name</td>
+						<td th:text="${OT.startDate}">10/10/2020</td>
+						<td th:text="${OT.totalOTTime}">11/11/2020</td>
 					</tr>
 				</table>
 			</div>

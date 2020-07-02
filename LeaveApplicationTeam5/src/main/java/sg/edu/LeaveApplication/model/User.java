@@ -18,7 +18,7 @@ public class User {
 
 	@Id
 	@GeneratedValue( strategy = GenerationType.AUTO)
-	private int id;
+	private Integer id;
 	@NotEmpty(message = "First name is required")
 	private String firstName;
 	@NotEmpty(message = "Last name is required")
@@ -30,7 +30,7 @@ public class User {
 	@NotEmpty(message = "Email is required")
 	@Email
 	private String email;
-	private String reportsTo;
+	private Integer reportsTo;
 
 	private Role role;
 	private Gender gender;
@@ -49,13 +49,13 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
+
 	public User(@NotEmpty(message = "First name is required") String firstName,
 			@NotEmpty(message = "Last name is required") String lastName,
 			@NotEmpty(message = "User name is required") String userName,
 			@NotEmpty(message = "Password is required") String password,
-			@NotEmpty(message = "Email is required") @Email String email, String reportsTo, Role role, Gender gender,
-			Title title, Department department, Collection<LeaveTypes> leaveTypes,
-			Collection<LeaveRecord> leaveRecord, Collection<UserLeaveTypes> userLeaveTypes) {
+			@NotEmpty(message = "Email is required") @Email String email, Integer reportsTo, Role role, Gender gender,
+			Title title, Department department) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -67,11 +67,7 @@ public class User {
 		this.gender = gender;
 		this.title = title;
 		this.department = department;
-		this.leaveTypes = leaveTypes;
-		this.leaveRecord = leaveRecord;
-		this.userLeaveTypes = userLeaveTypes;
 	}
-	
 
 	public User(@NotEmpty(message = "First name is required") String firstName,
 			@NotEmpty(message = "Last name is required") String lastName,
@@ -86,11 +82,11 @@ public class User {
 		this.email = email;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -134,11 +130,11 @@ public class User {
 		this.email = email;
 	}
 
-	public String getReportsTo() {
+	public Integer getReportsTo() {
 		return reportsTo;
 	}
 
-	public void setReportsTo(String reportsTo) {
+	public void setReportsTo(Integer reportsTo) {
 		this.reportsTo = reportsTo;
 	}
 

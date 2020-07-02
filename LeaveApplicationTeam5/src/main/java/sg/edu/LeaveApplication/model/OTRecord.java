@@ -1,5 +1,6 @@
 package sg.edu.LeaveApplication.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -8,45 +9,48 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.PastOrPresent;
 
 @Entity
 public class OTRecord {
 	@Id
 	@GeneratedValue( strategy = GenerationType.AUTO)
-	@NotEmpty
-	private int id;
+	private Integer id;
 	@ManyToOne
     private User user;
-	
-	@NotEmpty
-	private Date startDate;
-	@NotEmpty
-	private Integer duration;
-	@NotEmpty
-	private String status;
-	@NotEmpty
+	@PastOrPresent
+	private LocalDate startDate;
+	@PastOrPresent
+	private LocalDate endDate;
+	private String description;
+	private Status status;
 	private int totalOTTime;
+	private Date submitDate;
+	private Date approvedDate;
 	
 	public OTRecord() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public OTRecord(User user, @NotEmpty Date startDate, @NotEmpty Integer duration, @NotEmpty String status,
-			@NotEmpty int totalOTTime) {
+
+	public OTRecord(@PastOrPresent LocalDate startDate, @PastOrPresent LocalDate endDate, Status status,
+			int totalOTTime, Date submitDate, Date approvedDate) {
 		super();
-		this.user = user;
 		this.startDate = startDate;
-		this.duration = duration;
+		this.endDate = endDate;
 		this.status = status;
 		this.totalOTTime = totalOTTime;
+		this.submitDate = submitDate;
+		this.approvedDate = approvedDate;
 	}
 
-	public int getId() {
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -58,29 +62,72 @@ public class OTRecord {
 		this.user = user;
 	}
 
-	public Date getStartDate() {
+
+
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+
+
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Integer getDuration() {
-		return duration;
+
+
+	public Date getSubmitDate() {
+		return submitDate;
 	}
 
-	public void setDuration(Integer duration) {
-		this.duration = duration;
+
+
+	public void setSubmitDate(Date submitDate) {
+		this.submitDate = submitDate;
 	}
 
-	public String getStatus() {
+
+
+	public Date getApprovedDate() {
+		return approvedDate;
+	}
+
+
+
+	public void setApprovedDate(Date approvedDate) {
+		this.approvedDate = approvedDate;
+	}
+
+	
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+
+	public void setStatus(Status status) {
 		this.status = status;
 	}
+
 
 	public int getTotalOTTime() {
 		return totalOTTime;
@@ -90,11 +137,13 @@ public class OTRecord {
 		this.totalOTTime = totalOTTime;
 	}
 
+
 	@Override
 	public String toString() {
-		return "OTRecord [id=" + id + ", startDate=" + startDate + ", duration=" + duration + ", status=" + status
-				+ ", totalOTTime=" + totalOTTime + "]";
+		return "OTRecord [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status
+				+ ", totalOTTime=" + totalOTTime + ", submitDate=" + submitDate + ", approvedDate=" + approvedDate
+				+ "]";
 	}
-	 
+
 	
 }
