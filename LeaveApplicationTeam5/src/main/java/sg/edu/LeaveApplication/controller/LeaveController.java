@@ -277,7 +277,7 @@ public class LeaveController {
 			if (status == "Deleted")
 				int_status = Status.DELETED;
 
-			if (fromDate != null || toDate != null)// Search with date
+			if (fromDate != "" || toDate != "")// Search with date
 			{
 
 				LocalDate startDate = LocalDate.parse(fromDate);
