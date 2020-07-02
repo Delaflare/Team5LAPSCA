@@ -268,19 +268,20 @@ public class LeaveController {
 			(toDate != ""&& toDate != null) ||
 			(status != ""&& status != null)) {
 			
-			Status int_status = Status.PENDING;
+			
+			Integer int_status = -1;
 			if (status == "Pending")
-				 int_status = Status.PENDING;
+				 int_status = Status.PENDING.ordinal();
 			if (status == "Approved")
-				int_status = Status.APPROVED;
+				int_status = Status.APPROVED.ordinal();;
 			if (status == "Rejected")
-				int_status = Status.REJECTED;
+				int_status = Status.REJECTED.ordinal();
 			if (status == "Updated")
-				int_status = Status.UPDATED;
+				int_status = Status.UPDATED.ordinal();
 			if (status == "Cancelled")
-				int_status = Status.CANCELLED;
+				int_status = Status.CANCELLED.ordinal();
 			if (status == "Deleted")
-				int_status = Status.DELETED;
+				int_status = Status.DELETED.ordinal();
 
 			if ((fromDate != ""&& fromDate != null) || 
 					(toDate != ""&& toDate != null) )// Search with date
