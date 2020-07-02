@@ -12,6 +12,7 @@ public class LoginController {
 	public String Login(@RequestParam("userName") String userName, @RequestParam("password") String password)
 	
 	{
+		
 		String a = "a";
 		return a;
 	}
