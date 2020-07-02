@@ -1,81 +1,108 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="ISO-8859-1">
-<title>User Registration</title>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../../css/style.css" th:href="@{/css/style.css}" />
-</head>
-<body>
-<h1>User Registration</h1>
-<form action="#" th:object="${user}" th:action="@{/user/save}" method="post">
-		<fieldset>
-		<input type="hidden" th:field="*{id}"/>  
-		</fieldset>
-		<fieldset>
-			First Name: <input type="text" th:field="*{firstName}">
-			<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
-		</fieldset>
-		<fieldset>
-			Last Name: <input type="text" th:field="*{lastName}">
-			<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
-		</fieldset>
-		<fieldset>
-			User Name: <input type="text" th:field="*{userName}">
-			<p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
-		</fieldset>
-		<fieldset>
-			Password: <input type="password" th:field="*{password}">
-			<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-		</fieldset>
-		<fieldset>
-			Email: <input type="text" th:field="*{email}">
-			<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-		</fieldset>		
-		<fieldset>
-			Role :
-			<select th:field="*{role}" >
-		    <option th:each="role : ${T(sg.edu.LeaveApplication.model.Role).values()}"
-		            th:value="${role}"
-		            th:text="${role}">
-		    </option>
-			</select>
-		</fieldset>		
-		<fieldset>
-			Report To: <input type="text" th:field="*{reportsTo}">
-			
-		</fieldset>
-		
-		<fieldset>
-			Gender :
-			<select th:field="*{gender}">
-		    <option th:each="gender : ${T(sg.edu.LeaveApplication.model.Gender).values()}"
-		            th:value="${gender}"
-		            th:text="${gender}">
-		    </option>
-			</select>
-		</fieldset>
-		
-		<fieldset >
-		    Department :
-		    <select th:field="*{department.name}">
-		        <option th:each="d:${dlist}" th:value="${d}" th:text="${d}"></option>
-		    </select>
-		</fieldset>
-		
-		<fieldset>
-			Title :
-			<select th:field="*{title}">
-		    <option th:each="title : ${T(sg.edu.LeaveApplication.model.Title).values()}"
-		            th:value="${title}"
-		            th:text="${title}">
-		    </option>
-			</select>
-		</fieldset>
-
-		<fieldset>
-			<button type="submit" >Save</button>
-		</fieldset>
-	</form>
-</body>
+   <head>
+      <meta charset="ISO-8859-1">
+      <title>User Registration</title>
+      <link rel="stylesheet" type="text/css" media="all"
+         href="../../css/style.css" th:href="@{/css/style.css}" />
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+   </head>
+   <body>
+      <div class="main-container">
+         <h2>User Registration</h2>
+         <form action="#" th:object="${user}" th:action="@{/user/save}" method="post">
+            <div class="row">
+               <div class="col-md-6">
+                  <fieldset>
+                     <input type="hidden" th:field="*{id}"/>  
+                  </fieldset>
+                  <div class="form-group">
+                     <fieldset>
+                        First Name: 
+                        <input class="form-control" type="text" th:field="*{firstName}" required>
+                        <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+                     </fieldset>
+                  </div>
+                  <div class="form-group">
+                     <fieldset>
+                        Last Name: <input class="form-control" type="text" th:field="*{lastName}" required>
+                        <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+                     </fieldset>
+                  </div>
+                  <div class="form-group">
+                     <fieldset>
+                        User Name: <input class="form-control" type="text" th:field="*{userName}" required>
+                        <p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+                     </fieldset>
+                  </div>
+                  <div class="form-group">
+                     <fieldset>
+                        Password: <input class="form-control" type="password" th:field="*{password}" required>
+                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                     </fieldset>
+                  </div>
+                  <div class="form-group">
+                     <fieldset>
+                        Email: <input class="form-control" type="text" th:field="*{email}" placeholder="name@example.com" required>
+                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                     </fieldset>
+                  </div>
+                  <div class="form-group">
+                     <fieldset>
+                        <button class="btn btn-primary" type="submit" >Save</button>
+                     </fieldset>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="form-group">
+                     <fieldset>
+                        Role :
+                        <select th:field="*{role}" class="form-control ddl">
+                           <option  th:each="role : ${T(sg.edu.LeaveApplication.model.Role).values()}"
+                              th:value="${role}"
+                              th:text="${role}">
+                           </option>
+                        </select>
+                     </fieldset>
+                  </div>
+                  <div class="form-group">
+                     <fieldset>
+                        Report To: <input class="form-control ddl" type="text" th:field="*{reportsTo}" required>
+                     </fieldset>
+                  </div>
+                  <div class="form-group">
+                     <fieldset>
+                        Gender :
+                        <select th:field="*{gender}" class="form-control ddl">
+                           <option th:each="gender : ${T(sg.edu.LeaveApplication.model.Gender).values()}"
+                              th:value="${gender}"
+                              th:text="${gender}">
+                           </option>
+                        </select>
+                     </fieldset>
+                  </div>
+                  <div class="form-group">
+                     <fieldset >
+                        Department :
+                        <select th:field="*{department.name}" class="form-control ddl">
+                           <option th:each="d:${dlist}" th:value="${d}" th:text="${d}"></option>
+                        </select>
+                     </fieldset>
+                  </div>
+                  <div class="form-group">
+                     <fieldset>
+                        Title :
+                        <select th:field="*{title}" class="form-control ddl">
+                           <option th:each="title : ${T(sg.edu.LeaveApplication.model.Title).values()}"
+                              th:value="${title}"
+                              th:text="${title}">
+                           </option>
+                        </select>
+                     </fieldset>
+                  </div>
+               </div>
+            </div>
+         </form>
+      </div>
+   </body>
 </html>
