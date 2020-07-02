@@ -81,7 +81,7 @@ public class OTController {
 	@RequestMapping("/OTList")
 	public String list(Model model) {
 		
-		User sessionuser = uservice.findUserById(0);
+		User sessionuser = uservice.findUserById(21);
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionuser.getId(), "Compensation Leave"));
 		model.addAttribute("OTList", otservice.findAll());
 		return "OTHistory";
@@ -89,7 +89,7 @@ public class OTController {
 	
 	@RequestMapping("/claimOT")
 	public String claimOT(Model model) {
-		User sessionuser = uservice.findUserById(0);
+		User sessionuser = uservice.findUserById(21);
 		
 		model.addAttribute("OTRecord", new OTRecord());
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionuser.getId(), "Compensation Leave"));
@@ -178,7 +178,7 @@ public class OTController {
 		@RequestMapping("/compleave/apply")
 		public String applyForm(Model model) {
 			//replace once user session is ready
-			User sessionUser = uservice.findUserById(0);
+			User sessionUser = uservice.findUserById(21);
 			
 			model.addAttribute("leave", new LeaveRecord());
 			model.addAttribute("leaveTypes", leavetypeservice.findAll());
@@ -194,7 +194,7 @@ public class OTController {
 				throws ParseException {
 
 			// replace when session is ready
-			User sessionUser = uservice.findUserById(0);
+			User sessionUser = uservice.findUserById(21);
 
 			String leaveType = "Compensation Leave";
 
@@ -293,5 +293,42 @@ public class OTController {
 			return"leaveDetails";
 		}
 
+		@RequestMapping("/managerViewOT")
+		public String managerOTList(Model model, String keyword) {
+			if(keyword !=null) {
+				model.addAttribute("OTList", otservice.findPendingOTbyUser(keyword));
+				System.out.print(keyword);
+			}
+			model.addAttribute("OTList", otservice.findAllPendingAndUpdatedOT());
+			return "managerOTList";		
+		}
+		
+		@RequestMapping("/managerOTdetails/{id}")
+		public String showLeaveDetails(@PathVariable("id") Integer id, Model model) {
+			model.addAttribute("OT", otservice.findById(id));
+			return "managerOTDetails";
+		}
+		
+		
+		@RequestMapping("/managerOTsubmit/{id}")
+		public String submit(@ModelAttribute("OT") OTRecord ot, @PathVariable("id") Integer id,
+				 @RequestParam("status") Status status) {
+			OTRecord newOT = otservice.findById(ot.getId());
+			newOT.setStatus(status);
+			//add OT hours to leave allowance if approved
+			if(status.equals(status.APPROVED)){
+				int addback = newOT.getTotalOTTime();
+				int userId = newOT.getUser().getId();
+				String leaveName = "Compensation Leave";
+				int leaveAllowance = ultservice.findleaveAllowance(userId, leaveName);
+				int newAllowance = leaveAllowance + addback;
+				ultservice.update(newOT.getUser(), leaveName, newAllowance);
+			}	
+			otservice.saveOTRecord(newOT);
+			
+
+
+			return "redirect:/leave/managerViewOT";
+		}
 
 }

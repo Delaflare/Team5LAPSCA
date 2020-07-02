@@ -6,12 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 public class User {
@@ -44,6 +45,8 @@ public class User {
 	private Collection<LeaveRecord> leaveRecord;
 	@OneToMany(mappedBy="user")
 	private Collection<UserLeaveTypes> userLeaveTypes;
+	
+	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -200,6 +203,7 @@ public class User {
 				+ ", gender=" + gender + ", title=" + title + "]";
 	}
 
-	
-	
+	public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

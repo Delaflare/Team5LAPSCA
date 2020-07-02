@@ -3,6 +3,7 @@ package sg.edu.LeaveApplication.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import sg.edu.LeaveApplication.model.User;
@@ -22,7 +23,17 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean saveUser(User user) {
-		if(urepo.save(user)!=null) return true; else return false;
+		
+		if(urepo.save(user)!=null) 
+		{
+			return true; 
+		}
+			
+		else 
+		{
+			return false;
+		} 
+			
 	}
 
 	@Override
@@ -46,5 +57,5 @@ public class UserServiceImpl implements UserService {
 		System.out.print(list);
 		return list.get(0); 
 	}
-
+	
 }

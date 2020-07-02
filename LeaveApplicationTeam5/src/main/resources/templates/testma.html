@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<h1>TESTING ADMIN</h1>
+[[${#HttpServletRequest.isUserInRole("ADMIN"")}]]
+ <h1 th:inline="text">Hello !</h1>
+</head>
+<body>
+<h1>ADMINPAGE</h1>
+</body>
+</html>
+
+
+
+<h1>ADMINPAGE</h1>

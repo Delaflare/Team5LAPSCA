@@ -21,8 +21,7 @@
 					<th>Total leave allowance</th>
 				</tr>
 			</thead>
-			<tbody>
-				
+			<tbody>	
 				<tr th:each="leave:${leaveTypes}">
 					<td><p th:text="${leave.leaveName}"></p></td>
 					<td>
@@ -31,10 +30,8 @@
 						<span th:if="${leave.leaveName == 'Compensation Leave'}">hours</span>
 						<span th:unless="${leave.leaveName == 'Compensation Leave'}">days</span>
 					</fieldset>
-					</td>
-					
-				</tr>
-				
+					</td>					
+				</tr>		
 			</tbody>
 		</table>
 	</div>
@@ -42,3 +39,5 @@
 	</form>
 </body>
 </html>
+
+<Admin>
