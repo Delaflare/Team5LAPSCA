@@ -21,18 +21,15 @@
 					<th>Total leave allowance</th>
 				</tr>
 			</thead>
-			<tbody>
-				
+			<tbody>	
 				<tr th:each="leave:${leaveTypes}">
 					<td><p th:text="${leave.leaveName}"></p></td>
 					<td>
 					<fieldset>
 						<input th:name="${leave.leaveName}" type="number"/>
 					</fieldset>
-					</td>
-					
-				</tr>
-				
+					</td>					
+				</tr>		
 			</tbody>
 		</table>
 	</div>
@@ -40,3 +37,5 @@
 	</form>
 </body>
 </html>
+
+<Admin>

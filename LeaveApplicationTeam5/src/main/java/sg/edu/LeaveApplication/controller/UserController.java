@@ -76,6 +76,7 @@ public class UserController {
 		user.setDepartment(d);
 		if(bindingResult.hasErrors())
 			return "createUserForm"; 
+		//rmb to encrypt the password
 		uservice.saveUser(user);
 		return "forward:/user/list";
 	}
