@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Apply New Leave</title>
+<title>Apply Compensation Leave</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/style.css" th:href="@{/css/style.css}" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -10,7 +10,7 @@
 </head>
 <body>
 <div style="width:50%; float:left">
-<h1>Leave Application</h1>
+<h1>Compensation Leave Application</h1>
 <form action="#" th:object="${leave}" th:action="@{/leave/compleave/save}" method="post" >
 	<div th:text="${msg}"></div>
 	Start Date: <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02">
@@ -29,7 +29,7 @@
 					th:each="startTime: ${T(sg.edu.LeaveApplication.model.Time).values()}"
 					th:value="${startTime}" th:text="${startTime.displayValue}"></option>
 			</select>
-	
+	<input type="button" id="checkDurBtn" value="Check Duration">  
 	<p>Duration:<span id="duration" th:name="duration"></span></p>
 	Type of Leave:<span> Compensation Leave </span>
 	</br>
@@ -72,17 +72,20 @@
 </aside>
 <script>
 	$(document).ready(function(){
-		$("#ed").on('input',function(){
+		$("#checkDurBtn").on('click',function(){
 			var sd = new Date($("#sd").val());
 			var ed = new Date($("#ed").val());
 			var time= ed.getTime() - sd.getTime();
 			var st = $("#startTime option:selected").text();
 			var et = $("#endTime option:selected").text();
 			var duration = time /(1000*24*3600)+ 1;
+
 			if(st === "PM" && et === "" || st === "PM" && et === "AM" || st === "AM" && et === "AM" || st === "" && et === "AM" ){
 				duration = duration - 0.5;
+			}	
+			if(sd.getTime() === ed.getTime() && st === et){
+				duration = 0;
 			}
-			
 			$("#duration").text(duration + " day(s)");
 		});
 		var today = new Date().toISOString().split('T')[0];
