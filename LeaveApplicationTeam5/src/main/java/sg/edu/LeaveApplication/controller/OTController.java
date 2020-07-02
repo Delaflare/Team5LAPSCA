@@ -1,9 +1,16 @@
 package sg.edu.LeaveApplication.controller;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.validation.Valid;
 
@@ -18,7 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import sg.edu.LeaveApplication.model.LeaveRecord;
 import sg.edu.LeaveApplication.model.OTRecord;
+import sg.edu.LeaveApplication.model.PublicHolidays;
 import sg.edu.LeaveApplication.model.Status;
+import sg.edu.LeaveApplication.model.Time;
 import sg.edu.LeaveApplication.model.User;
 import sg.edu.LeaveApplication.service.LeaveService;
 import sg.edu.LeaveApplication.service.LeaveTypeService;
@@ -116,4 +125,173 @@ public class OTController {
 		}
 		return"forward:/leave/list";
 	}
+	
+	
+	// check balance function
+		public Boolean isBalanceEnough(User user, String leaveName, Integer leaveCost) {
+
+			if (ultservice.findleaveAllowance(user.getId(), leaveName) >= leaveCost) {
+				return true;
+			}
+			return false;
+		}
+
+		// to move to leave service after done
+		public static Integer getLeaveDayCost(String sd, String ed, List<LocalDate> holidays, Time st, Time et) {
+
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate date1 = LocalDate.parse(sd, formatter);
+			LocalDate date2 = LocalDate.parse(ed, formatter);
+
+			Predicate<LocalDate> isWeekend = date -> date.getDayOfWeek() == DayOfWeek.SATURDAY
+					&& date.getDayOfWeek() == DayOfWeek.SUNDAY;
+
+			Predicate<LocalDate> isHoliday = date -> holidays.contains(date);
+			long daysBetween = ChronoUnit.DAYS.between(date1, date2) + 1;
+
+			long leaveCost = Stream.iterate(date1, date -> date.plusDays(1)).limit(daysBetween)
+					.filter(isHoliday.or(isWeekend).negate()).count() * 8;
+			
+			
+			//check if half-day applies
+			if(st == Time.PM) {
+				if(date1.getDayOfWeek() != DayOfWeek.SATURDAY || date1.getDayOfWeek() !=
+						DayOfWeek.SUNDAY || !holidays.contains(date1) ) 
+				{ leaveCost -= 4; } 
+			}
+			if(et == Time.AM) {
+				if(date2.getDayOfWeek() != DayOfWeek.SATURDAY ||date2.getDayOfWeek()
+						!= DayOfWeek.SUNDAY || !holidays.contains(date2)) 
+				{leaveCost -= 4; 
+				}
+			}
+		
+			return (int) leaveCost;
+		}
+
+		@RequestMapping("/compleave/listall")
+		public String listAll(Model model) {
+			model.addAttribute("leaveList", leaveservice.findAll());
+			return "compleaveList";
+		}
+
+		@RequestMapping("/compleave/apply")
+		public String applyForm(Model model) {
+			//replace once user session is ready
+			User sessionUser = uservice.findUserById(0);
+			
+			model.addAttribute("leave", new LeaveRecord());
+			model.addAttribute("leaveTypes", leavetypeservice.findAll());
+			model.addAttribute("phlist", holiservice.findAll());
+			model.addAttribute("balanceList", ultservice.findAllByUser(sessionUser));	
+			return "createCompLeave";
+
+		}
+
+		@RequestMapping("/compleave/save")
+		public String saveForm(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult bindingResult,
+				Model model, @RequestParam("startDate") String sd, @RequestParam("endDate") String ed, @RequestParam("startTime") Time st, @RequestParam("endTime") Time et )
+				throws ParseException {
+
+			// replace when session is ready
+			User sessionUser = uservice.findUserById(0);
+
+			String leaveType = "Compensation Leave";
+
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+			// calculate duration
+			Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(sd);
+			Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(ed);
+			long time = date2.getTime() - date1.getTime();
+			Double duration = (double) time / (1000 * 3600 * 24) + 1;
+			if (st == Time.PM) {
+				duration -= 0.5;
+			}
+			if(et == Time.AM)
+			{
+				duration -= 0.5;  
+			}
+			Integer hrDuration = (int) (duration * 8);
+			System.out.println("st: " + st);
+			System.out.println("et: " + et);
+			System.out.println("duration: " +duration);
+			System.out.println("hrduration: " +hrDuration);
+			// get compensation leave balance
+			Integer balance = ultservice.findleaveAllowance(sessionUser.getId(), leaveType);
+			// calculate leave cost = duration - weekend - PH
+			List<PublicHolidays> holidays = holiservice.findAll();
+			List<LocalDate> allPHdays = holidays.stream().map(PublicHolidays::getDate).collect(Collectors.toList());
+			Integer leaveCost = getLeaveDayCost(sd, ed, allPHdays, st, et);
+			System.out.println("leaveCost: " + leaveCost);
+			
+			if (duration <= 14) {
+					//validate balance
+					if(isBalanceEnough(sessionUser, leaveType,leaveCost)) {
+						//set balance - leaveCost
+						ultservice.update(sessionUser, leaveType, balance-leaveCost);
+						leaverecord.setLeaveDayCost(leaveCost);
+					}
+					else {
+						model.addAttribute("msg", "You do not have enough balance.");
+						return "redirect:/leave/compleave/apply";
+					}
+			    }
+		    else {
+		    	
+		    	//validate balance
+		    	if(isBalanceEnough(sessionUser, leaveType,hrDuration)) {
+		    		//balance - duration
+					ultservice.update(sessionUser, leaveType, balance-hrDuration);
+					leaverecord.setLeaveDayCost(hrDuration);
+				}
+				else {
+					model.addAttribute("msg", "You do not have enough balance.");
+					return "redirect:/leave/compleave/apply";
+				}
+		    }
+
+			leaverecord.setLeaveTypes(leavetypeservice.findLeaveTypesByName(leaveType));
+			leaverecord.setUser(uservice.findUserById(0));// to use session user_id
+			leaverecord.setLeaveAppliedDate(new Date());
+			leaverecord.setDuration(duration);
+			leaverecord.setStartDate(LocalDate.parse(sd, formatter));
+			// if new record, set to Pending; otherwise as Updated
+			if (leaverecord.getStatus() == null) {
+				leaverecord.setStatus(Status.PENDING);
+			} else {
+				leaverecord.setStatus(Status.UPDATED);
+			}
+			leaveservice.saveLeave(leaverecord);
+			
+			System.out.println("st: " + st);
+			System.out.println("et: " + et);
+			System.out.println("duration: " +duration);
+			
+			System.out.println(leaverecord.getLeaveTypes());
+
+			return "redirect:/leave/compleave/listall";
+		}
+		
+		@RequestMapping("/compleave/update/{id}")
+		public String updateLeave(@PathVariable("id") Integer id, Model model) {
+			model.addAttribute("leaveTypes", leavetypeservice.findAll());
+			model.addAttribute("phlist", holiservice.findAll());
+			LeaveRecord lr = leaveservice.findLeaveRecordById(id);
+			//only when Pending, allow update
+			if(lr != null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
+				lr.setStatus(Status.UPDATED);
+				model.addAttribute("leave", lr);
+				return"createCompLeave";
+			}
+			return "redirect:/leave/compleave/list";
+		}
+		
+		@RequestMapping("leave/detail/{id}")
+		public String viewLeave(@PathVariable("id") Integer id, Model model) {
+			model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
+			return"leaveDetails";
+		}
+
+
 }

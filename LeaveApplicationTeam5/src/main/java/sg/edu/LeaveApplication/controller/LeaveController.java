@@ -287,23 +287,6 @@ public class LeaveController {
 		return "pendingLeaveDetails";
 	}
 
-	// to remove
-	@RequestMapping("/approveLeave/{id}/{comments}")
-	public String approveLeave(@PathVariable("id") Integer id, @PathVariable("comments") String comments) {
-		System.out.println(comments);
-		System.out.println(id);
-		leaveservice.Approve(id, comments);
-		return "redirect:/leave/viewLeave";
-	}
-
-	@RequestMapping("/rejectLeave/{id}/{comments}")
-	public String rejectLeave(@PathVariable("id") Integer id, @PathVariable("comments") String comments) {
-		System.out.println(comments);
-		System.out.println(id);
-		leaveservice.Reject(id, comments);
-		return "redirect:/leave/viewLeave";
-	}
-	//
 
 	@RequestMapping("/submit/{id}")
 	public String submit(@ModelAttribute("leave") LeaveRecord leave, @PathVariable("id") Integer id,
