@@ -90,9 +90,15 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 
 	@Override
-	public ArrayList<LeaveRecord> findLeaveHistory(String keyword, LocalDate startDate, LocalDate endDate, String ltName,
+	public ArrayList<LeaveRecord> findLeaveHistoryByDate(String keyword, LocalDate startDate, LocalDate endDate, String ltName,
 			Status int_status) {
-		return leaverepo.findLeaveHistory(keyword,startDate,endDate, ltName,int_status);
+		return leaverepo.findLeaveHistoryByDate(keyword,startDate,endDate, ltName,int_status);
+	}
+	
+	@Override
+	public ArrayList<LeaveRecord> findLeaveHistory(String keyword, String ltName,
+			Status int_status) {
+		return leaverepo.findLeaveHistory(keyword,ltName,int_status);
 	}
 	
 	@Override
