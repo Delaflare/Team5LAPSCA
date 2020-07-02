@@ -27,9 +27,9 @@ public class DbInit implements CommandLineRunner {
 
 		Department d1 = new Department("Engineering", 1);
 		Department d2 = new Department("Account", 2);
-		User u1 = new User("first","last", "aaa", "123", "aaa@gmail.com", null, Role.MANAGER, Gender.FEMALE, Title.ANALYST, d1);
-		User u2 = new User("first","last", "bbb", "234", "bbb@gmail.com",null, Role.ADMIN, Gender.MALE, Title.EXECUTIVE, d1);
-		User u3 = new User("first","last", "ccc", "345", "ccc@gmail.com",null, Role.EMPLOYEE, Gender.MALE, Title.EXECUTIVE, d1);
+		User u1 = new User("first","last", "aaa", "123", "aaa@gmail.com", null, "MANAGER", Gender.FEMALE, Title.ANALYST, d1);
+		User u2 = new User("first","last", "bbb", "234", "bbb@gmail.com",null, "ADMIN", Gender.MALE, Title.EXECUTIVE, d1);
+		User u3 = new User("first","last", "ccc", "345", "ccc@gmail.com",null, "EMPLOYEE", Gender.MALE, Title.EXECUTIVE, d1);
 		LeaveTypes lt1 = new LeaveTypes("Annual Leave");
 		LeaveTypes lt2 = new LeaveTypes("Compensation Leave");
 		LeaveTypes lt3 = new LeaveTypes("Medical Leave");

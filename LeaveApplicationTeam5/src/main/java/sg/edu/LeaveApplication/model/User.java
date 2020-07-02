@@ -32,7 +32,7 @@ public class User {
 	private String email;
 	private Integer reportsTo;
 
-	private Role role;
+	private String role;
 	private Gender gender;
 	private Title title;
 	
@@ -54,7 +54,7 @@ public class User {
 			@NotEmpty(message = "Last name is required") String lastName,
 			@NotEmpty(message = "User name is required") String userName,
 			@NotEmpty(message = "Password is required") String password,
-			@NotEmpty(message = "Email is required") @Email String email, Integer reportsTo, Role role, Gender gender,
+			@NotEmpty(message = "Email is required") @Email String email, Integer reportsTo, String role, Gender gender,
 			Title title, Department department) {
 		super();
 		this.firstName = firstName;
@@ -138,11 +138,11 @@ public class User {
 		this.reportsTo = reportsTo;
 	}
 
-	public Role getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(Role role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 
