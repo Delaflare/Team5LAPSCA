@@ -151,10 +151,8 @@ public class UserController {
 			UserLeaveTypes ul = new UserLeaveTypes();
 			ul.setUser(user);
 			ul.setId(Integer.parseInt(req.getParameter("leaveid")));
-			System.out.println(req.getParameter("leaveid"));
 			ul.setLeaveName(leavename);
-			System.out.println(req.getParameter(leavename));
-			ul.setLeaveAllowance(Integer.parseInt(req.getParameter(leavename)));
+			ul.setLeaveAllowance(Integer.parseInt(req.getParameter("leaveAllowance")));
 			ulist.add(ul);
 			ultypeservice.update(ul.getUser(), leavename, ul.getLeaveAllowance());
 			
