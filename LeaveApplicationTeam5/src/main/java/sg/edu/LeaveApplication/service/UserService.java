@@ -6,7 +6,7 @@ import sg.edu.LeaveApplication.model.User;
 
 public interface UserService {
 	public ArrayList<User> findAll();
-	public boolean saveUser (User user);
+	public void saveUser (User user);
 	public void deleteUser (User user);
 	public ArrayList<String> findAllUserNames();
 	public User findUserByName(String username);

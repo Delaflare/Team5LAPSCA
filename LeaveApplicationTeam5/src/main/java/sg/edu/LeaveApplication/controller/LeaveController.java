@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -113,13 +114,13 @@ public class LeaveController {
 		return (int) leaveCost;
 	}
 
-	@RequestMapping("/list")
+	@RequestMapping("/leave/list")
 	public String list(Model model) {
 		model.addAttribute("leaveList", leaveservice.findAll());
 		return "leaveList";
 	}
 
-	@RequestMapping("/apply")
+	@RequestMapping("/leave/apply")
 	public String applyLeave(Model model) {
 		// replace once user session is ready
 		User sessionUser = uservice.findUserById(21);
@@ -243,7 +244,7 @@ public class LeaveController {
 		return "forward:/leave/list";
 	}
 
-	@RequestMapping("/viewLeave")
+	@RequestMapping("viewLeave")
 	public String viewLeaveRequest(Model model, String keyword, String ltName) {
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
 		if (keyword != null || ltName != null) {
@@ -253,7 +254,7 @@ public class LeaveController {
 			model.addAttribute("leaveList", leaveservice.findAllPendingLeave());
 			System.out.println(ltName);
 		}
-		return "viewLeaveRequests";
+		return "/manager/viewLeaveRequests";
 	}
 
 	@RequestMapping("/viewLeaveHistory")
@@ -295,14 +296,14 @@ public class LeaveController {
 			model.addAttribute("leaveHistoryList", leaveservice.findAll());
 			System.out.println(ltName);
 		}
-		return "viewLeaveHistory";
+		return "/manager/viewLeaveHistory";
 	}
 
 	@RequestMapping("/details/{id}")
 	public String showLeaveDetails(@PathVariable("id") Integer id, Model model) {
 		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
 		/* model.addAttribute("leaveStatus", leaveservice.findAllLeaveStatusName()); */
-		return "pendingLeaveDetails";
+		return "/manager/pendingLeaveDetails";
 	}
 
 	@RequestMapping("/submit/{id}")

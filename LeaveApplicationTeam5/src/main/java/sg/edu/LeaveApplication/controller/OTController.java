@@ -300,13 +300,13 @@ public class OTController {
 				System.out.print(keyword);
 			}
 			model.addAttribute("OTList", otservice.findAllPendingAndUpdatedOT());
-			return "managerOTList";		
+			return "/manager/managerOTList";		
 		}
 		
 		@RequestMapping("/managerOTdetails/{id}")
 		public String showLeaveDetails(@PathVariable("id") Integer id, Model model) {
 			model.addAttribute("OT", otservice.findById(id));
-			return "managerOTDetails";
+			return "/manager/managerOTDetails";
 		}
 		
 		

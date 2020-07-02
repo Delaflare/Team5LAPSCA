@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import sg.edu.LeaveApplication.model.User;
@@ -15,6 +16,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository urepo;
 	
+	private PasswordEncoder passwordEncoder;
+	
 	@Override
 	public ArrayList<User> findAll() {
 		ArrayList<User> list = (ArrayList<User>) urepo.findAll();
@@ -22,18 +25,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean saveUser(User user) {
+	public void saveUser(User user) {
+		//user.setPassword(passwordEncoder.encode(user.getPassword()));
+		urepo.save(user);
 		
-		if(urepo.save(user)!=null) 
-		{
-			return true; 
-		}
-			
-		else 
-		{
-			return false;
-		} 
-			
 	}
 
 	@Override
