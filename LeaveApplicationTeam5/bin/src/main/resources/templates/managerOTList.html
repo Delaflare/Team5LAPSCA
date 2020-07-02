@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Manager View OT</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+</head>
+<body>
+<!-- list of compensation leave -->
+<div>
+<h1>View Pending OT Claims</h1>
+
+<h2 th:text="#{search.header}">Search Criteria</h2>
+	<form th:action="@{/leave/managerViewOT}" method="get" >
+		<fieldset>
+			Employee Name: <input id="txtSearch" type="text" name="keyword">
+		</fieldset>	
+		<button type="submit" th:text="#{button.search}">search</button>	
+		<a th:text="#{button.reset}" th:href="@{/leave/managerViewOT}"></a>	
+	</form>
+	
+<h2 th:if="${not #lists.isEmpty(OTList)}" >OT Claim Requests</h2> 
+<table  class="w3-container" th:if="${not #lists.isEmpty(OTList)}">
+	<tr>
+		<th>Employee id</th>
+		<th>Employee Name</th>
+		<th><a>Start Date</a></th>
+		<th><a>End Date</a></th>
+		<th><a>OT Hours</a></th>
+		<th><a>Status</a></th>	
+		<th></th>
+		<th></th>
+	</tr>
+	<tr th:each="OT: ${OTList}">
+		<td th:text="*{OT.user.id}"></td>
+		<td th:text="${OT.user.firstName} + ${OT.user.firstName}"></td>
+		<td th:text="${OT.startDate}"></td>
+		<td th:text="${OT.endDate}"></td>
+		<td th:text="${OT.totalOTTime}"></td>
+		<td th:text="${OT.status}"></td>	
+		<td><a th:href="@{/leave/managerOTdetails/} + *{OT.id} ">Details</a></td>
+	</tr>
+</table>
+</div>
+</body>
+</html>

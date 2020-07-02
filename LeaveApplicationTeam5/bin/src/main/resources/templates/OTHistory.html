@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>OT Claim Record</title>
+</head>
+<body>
+<!-- list of compensation leave -->
+<div>
+<h3>OT Claim Record</h3>
+<h4>Current Balance: </h4><p th:text=${OTBalance}></p>
+<hr/>
+<a th:action="@{/leave/claimOT}">Claim OT</a>
+<table border = 1 class="w3-container" th:if="${not #lists.isEmpty(OTList)}">
+<thead>
+	<tr>
+		<th>id</th>
+		<th><a>Start Date</a></th>
+		<th><a>End Date</a></th>
+		<th><a>OT Hours</a></th>
+		<th><a>Status</a></th>
+		<th><a>Approved/Reject Date</a></th>		
+		<th></th>
+		<th></th>
+	</tr>
+	<tr th:each="OT: ${OTList}">
+		<td th:text="*{OT.id}"></td>
+		<td th:text="${OT.startDate}"></td>
+		<td th:text="${OT.endDate}"></td>
+		<td th:text="${OT.totalOTTime}"></td>
+		<td th:text="${OT.status}"></td>
+		<td th:if="${OT.approvedDate != null}" th:text="${OT.approvedDate}"></td>
+		
+		<td><a th:href="@{/leave/updateOT}">Update</a></td>
+		<td><a th:href="@{/leave/deleteOT}">Delete</a></td>
+	</tr>
+</thead>
+</table>
+</div>
+</body>
+</html>
+
+<User>

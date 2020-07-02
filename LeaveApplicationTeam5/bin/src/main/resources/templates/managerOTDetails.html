@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>OT Claim Details</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+</head>
+<body>
+<h1 >OT Claim Details</h1>
+	<fieldset> 
+		Employee Id: <span th:text="${OT.user.id}">Employee Id</span>
+	</fieldset>
+	<fieldset> 
+		Name: <span th:text="${OT.user.firstName} + ${OT.user.lastName}"> Name </span>
+	</fieldset>
+	<fieldset> 
+		Leave Type: <span >Compensation Leave</span>
+	</fieldset>
+	<fieldset> 
+		Start Date: <span th:text="${OT.startDate}">Start Date</span>
+	</fieldset>
+	<fieldset> 
+		End Date: <span th:text="${OT.endDate}">Start Date</span>
+	</fieldset>
+	<fieldset> 
+		Total OT Time: <span th:text="${OT.totalOTTime}">Description</span>
+	</fieldset>
+	<fieldset> 
+		Applied Date: <span th:text="${OT.submitDate}"></span>
+	</fieldset>
+
+	<form action="#" th:object="${OT}"
+		th:action="@{/leave/managerOTsubmit/}+${OT.id}" method="post">
+		<fieldset>
+			<input type="hidden" th:field="*{id}"></input>
+		</fieldset>
+		<fieldset>
+			Status: <select name="status">
+				<option value=""></option>
+				<option
+					th:each="status: ${T(sg.edu.LeaveApplication.model.Status).values()}"
+					th:value="${status}" th:text="${status.displayValue}"></option>
+			</select>
+		</fieldset>
+		<fieldset>
+			<button type="submit" th:text="#{button.save}"></button>
+			<a th:text="#{button.cancel}" th:href="@{/leave/managerViewOT}"></a>
+		</fieldset>
+	</form>
+</body>
+</html>

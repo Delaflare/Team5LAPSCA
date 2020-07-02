@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Claim Compensation Leave</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+<h2>OverTime Claim Form</h2>
+
+<form action="#" th:object="${OTRecord}" th:action="@{/leave/saveOT}" method="post">
+	<div class="form-group">
+	<h4>Current Balance: </h4>
+		<h4 th:text="${OTBalance}"></h4>
+		<label for="startDate">Start Date</label>
+		<input class="form-control" type="date" th:field="*{startDate}" id="sd"/> 
+		<p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
+		<label for="endDate">End Date</label>
+		<input class="form-control" type="date" th:field="*{endDate}" id="ed"/>		 
+		<label for="othours">OT Hours</label>
+		<input class="form-control" type="number" value="1" min="1" th:field="*{totalOTTime}"/>
+		<p th:if="${#fields.hasErrors('totalOTTime')}" th:errors="*{totalOTTime}"></p>
+		<label for="reason">Description</label>
+		<textarea class="form-control" rows="5" th:field="*{description}"></textarea>
+		<button class="btn btn-primary" type="submit">Submit</button>
+		<a th:href="@{/leave/OTList}">Cancel</a>
+	</div>
+</form>
+<script>
+	$(document).ready(function(){
+		var today = new Date().toISOString().split('T')[0];
+			$("#sd").attr('max',today);
+			$("#ed").attr('max',today);
+	})
+</script>
+</body>
+</html>
+
+<User>

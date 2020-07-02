@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Leave Types</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+</head>
+<body>
+	<h1>Leave Types</h1>
+
+	<!-- Add Hyperlink -->
+	<a href="AddLeaveType.html" th:href="@{/leavetypes/add}">Add Leave
+		Type</a>
+
+	<h2 th:if="${not #lists.isEmpty(ltypelist)}">Leave Type List</h2>
+
+	<table class="w3-container" th:if="${not #lists.isEmpty(ltypelist)}">
+		<tr th:each="leavetype:${ltypelist}">
+			<td th:text=${leavetype.id}>Id</td>
+			<td th:text=${leavetype.leaveName}>Name</td>
+			
+			<td><a href="EditLeaveType.html"
+				th:href="@{/leavetypes/edit/}+${leavetype.id}">Edit</a></td>
+			<td><a href="Deleteleavetype.html"
+				th:href="@{/leavetypes/delete/}+${leavetype.id}">Delete</a></td>
+			
+		</tr>
+	</table>
+
+
+</body>
+</html>
+
+<Admin>
