@@ -176,3 +176,12 @@ fieldset{
 .btn {
 	width: 80px;
 }
+
+.main-container{
+	max-width: 1300px;
+	width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}

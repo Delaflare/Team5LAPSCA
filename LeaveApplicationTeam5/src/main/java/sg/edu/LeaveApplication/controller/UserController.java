@@ -78,10 +78,8 @@ public class UserController {
 			BindingResult bindingResult, Model model) {
 		Department d = dservice.findDeparmentByName(user.getDepartment().getName());
 		user.setDepartment(d);
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		if(bindingResult.hasErrors())
 			return "createUserForm"; 
-		//rmb to encrypt the password
 		uservice.saveUser(user);
 		return "forward:/user/list";
 	}
@@ -89,6 +87,7 @@ public class UserController {
 	@GetMapping("/edit/{id}")
 	public String editForm(Model model, @PathVariable("id") Integer id) {	
 		model.addAttribute("user", uservice.findUserById(id));
+		model.addAttribute("dlist" , dservice.findDeparmentById(id));
 		return "createUserForm";
 	}
 	
