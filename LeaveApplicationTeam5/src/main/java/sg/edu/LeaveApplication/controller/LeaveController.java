@@ -265,7 +265,7 @@ public class LeaveController {
 
 			Status int_status = Status.PENDING;
 			if (status == "Pending")
-				int_status = Status.PENDING;
+				 int_status = Status.PENDING;
 			if (status == "Approved")
 				int_status = Status.APPROVED;
 			if (status == "Rejected")
