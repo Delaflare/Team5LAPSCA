@@ -11,6 +11,8 @@ public interface OTService {
 	public ArrayList<OTRecord> findAll();
 	public ArrayList<OTRecord> findByUser(User user);
 	public ArrayList<OTRecord> findAllPendingOT();
+	public ArrayList<OTRecord> findAllPendingAndUpdatedOT();
+	public ArrayList<OTRecord> findPendingOTbyUser(String keyword);
 	public void saveOTRecord(@Valid OTRecord otRecord);
 	public void cancelOTRecord(@Valid OTRecord otRecord);
 	public void deleteOTRecord(@Valid OTRecord otRecord);

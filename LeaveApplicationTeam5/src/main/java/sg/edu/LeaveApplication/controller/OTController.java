@@ -293,5 +293,42 @@ public class OTController {
 			return"leaveDetails";
 		}
 
+		@RequestMapping("/managerViewOT")
+		public String managerOTList(Model model, String keyword) {
+			if(keyword !=null) {
+				model.addAttribute("OTList", otservice.findPendingOTbyUser(keyword));
+				System.out.print(keyword);
+			}
+			model.addAttribute("OTList", otservice.findAllPendingAndUpdatedOT());
+			return "managerOTList";		
+		}
+		
+		@RequestMapping("/managerOTdetails/{id}")
+		public String showLeaveDetails(@PathVariable("id") Integer id, Model model) {
+			model.addAttribute("OT", otservice.findById(id));
+			return "managerOTDetails";
+		}
+		
+		
+		@RequestMapping("/managerOTsubmit/{id}")
+		public String submit(@ModelAttribute("OT") OTRecord ot, @PathVariable("id") Integer id,
+				 @RequestParam("status") Status status) {
+			OTRecord newOT = otservice.findById(ot.getId());
+			newOT.setStatus(status);
+			//add OT hours to leave allowance if approved
+			if(status.equals(status.APPROVED)){
+				int addback = newOT.getTotalOTTime();
+				int userId = newOT.getUser().getId();
+				String leaveName = "Compensation Leave";
+				int leaveAllowance = ultservice.findleaveAllowance(userId, leaveName);
+				int newAllowance = leaveAllowance + addback;
+				ultservice.update(newOT.getUser(), leaveName, newAllowance);
+			}	
+			otservice.saveOTRecord(newOT);
+			
+
+
+			return "redirect:/leave/managerViewOT";
+		}
 
 }

@@ -31,6 +31,18 @@ public class OTServiceImpl implements OTService {
 		return list;
 	}
 		
+	
+	@Override
+	public ArrayList<OTRecord> findAllPendingAndUpdatedOT() {
+		ArrayList<OTRecord> list = (ArrayList<OTRecord>) OTrepo.findAllPendingAndUpdatedOT();
+		return list;
+	}
+	
+	@Override
+	public ArrayList<OTRecord> findPendingOTbyUser(String keyword) {
+		return OTrepo.findPendingOTByUser(keyword);
+	}
+	
 	@Override
 	public void saveOTRecord(@Valid OTRecord otRecord) {
 		OTrepo.save(otRecord);
@@ -59,4 +71,6 @@ public class OTServiceImpl implements OTService {
 	public ArrayList<OTRecord> findByUser(User user) {
 		return OTrepo.findByUser(user);
 	}
+	
+
 }
