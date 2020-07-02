@@ -53,6 +53,8 @@ public class DashboardController {
 		model.addAttribute("myOT", OTservice.findByUser(currentUser));
 		model.addAttribute("pendingLeave", leaveservice.findAllPendingLeave());
 		model.addAttribute("pendingOT", OTservice.findAllPendingOT());
+	
 		return "HomeDashboard";
 	}
+
 }
