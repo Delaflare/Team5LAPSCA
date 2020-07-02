@@ -28,6 +28,8 @@
 					<td>
 					<fieldset>
 						<input th:name="${leave.leaveName}" type="number"/>
+						<span th:if="${leave.leaveName == 'Compensation Leave'}">hours</span>
+						<span th:unless="${leave.leaveName == 'Compensation Leave'}">days</span>
 					</fieldset>
 					</td>
 					
