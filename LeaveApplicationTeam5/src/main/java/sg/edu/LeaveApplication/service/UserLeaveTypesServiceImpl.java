@@ -59,7 +59,7 @@ public class UserLeaveTypesServiceImpl implements UserLeaveTypesService {
 	}
 	
 	@Override
-	public Integer findleaveAllowance(Integer userId, String leaveName) {
+	public Integer findleaveAllowance(long userId, String leaveName) {
 		ArrayList<UserLeaveTypes> ultList = (ArrayList<UserLeaveTypes>) ulRepo.findAll();
 		List<UserLeaveTypes> balanceList = ultList.stream()
 							.filter(u->u.getUser().getId() == userId && u.getLeaveName().equalsIgnoreCase(leaveName))

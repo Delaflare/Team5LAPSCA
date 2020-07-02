@@ -16,8 +16,7 @@ import sg.edu.LeaveApplication.repo.UserRepository;
 public class LeaveApplication {
 
 	
-	@Autowired
-	DepartmentRepository drepo;
+	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(LeaveApplication.class, args);
@@ -27,11 +26,7 @@ public class LeaveApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args-> {
-			Department d1 = new Department("Engineering", 1);
-			Department d2 = new Department("Account", 2);
 			
-			//drepo.save(d1);
-			//drepo.save(d2);
 		};
 	}
 	

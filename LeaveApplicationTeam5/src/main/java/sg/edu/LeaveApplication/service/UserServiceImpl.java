@@ -35,10 +35,10 @@ public class UserServiceImpl implements UserService {
 		return urepo.findAllUserNames();
 	}
 
-	@Override
-	public User findUserById(Integer id) {
-		return urepo.findById(id).get();
-	}
+	 @Override public User findUserById(Integer id) { 
+		 return urepo.findById(id).get(); 
+	 }
+
 	
 	@Override
 	public User findUserByName(String username) {
@@ -47,5 +47,4 @@ public class UserServiceImpl implements UserService {
 		return list.get(0); 
 	}
 
-	
 }

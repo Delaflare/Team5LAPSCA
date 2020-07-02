@@ -20,7 +20,7 @@ public interface UserLeaveTypesService {
 
 	public void update(User user, String leaveName, Integer leaveCost);
 	
-	public Integer findleaveAllowance(Integer userId, String leaveName);
+	public Integer findleaveAllowance(long userId, String leaveName);
 	
 	//public void updateUserLeaveAllowance(ArrayList<UserLeaveTypes> ulist);
 	

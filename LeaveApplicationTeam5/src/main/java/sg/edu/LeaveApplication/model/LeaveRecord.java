@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
 public class LeaveRecord {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Integer id;
 	@FutureOrPresent
 	private LocalDate startDate;
 	@Positive (message="Duration must be 1 or more days.")

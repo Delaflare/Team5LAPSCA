@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 public class UserLeaveTypes {
 	@Id
 	@GeneratedValue( strategy = GenerationType.AUTO)
-	private int id;
+	private Integer id;
 	@ManyToOne
     private User user;
 	@ManyToMany
@@ -32,10 +32,10 @@ public class UserLeaveTypes {
 		this.leaveAllowance = leaveAllowance;
 		this.leaveName = leaveName;
 	}
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public User getUser() {

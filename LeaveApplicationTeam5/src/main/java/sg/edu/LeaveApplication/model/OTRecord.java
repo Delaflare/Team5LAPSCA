@@ -15,7 +15,7 @@ import javax.validation.constraints.PastOrPresent;
 public class OTRecord {
 	@Id
 	@GeneratedValue( strategy = GenerationType.AUTO)
-	private int id;
+	private Integer id;
 	@ManyToOne
     private User user;
 	@PastOrPresent
@@ -46,11 +46,11 @@ public class OTRecord {
 	}
 
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
