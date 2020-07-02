@@ -14,7 +14,9 @@ public class HomeController {
 
 	    @GetMapping("login")
 	    public String login(){return "login";}
+	    
 	    @GetMapping("testma")
-	    public String testma(){return "testma";}
+	    public String testma()
+	    {return "testma";}
 	    
 }

@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,6 +45,8 @@ public class UserController {
 	@Autowired
 	private UserLeaveTypesService ultypeservice;
 	
+	private PasswordEncoder passwordEncoder;
+	
 	@Autowired
 	public void setUserService(UserServiceImpl userviceImpl,
 			DepartmentServiceImpl dserviceImpl,
@@ -74,6 +78,7 @@ public class UserController {
 			BindingResult bindingResult, Model model) {
 		Department d = dservice.findDeparmentByName(user.getDepartment().getName());
 		user.setDepartment(d);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		if(bindingResult.hasErrors())
 			return "createUserForm"; 
 		//rmb to encrypt the password
@@ -163,5 +168,7 @@ public class UserController {
 		//.updateUserLeaveAllowance(ulist);
 		return"forward:/user/list";
 	}
-	
+	public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
