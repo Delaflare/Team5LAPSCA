@@ -61,10 +61,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     */
     
-    
-    
-    
- 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         
@@ -79,7 +75,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .loginPage("/login").permitAll()
             .usernameParameter("txtUsername")
             .passwordParameter("txtPassword")
-            
             .and()
             .logout().permitAll();
       

@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,7 +43,7 @@ public class UserController {
 	@Autowired
 	private UserLeaveTypesService ultypeservice;
 	
-	private PasswordEncoder passwordEncoder;
+	
 	
 	@Autowired
 	public void setUserService(UserServiceImpl userviceImpl,
@@ -61,7 +59,7 @@ public class UserController {
 	@RequestMapping(value = "/list")
 	public String listAll(Model model) {
 		model.addAttribute("users", uservice.findAll());
-		return "userProfile";
+		return "/admin/userProfile";
 	}
 	
 	@RequestMapping(value = "/add")
@@ -70,13 +68,14 @@ public class UserController {
 		model.addAttribute("user", user);
 		model.addAttribute("dlist" , dservice.findAllDepartmentNames());	
 		//System.out.print(dservice.findAll().size());
-		return "createUserForm";
+		return "/admin/createUserForm";
 	}
 	
 	@RequestMapping(value = "/save")
 	public String saveUser(@ModelAttribute("user") @Valid User user,
 			BindingResult bindingResult, Model model) {
 		Department d = dservice.findDeparmentByName(user.getDepartment().getName());
+		
 		user.setDepartment(d);
 		if(bindingResult.hasErrors())
 			return "createUserForm"; 
@@ -88,7 +87,7 @@ public class UserController {
 	public String editForm(Model model, @PathVariable("id") Integer id) {	
 		model.addAttribute("user", uservice.findUserById(id));
 		model.addAttribute("dlist" , dservice.findDeparmentById(id));
-		return "createUserForm";
+		return "/admin/createUserForm";
 	}
 	
 	@GetMapping("/editLeave/{id}")
@@ -96,9 +95,8 @@ public class UserController {
 		User user = uservice.findUserById(id);
 		ArrayList<UserLeaveTypes> uleave = ultypeservice.findByUserId(id);
 		user.setUserLeaveTypes(uleave);		
-		//System.out.print(uleave);
 		model.addAttribute("user", user);
-		return "assign-edit-leave";
+		return "/admin/assign-edit-leave";
 	}
 	
 	@GetMapping("/delete/{id}")
@@ -116,9 +114,7 @@ public class UserController {
 		ArrayList<UserLeaveTypes> uleave = ultypeservice.findByUserId(id);
 		user.setUserLeaveTypes(uleave);		
 		model.addAttribute("user", user);
-//		System.out.print(user);
-//		System.out.print(user.getUserLeaveTypes());
-		return "userRecord";
+		return "/admin/UserRecord";
 	}	
 	
 	@GetMapping("/assignLeave/{id}")
@@ -126,10 +122,8 @@ public class UserController {
 		UserLeaveTypes ulType = new UserLeaveTypes();
 		model.addAttribute("userleavetypes", ulType);
 		model.addAttribute("leaveTypes", ltypeservice.findAll());
-		model.addAttribute("user", uservice.findUserById(id));
-		//System.out.print(ltypeservice.findAll());
-		//model.addAttribute("leavelist", lservice.findAll());		
-		return "assign-leave";
+		model.addAttribute("user", uservice.findUserById(id));	
+		return "/admin/assign-leave";
 	}
 	
 	@RequestMapping("/assignleavetype")
@@ -142,7 +136,6 @@ public class UserController {
 			utype.setUser(uservice.findUserById(Integer.parseInt(req.getParameter("id"))));
 			utype.setLeaveName(leavename);
 			utype.setLeaveAllowance(Integer.parseInt(req.getParameter(leavename)));
-			//System.out.print(utype.getUser());
 			ultypeservice.saveUserLeaveType(utype);
 		}
 		return"forward:/user/list";
@@ -152,22 +145,20 @@ public class UserController {
 	public String updateLeave(HttpServletRequest req, Model model) {
 		User user = uservice.findUserById(Integer.parseInt(req.getParameter("id")));
 		ArrayList<String> leaveNames = ltypeservice.findAllLeaveTypeNames();
+		System.out.println(leaveNames);
 		ArrayList<UserLeaveTypes> ulist = new ArrayList<UserLeaveTypes>();
 		for (String leavename : leaveNames) {	
 			UserLeaveTypes ul = new UserLeaveTypes();
 			ul.setUser(user);
 			ul.setId(Integer.parseInt(req.getParameter("leaveid")));
+			System.out.println(req.getParameter("leaveid"));
 			ul.setLeaveName(leavename);
+			System.out.println(req.getParameter(leavename));
 			ul.setLeaveAllowance(Integer.parseInt(req.getParameter(leavename)));
 			ulist.add(ul);
-			
 			ultypeservice.update(ul.getUser(), leavename, ul.getLeaveAllowance());
 			
 		}
-		//.updateUserLeaveAllowance(ulist);
 		return"forward:/user/list";
 	}
-	public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

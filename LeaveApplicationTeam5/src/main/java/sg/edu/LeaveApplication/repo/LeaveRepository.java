@@ -19,17 +19,17 @@ public interface LeaveRepository extends JpaRepository<LeaveRecord, Integer> {
 	@Query(value = "SELECT * FROM testtest.leave_record where CURDATE() BETWEEN start_date AND DATE_ADD(start_date, INTERVAL duration DAY)", nativeQuery = true)
 	ArrayList<LeaveRecord> findOnLeave();
 	
-	@Query("Select l from LeaveRecord l where l.status=0 OR l.status='PENDING'")
-	ArrayList<LeaveRecord> findAllPendingLeave();
+	@Query("Select l from LeaveRecord l JOIN l.user u  where l.status=0 AND u.reportsTo=:reportToId OR l.status='PENDING' AND u.reportsTo=:reportToId ")
+	ArrayList<LeaveRecord> findAllPendingLeave(@Param("reportToId") Integer reportToId);
 	
 	@Query("Select distinct l.status from LeaveRecord l")
     ArrayList<String> findAllLeaveStatus();
 
 	@Query("SELECT l from LeaveRecord l JOIN l.user u JOIN l.leaveTypes lt  "
-			+ "WHERE l.status=0"
+			+ "WHERE l.status=0 AND u.reportsTo=:reportToId "
 			+ "AND (:keyword is null OR u.firstName LIKE %:keyword% OR u.lastName LIKE %:keyword% ) "
 			+ "AND (:ltName is null OR lt.leaveName = :ltName)")
-	ArrayList<LeaveRecord> findLeaveByEmployeeAndLeave(@Param("keyword") String keyword, @Param("ltName") String leaveName);
+	ArrayList<LeaveRecord> findLeaveByEmployeeAndLeave(@Param("keyword") String keyword, @Param("ltName") String leaveName, @Param("reportToId") Integer reportToId);
 
 	@Query("SELECT l from LeaveRecord l JOIN l.user u JOIN l.leaveTypes lt  "
 			+ "WHERE l.status=:status "

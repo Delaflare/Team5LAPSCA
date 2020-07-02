@@ -52,7 +52,6 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-
 	public User(@NotEmpty(message = "First name is required") String firstName,
 			@NotEmpty(message = "Last name is required") String lastName,
 			@NotEmpty(message = "User name is required") String userName,

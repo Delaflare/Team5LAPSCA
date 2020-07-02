@@ -18,6 +18,8 @@ public class LeaveServiceImpl implements LeaveService {
 	@Autowired
 	LeaveRepository leaverepo;
 	
+	Integer reportToId= 3; //Get From Session
+	
 	@Override
 	public boolean saveLeave(LeaveRecord leaverecord) {
 		if(leaverepo.save(leaverecord) != null) return true; 
@@ -44,7 +46,7 @@ public class LeaveServiceImpl implements LeaveService {
 	
 	@Override
 	public ArrayList<LeaveRecord> findAllPendingLeave() {
-		ArrayList<LeaveRecord> list = (ArrayList<LeaveRecord>) leaverepo.findAllPendingLeave();
+		ArrayList<LeaveRecord> list = (ArrayList<LeaveRecord>) leaverepo.findAllPendingLeave(reportToId);
 		return list;
 	}	
 	@Override
@@ -85,7 +87,7 @@ public class LeaveServiceImpl implements LeaveService {
 
 	@Override
 	public ArrayList<LeaveRecord> findLeaveByEmployeeAndLeave(String keyword, String ltName) {
-		return leaverepo.findLeaveByEmployeeAndLeave(keyword, ltName);
+		return leaverepo.findLeaveByEmployeeAndLeave(keyword, ltName, reportToId);
 		
 	}
 
