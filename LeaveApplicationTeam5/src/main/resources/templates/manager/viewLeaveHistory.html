@@ -34,15 +34,12 @@
 			</select>
 		</fieldset>
 		<button type="submit" th:text="#{button.search}">search</button>
-		<!-- <button type="reset" th:text="#{button.reset}">clear</button> -->
 		<a th:text="#{button.reset}" th:href="@{/leave/viewLeave}"></a>
 		<fieldset>
 		<button th:text="#{button.print}" onclick="PrintClick();">Export HTML table to CSV file</button>
-			<a href="#" th:text="#{button.print}" th:href="@{/leave/viewLeave}">Print</a>
+			
 		</fieldset>
-		<fieldset>
-			<a href="#" th:text="#{button.download}" th:href="@{/leave/viewLeave}">Download</a>
-		</fieldset>
+	
 	</form>
 
 
@@ -71,9 +68,7 @@
 			<td th:text="${leave.duration}">Duration</td>
 			<td><a th:href="@{/leave/details/}+${leave.id}"
 				th:text="#{button.details}"></a></td>
-			<td><a href="EditLeaveType.html"
-				th:href="@{/leave/detail/}+${leave.id}">View Details</a></td>
-
+			
 		</tr>
 	</table>
 

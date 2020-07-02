@@ -262,8 +262,12 @@ public class LeaveController {
 			String status) {
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
 		// System.out.println("k"+keyword);System.out.println("Sd"+startDate);System.out.println("ed"+endDate);System.out.println("na"+ltName);System.out.println("status"+status);
-		if (keyword != "" || ltName != "" || fromDate != "" || toDate != "" || status != "") { // Search Part
-
+		if ((keyword != ""&& keyword != null) ||  // Search Part
+			(ltName != ""&& ltName != null)  ||
+			(fromDate != ""&& fromDate != null) || 
+			(toDate != ""&& toDate != null) ||
+			(status != ""&& status != null)) {
+			
 			Status int_status = Status.PENDING;
 			if (status == "Pending")
 				 int_status = Status.PENDING;
@@ -278,7 +282,8 @@ public class LeaveController {
 			if (status == "Deleted")
 				int_status = Status.DELETED;
 
-			if (fromDate != "" || toDate != "")// Search with date
+			if ((fromDate != ""&& fromDate != null) || 
+					(toDate != ""&& toDate != null) )// Search with date
 			{
 
 				LocalDate startDate = LocalDate.parse(fromDate);
