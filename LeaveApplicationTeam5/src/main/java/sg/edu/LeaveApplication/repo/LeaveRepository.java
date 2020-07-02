@@ -27,22 +27,22 @@ public interface LeaveRepository extends JpaRepository<LeaveRecord, Integer> {
 
 	@Query("SELECT l from LeaveRecord l JOIN l.user u JOIN l.leaveTypes lt  "
 			+ "WHERE l.status=0 AND u.reportsTo=:reportToId "
-			+ "AND (:keyword is null OR u.firstName LIKE %:keyword% OR u.lastName LIKE %:keyword% ) "
+			+ "AND (:keyword is null OR CONCAT(u.firstName, u.lastName)=:keyword OR u.firstName LIKE %:keyword% OR u.lastName LIKE %:keyword% ) "
 			+ "AND (:ltName is null OR lt.leaveName = :ltName)")
 	ArrayList<LeaveRecord> findLeaveByEmployeeAndLeave(@Param("keyword") String keyword, @Param("ltName") String leaveName, @Param("reportToId") Integer reportToId);
 
 	@Query("SELECT l from LeaveRecord l JOIN l.user u JOIN l.leaveTypes lt  "
-			+ "WHERE l.status=:status "
-			+ "AND (:keyword is null OR u.firstName LIKE %:keyword% OR u.lastName LIKE %:keyword% ) "
+			+ "WHERE (:status=-1 OR l.status=:status) "
+			+ "AND (:keyword is null OR CONCAT(u.firstName, u.lastName)=:keyword OR u.firstName LIKE %:keyword% OR u.lastName LIKE %:keyword% ) "
 			+ "AND (:startDate is null OR (l.startDate >= :startDate And l.startDate <= :endDate)) "
 			+ "AND (:ltName is null OR lt.leaveName = :ltName)")
 	ArrayList<LeaveRecord> findLeaveHistoryByDate(@Param("keyword") String keyword, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate,  @Param("ltName") String ltName,
-			 @Param("status") Status int_status);
+			 @Param("status") Integer int_status);
 
 	@Query("SELECT l from LeaveRecord l JOIN l.user u JOIN l.leaveTypes lt  "
-			+ "WHERE l.status=:status "
-			+ "AND (:keyword is null OR u.firstName LIKE %:keyword% OR u.lastName LIKE %:keyword% ) "
+			+ "WHERE (:status=-1 OR l.status=:status) "
+			+ "AND (:keyword is null OR  CONCAT(u.firstName, u.lastName)=:keyword OR u.firstName LIKE %:keyword% OR u.lastName LIKE %:keyword% ) "
 			+ "AND (:ltName is null OR lt.leaveName = :ltName)")
 	ArrayList<LeaveRecord> findLeaveHistory(@Param("keyword") String keyword, @Param("ltName") String ltName,
-			 @Param("status") Status int_status);
+			 @Param("status") Integer int_status);
 }

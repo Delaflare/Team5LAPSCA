@@ -185,3 +185,7 @@ fieldset{
     margin-right: auto;
     margin-left: auto;
 }
+
+.ddl{
+	width: 50% !important;
+}

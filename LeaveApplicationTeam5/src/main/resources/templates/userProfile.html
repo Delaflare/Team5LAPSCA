@@ -3,85 +3,70 @@
    <head>
       <meta charset="ISO-8859-1">
       <title>User Listing Page</title>
-       <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
-      <link rel="stylesheet"
-         href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0/lumen/bootstrap.min.css">
-      <link rel="stylesheet"
-         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic">
-      <link rel="stylesheet"
-         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" type="text/css" media="all"
          href="../../css/style.css" th:href="@{/css/style.css}" />
-     
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css"/>
       <title th:utext="#{users.page.title}">title</title>
    </head>
    <body>
       <div class="main-container">
-         <h1 th:utext="#{users.page.title}">
-            home
-         </h1>
          <!-- Add Hyperlink -->
          <a href="AddUser.html" th:href="@{/user/add}"
             th:utext="#{users.page.add}">label</a>
          <h2 th:utext="#{users.page.title}" th:if="${not #lists.isEmpty(users)}">header</h2>
-         <table id="tab" class="w3-container table table-striped display" style="width:100%" th:if="${not #lists.isEmpty(users)}">
-           	<thead>
-	           	<tr>
-	               <th>ID</th>
-	               <th>FirstName</th>
-	               <th>LastName</th>
-	               <th>UserName</th>
-	               <th>Email</th>
-	               <th>Role</th>
-	               <th>Report To</th>
-	               <th>Gender</th>
-	               <th>Department</th>
-	               <th>Title</th>
-	               <th>Action</th>
-	               <th>-</th>
-	               <th>-</th>
-	            </tr>
-           	</thead>
+         <table id="userList" class="w3-container table table-bordered display" style="width:100%" th:if="${not #lists.isEmpty(users)}">
+            <thead>
+               <tr>
+                  <th>ID</th>
+                  <th>FirstName</th>
+                  <th>LastName</th>
+                  <th>UserName</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Report To</th>
+                  <th>Gender</th>
+                  <th>Department</th>
+                  <th>Title</th>
+                  <th>Action</th>
+                  <th>Action</th>
+                  <th>Action</th>
+               </tr>
+            </thead>
             <tbody>
-	            <tr th:each="user:${users}">
-	               <td th:text=${user.id}>Id</td>
-	               <td th:text=${user.firstName}>FirstName</td>
-	               <td th:text=${user.lastName}>LastName</td>
-	               <td th:text=${user.userName}>UserName</td>
-	               <td th:text=${user.email}>Email</td>
-	               <td th:text=${user.role}>Role</td>
-	               <td th:text=${user.reportsTo}>ReportsTo</td>
-	               <td th:text=${user.gender}>Gender</td>
-	               <td th:each="d:${user.department}" th:text=${d.name}>Department</td>
-	               <td th:text=${user.title}>Title</td>
-	               <td>
-	               		<a href="EditUser.html" th:href="@{/user/edit/}+${user.id}" th:utext="#{users.page.edit}"> Edit </a>
-	               </td>
-	               <td>
-	                  <span th:if="${#lists.isEmpty(user.userLeaveTypes)}"><a href="AssignLeave.html"
-	                     th:href="@{/user/assignLeave/}+${user.id}" th:utext="#{leave.page.display}"> Assign </a></span>
-	                  <span th:if="${not #lists.isEmpty(user.userLeaveTypes)}"><a href="EditLeave.html"
-	                     th:href="@{/user/editLeave/}+${user.id}" th:utext="#{edit.leave.display}"> editLeave </a></span>
-	               </td>
-	               <td>
-	               		<a href="DisplayUser.html" th:href="@{/user/display/}+${user.id}" th:utext="#{users.page.display}"> Display </a>
-	               </td>
-	            </tr>
+               <tr th:each="user:${users}">
+                  <td th:text=${user.id}>Id</td>
+                  <td th:text=${user.firstName}>FirstName</td>
+                  <td th:text=${user.lastName}>LastName</td>
+                  <td th:text=${user.userName}>UserName</td>
+                  <td th:text=${user.email}>Email</td>
+                  <td th:text=${user.role}>Role</td>
+                  <td th:text=${user.reportsTo}>ReportsTo</td>
+                  <td th:text=${user.gender}>Gender</td>
+                  <td th:each="d:${user.department}" th:text=${d.name}>Department</td>
+                  <td th:text=${user.title}>Title</td>
+                  <td><a href="EditUser.html"
+                     th:href="@{/user/edit/}+${user.id}" th:utext="#{users.page.edit}"> Edit </a></td>
+                  <td>
+                     <span th:if="${#lists.isEmpty(user.userLeaveTypes)}"><a href="AssignLeave.html"
+                        th:href="@{/user/assignLeave/}+${user.id}" th:utext="#{leave.page.display}"> Assign </a></span>
+                     <span th:if="${not #lists.isEmpty(user.userLeaveTypes)}"><a href="EditLeave.html"
+                        th:href="@{/user/editLeave/}+${user.id}" th:utext="#{edit.leave.display}"> editLeave </a></span>
+                  </td>
+                  <td><a href="DisplayUser.html"
+                     th:href="@{/user/display/}+${user.id}" th:utext="#{users.page.display}"> Display </a></td>
+               </tr>
             </tbody>
-            
          </table>
       </div>
-      <script
-         src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-      <script
-         src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-      <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-      <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
- <script>
-    $(document).ready( function () {
-        $('#tab').DataTable();
-    } );
-</script>
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+   	  <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+   	  <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+  	  <script>
+  		$(document).ready(function() {
+  	    	$('#userList').DataTable();
+  		} );
+  	  </script>
    </body>
 </html>
-<Admin>
