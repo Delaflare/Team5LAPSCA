@@ -83,10 +83,12 @@ public class UserController {
 		return "forward:/user/list";
 	}
 
-	@GetMapping("/edit/{id}")
-	public String editForm(Model model, @PathVariable("id") Integer id) {	
-		model.addAttribute("user", uservice.findUserById(id));
-		model.addAttribute("dlist" , dservice.findDeparmentById(id));
+	@RequestMapping(value= "/edit/{id}")
+	public String editForm(Model model, @PathVariable("id") Integer id) {
+		User user = uservice.findUserById(id);
+		model.addAttribute("user", user);
+		model.addAttribute("dlist" , dservice.findAllDepartmentNames());	
+		//model.addAttribute("userDepartment" , dservice.findDeparmentById(user.getDepartment().getId()));
 		return "/admin/createUserForm";
 	}
 	
