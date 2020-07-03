@@ -135,9 +135,9 @@ public class OTController {
 			String leaveName = lr.getLeaveTypes().getLeaveName();
 			int leaveAllowance = ultservice.findleaveAllowance(userId, leaveName);
 			int newAllowance = leaveAllowance + addback;
-			System.out.println(userId);
-			System.out.println(leaveAllowance);
-			System.out.println(newAllowance);
+			System.out.println(userId);//del
+			System.out.println(leaveAllowance);//del
+			System.out.println(newAllowance);//del
 			ultservice.update(lr.getUser(), leaveName, newAllowance);		
 			System.out.println(ultservice.findleaveAllowance(userId, leaveName));
 		}
@@ -334,7 +334,7 @@ public class OTController {
 			} else {
 				model.addAttribute("msg", "Cannot delete leave after approved or cancelled.");
 			}
-			return "forward:/emp/complist";
+			return "forward:/emp/complist" ;
 		}
 		
 		
