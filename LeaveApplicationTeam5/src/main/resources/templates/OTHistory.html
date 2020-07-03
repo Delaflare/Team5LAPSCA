@@ -14,7 +14,7 @@
 <body>
 	<div class="main-container">
 <h3>OT Claim Record</h3>
-<h4>Current Balance: </h4><p th:text=${OTBalance}></p>
+<h4>Current Balance: </h4><p th:text=${OTBalance}><span> hrs</span></p>
 <hr/>
 <a th:href="@{/emp/claimOT}">Claim OT</a>
 <table id="OTList"
@@ -27,8 +27,6 @@
 		<th><a>OT Hours</a></th>
 		<th><a>Status</a></th>
 		<th><a>Approved/Reject Date</a></th>		
-		<th></th>
-		<th></th>
 	</tr></thead><tbody>
 	<tr th:each="OT: ${OTList}">
 		<td th:text="*{OT.id}"></td>
@@ -38,8 +36,6 @@
 		<td th:text="${OT.status}"></td>
 		<td th:if="${OT.approvedDate != null}" th:text="${OT.approvedDate}"></td>
 		
-		<td><a th:href="@{/emp/updateOT} + ${OT.id}">Update</a></td>
-		<td><a th:href="@{/emp/deleteOT} + ${OT.id}">Delete</a></td>
 	</tr>
 </tbody>
 	</table>
