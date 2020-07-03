@@ -48,6 +48,8 @@ public class DashboardController {
 	public String pendingLeave(Model model, Principal principal)
 	{
 		User currentUser = uservice.findUserByName(principal.getName());
+		model.addAttribute("isManager", currentUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", currentUser.getRole().equals("ADMIN"));
 		model.addAttribute("leaveRemaining", ultservice.findAllByUser(currentUser));
 		model.addAttribute("onleave", leaveservice.findOnLeave());
 		model.addAttribute("myleave", leaveservice.findByUser(currentUser));
