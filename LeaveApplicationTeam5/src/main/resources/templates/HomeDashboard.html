@@ -3,25 +3,26 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Create Department</title>
-<link rel="stylesheet" type="text/css" media="all" href="../../css/style.css" th:href="@{/css/style.css}" />
+<link rel="stylesheet" href="/LeaveApplicationTeam5/src/main/resources/static/css/style.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<style>	
+	body {background-color: powderblue;}
+	.cardhaha {margin: 20px 0px;}
+</style>
 </head>
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand" href="/">LAPS</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">LAPS <span class="sr-only">(current)</span></a>
-      </li>
        <li class="nav-item dropdown" th:if="${isLoggedIn}">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Employee
@@ -49,10 +50,10 @@
           Admin
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/user/list">Create User</a>
-          <a class="dropdown-item" href="#">Create Department</a>
+          <a class="dropdown-item" href="/user/list">Manage User</a>
+          <a class="dropdown-item" href="/dept/list">Manage Department</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Manage Leave Types</a>
+          <a class="dropdown-item" href="/leavetypes/list">Manage Leave Types</a>
         </div>
       </li>
       <li class="nav-item active" th:if="${isLoggedIn}">
@@ -64,98 +65,110 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-6">
-			<div class="col-sm-12">
-				<div>Your Remaining Leave</div>
-				<table>
-					<tr>
-						<th>Leave Type</th>
-						<th>Number of Days</th>
-					</tr>
-					<tr th:each="LR:${leaveRemaining}">
-						<td th:text="${LR.leaveName}">Name</td>
-						<td th:text="${LR.leaveAllowance}">Days</td>
-					</tr>
-				</table>
+			<div class="col-sm-12 card bg-light mb-3 cardhaha">
+				<div class="card-header">Your Remaining Leave</div>
+				<div class="card-body">
+					<table>
+						<tr>
+							<th>Leave Type</th>
+							<th>Number of Days</th>
+						</tr>
+						<tr th:each="LR:${leaveRemaining}">
+							<td th:text="${LR.leaveName}">Name</td>
+							<td th:text="${LR.leaveAllowance}">Days</td>
+						</tr>
+					</table>
+				</div>
 			</div>		
-			<div class="col-sm-12">
-				<div>Your Pending Leave Applications</div>
-				<table>
-					<tr>
-						<th>Leave Type</th>
-						<th>Start Date</th>
-						<th>Duration</th>
-						<th>Applied On</th>
-					</tr>
-					<tr th:each="mine1:${myleave}">
-						<td th:text="${mine1.leaveTypes.leaveName}">Apple</td>
-						<td th:text="${mine1.startDate}">10/10/2020</td>
-						<td th:text="${mine1.duration}">2</td>
-						<td th:text="${mine1.leaveAppliedDate}">09/09/2020</td>
-					</tr>
-				</table>
+			<div class="col-sm-12 card bg-light mb-3 cardhaha">
+				<div class="card-header">Your Pending Leave Applications</div>
+				<div class="card-body">
+					<table>
+						<tr>
+							<th>Leave Type</th>
+							<th>Start Date</th>
+							<th>Duration</th>
+							<th>Applied On</th>
+						</tr>
+						<tr th:each="mine1:${myleave}">
+							<td th:text="${mine1.leaveTypes.leaveName}">Apple</td>
+							<td th:text="${mine1.startDate}">10/10/2020</td>
+							<td th:text="${mine1.duration}">2</td>
+							<td th:text="${mine1.leaveAppliedDate}">09/09/2020</td>
+						</tr>
+					</table>
+				</div>
 			</div>
-			<div class="col-sm-12">
-				<div>Your Pending OT Applications</div>
-				<table>
-					<tr>
-						<th>Start Date</th>
-						<th>Total OT Time</th>
-						<th>Claim Submitted On</th>
-					</tr>
-					<tr th:each="mine2:${myOT}">
-						<td th:text="${mine2.startDate}">10/10/2020</td>
-						<td th:text="${mine2.totalOTTime}">2</td>
-						<td th:text="${mine2.submitDate}">09/09/2020</td>
-					</tr>
-				</table>
+			<div class="col-sm-12 card bg-light mb-3 cardhaha">
+				<div class="card-header">Your Pending OT Applications</div>
+				<div class="card-body">
+					<table>
+						<tr>
+							<th>Start Date</th>
+							<th>Total OT Time</th>
+							<th>Claim Submitted On</th>
+						</tr>
+						<tr th:each="mine2:${myOT}">
+							<td th:text="${mine2.startDate}">10/10/2020</td>
+							<td th:text="${mine2.totalOTTime}">2</td>
+							<td th:text="${mine2.submitDate}">09/09/2020</td>
+						</tr>
+					</table>
+				</div>
 			</div>		
 		</div>
 		<div class="col-sm-6" th:if="${isManager}">
-			<div class="col-sm-12">
-				<div>Employees Currently On Leave</div>
-				<table>
-					<tr>
-						<th>Name</th>
-						<th>Start Date</th>
-						<th>Duration</th>
-					</tr>
-					<tr th:each="empName:${onleave}">
-						<td th:text="${empName.user.firstName + ' ' + empName.user.lastName}">name</td>
-						<td th:text="${empName.startDate}">10/10/2020</td>
-						<td th:text="${empName.duration}">3</td>
-				</table>
+			<div class="col-sm-12 card bg-light mb-3 cardhaha">
+				<div class="card-header">Employees Currently On Leave</div>
+				<div class="card-body">
+					<table>
+						<tr>
+							<th>Name</th>
+							<th>Start Date</th>
+							<th>Duration</th>
+						</tr>
+						<tr th:each="empName:${onleave}">
+							<td th:text="${empName.user.firstName + ' ' + empName.user.lastName}">name</td>
+							<td th:text="${empName.startDate}">10/10/2020</td>
+							<td th:text="${empName.duration}">3</td>
+					</table>
+				</div>
 			</div>
-			<div class="col-sm-12">
-				<div>Employees Pending Leave Application</div>
-				<table>
-					<tr>
-						<th>Name</th>
-						<th>Start Date</th>
-						<th>Duration</th>
-						<th>Applied On</th>
-					</tr>
-					<tr th:each="leave:${pendingLeave}">
-						<td th:text="${leave.user.firstName + ' ' + leave.user.lastName}">name</td>
-						<td th:text="${leave.startDate}">10/10/2020</td>
-						<td th:text="${leave.duration}">3</td>
-						<td th:text="${leave.leaveAppliedDate}">09/09/2020</td>
-					</tr>
-				</table>
+			<div class="col-sm-12 card bg-light mb-3 cardhaha">
+				<div class="card-header">Employees Pending Leave Application</div>
+				<div class="card-body">
+					<table>
+						<tr>
+							<th>Name</th>
+							<th>Start Date</th>
+							<th>Duration</th>
+							<th>Applied On</th>
+						</tr>
+						<tr th:each="leave:${pendingLeave}">
+							<td th:text="${leave.user.firstName + ' ' + leave.user.lastName}">name</td>
+							<td th:text="${leave.startDate}">10/10/2020</td>
+							<td th:text="${leave.duration}">3</td>
+							<td th:text="${leave.leaveAppliedDate}">09/09/2020</td>
+						</tr>
+					</table>
+				</div>
 			</div>
-			<div class="col-sm-12">
-				<div>Employees Pending OT Claims</div>
-				<table>
-					<tr>
-						<th>Name</th>
-						<th>Start Date</th>
-						<th>Total OT Time</th>
-					</tr>
-					<tr th:each="OT:${pendingOT}">
-						<td th:text="${OT.user.firstName + ' ' + OT.user.lastName}">name</td>
-						<td th:text="${OT.startDate}">10/10/2020</td>
-						<td th:text="${OT.totalOTTime}">11/11/2020</td>
-					</tr>
-				</table>
+			<div class="col-sm-12 card bg-light mb-3 cardhaha">
+				<div class="card-header">Employees Pending OT Claims</div>
+				<div class="card-body">
+					<table>
+						<tr>
+							<th>Name</th>
+							<th>Start Date</th>
+							<th>Total OT Time</th>
+						</tr>
+						<tr th:each="OT:${pendingOT}">
+							<td th:text="${OT.user.firstName + ' ' + OT.user.lastName}">name</td>
+							<td th:text="${OT.startDate}">10/10/2020</td>
+							<td th:text="${OT.totalOTTime}">11/11/2020</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
