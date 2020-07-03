@@ -27,10 +27,10 @@ public class LeaveTypeController {
 		this.leavetypeservice = leavetypeserviceImpl;
 	}
 
-	@RequestMapping(value = "/leavetypelist")
+	@RequestMapping(value = "/leavetypelist")//controller
 	public String list(Model model) {
 		model.addAttribute("ltypelist", leavetypeservice.findAll());
-		return "/admin/LeaveTypes";
+		return "/admin/LeaveTypes";//view
 	}
 
 	@RequestMapping(value = "/addleavetype")
@@ -52,13 +52,13 @@ public class LeaveTypeController {
 		//	return "LeaveTypesDetails";
 		//}
 		leavetypeservice.saveLeaveType(leavetypes);
-		return "forward:/leavetypes/list";
+		return "forward:/admin/leavetypelist";//not sure
 	}
 
 	@RequestMapping(value = "/deleteleavetype/{id}")
 	public String deleteDepartment(@PathVariable("id") Integer id) {
 		leavetypeservice.deleteLeaveType(leavetypeservice.findLeaveTypesById(id));
-		return "forward:/leavetypes/list";
+		return "forward:/admin/leavetypelist";
 	}
 
 }
