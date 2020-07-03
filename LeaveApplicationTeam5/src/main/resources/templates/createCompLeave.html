@@ -17,7 +17,7 @@
 <form action="#" th:object="${leave}" th:action="@{/emp/compsave}" method="post" >
 	<div th:text="${msg}"></div>
 	Start Date: <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02">
-	 <select name="startTime" id="startTime">
+	 <select name="startTime" id="startTime" th:required="required">
 				<option value=""></option>
 				<option
 					th:each="startTime: ${T(sg.edu.LeaveApplication.model.Time).values()}"
@@ -26,7 +26,7 @@
 	
 	
 	End Date: <input type="date" id="ed" th:name="endDate" min="2020-02-02">
-		 <select name="endTime" id="endTime">
+		 <select name="endTime" id="endTime" th:required="required">
 				<option value=""></option>
 				<option
 					th:each="startTime: ${T(sg.edu.LeaveApplication.model.Time).values()}"
