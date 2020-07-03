@@ -1,5 +1,7 @@
 package sg.edu.LeaveApplication.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +14,6 @@ import sg.edu.LeaveApplication.service.UserLeaveTypesService;
 import sg.edu.LeaveApplication.service.UserService;
 
 @Controller
-@RequestMapping("/dashboard")
 public class DashboardController {
 	
 	@Autowired
@@ -43,15 +44,15 @@ public class DashboardController {
 		this.ultservice = ultservice;
 	}
 	
-	@RequestMapping("/home")
-	public String pendingLeave(Model model)
+	@RequestMapping("/")
+	public String pendingLeave(Model model, Principal principal)
 	{
-		User currentUser = uservice.findUserById(45);
+		User currentUser = uservice.findUserByName(principal.getName());
 		model.addAttribute("leaveRemaining", ultservice.findAllByUser(currentUser));
 		model.addAttribute("onleave", leaveservice.findOnLeave());
 		model.addAttribute("myleave", leaveservice.findByUser(currentUser));
 		model.addAttribute("myOT", OTservice.findByUser(currentUser));
-		model.addAttribute("pendingLeave", leaveservice.findAllPendingLeave());
+		model.addAttribute("pendingLeave", leaveservice.findAllPendingLeave(currentUser.getId()));
 		model.addAttribute("pendingOT", OTservice.findAllPendingOT());
 	
 		return "HomeDashboard";
