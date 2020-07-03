@@ -1,17 +1,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Log in</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
     <div style="width:600px;margin-left: auto;margin-right: auto;margin-top:24px;padding: 24px;">
         <div class="card">
             <div class="card-header">
-                <i class="fa fa-user"></i> Please Login
+                <Hi>Welcome to LAPS, please log in.</Hi>
             </div>
-            <div class="card-block" style="padding: 24px;">
+            <div class="card-body">
                 <form name="f" th:action="@{/login}" method="post">
-                    <fieldset>
                         <!-- Thymeleaf + Spring Security error display -->
                         <div th:if="${param.error}" class="alert alert-danger">
                             Invalid username and password.
@@ -43,7 +43,6 @@
                         <div class="form-actions" style="margin-top: 12px;">
                             <button type="submit" class="btn btn-success">Log in</button>
                         </div>
-                    </fieldset>
                 </form>
             </div>
         </div>
