@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div class="main-container">
-		<h1>Leave Application Listing</h1>
+		<h1>Leave Applications</h1>
 
 		<a href="createLeave.html" th:href="@{/emp/apply}">New Leave</a>
 		<div th:text="${msg}"></div>
@@ -32,7 +32,7 @@
 				<th></th>
 				<th></th>
 			</tr></thead><tbody>
-			<tr th:each="leave:${leaveList}">
+			<tr th:each="leave:${leaveList}" th:unless="${leave.leaveTypes.leaveName == 'Compensation Leave'}">
 				<td th:text="${#dates.format(leave.leaveAppliedDate, 'yyyy-MM-dd')}"></td>
 				<td th:text="${leave.status}"></td>
 				<td th:if="${leave.leaveTypes != null}"
