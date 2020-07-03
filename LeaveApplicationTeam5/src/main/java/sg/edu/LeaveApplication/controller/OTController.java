@@ -240,7 +240,7 @@ public class OTController {
 			}
 			else {
 				model.addAttribute("msg", "You do not have enough balance.");
-				return "redirect:/emp/compapply";
+				return "forward:/emp/compapply";
 			}
 	  /*  }
     else {
@@ -287,6 +287,9 @@ public class OTController {
 			newLeave.setWorkDissemination(workDissemination);
 			newLeave.setStatus(Status.UPDATED);
 			leaveservice.saveLeave(newLeave);
+			if(newLeave.getLeaveTypes().getLeaveName() != "Compensation Leave") {
+				return "redirect:/emp/list";
+			}
 			return "redirect:/emp/complist";
 		}
 		
@@ -302,6 +305,9 @@ public class OTController {
 				lr.setStatus(Status.UPDATED);
 				model.addAttribute("leave", lr);
 				return"updateCompLeave";
+			}
+			if(lr.getLeaveTypes().getLeaveName() != "Compensation Leave") {
+				return "redirect:/emp/list";
 			}
 			return "redirect:/emp/complist";
 		}
