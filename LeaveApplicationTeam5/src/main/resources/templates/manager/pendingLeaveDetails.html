@@ -7,36 +7,41 @@
 	href="../../css/style.css" th:href="@{/css/style.css}" />
 </head>
 <body>
-<h1 th:text="#{LeaveReqDetails.page.title}">Leave Details</h1>	
-	<fieldset> 
+	<h1 th:text="#{LeaveReqDetails.page.title}">Leave Details</h1>
+	<fieldset>
 		Employee Id: <span th:text="${leave.user.id}">Employee Id</span>
 	</fieldset>
-	<fieldset> 
-		Name: <span th:text="${leave.user.firstName} + ${leave.user.lastName}"> Name </span>
+	<fieldset>
+		Name: <span th:text="${leave.user.firstName} + ${leave.user.lastName}">
+			Name </span>
 	</fieldset>
-	<fieldset> 
-		Leave Type: <span  th:if = "${leave.leaveTypes != null}"  th:text="${leave.leaveTypes.leaveName}">Leave Type</span>
+	<fieldset>
+		Leave Type: <span th:if="${leave.leaveTypes != null}"
+			th:text="${leave.leaveTypes.leaveName}">Leave Type</span>
 	</fieldset>
-	<fieldset> 
-		Duration:  <span th:text="${leave.duration}">Duration</span>
+	<fieldset>
+		Duration: <span th:text="${leave.duration}">Duration</span>
 	</fieldset>
-	<fieldset> 
+	<fieldset>
 		Start Date: <span th:text="${leave.startDate}">Start Date</span>
 	</fieldset>
-	<fieldset> 
+	<fieldset>
 		Description: <span th:text="${leave.description}">Description</span>
 	</fieldset>
-	<fieldset> 
+	<fieldset>
 		Work Dissemination: <span th:text="${leave.workDissemination}"></span>
 	</fieldset>
-	<fieldset> 
+	<fieldset>
 		Contact Details: <span th:text="${leave.contactDetails}"></span>
 	</fieldset>
-	<fieldset> 
+	<fieldset>
 		Applied Date: <span th:text="${leave.leaveAppliedDate}"></span>
 	</fieldset>
+	<fieldset>
+		Status: <span th:text="${leave.status}"></span>
+	</fieldset>
 
-	<form action="#" th:object="${leave}"
+	<form action="#" th:if="${allowEdit}" th:object="${leave}"
 		th:action="@{/mng/submit/}+${leave.id}" method="post">
 		<fieldset>
 			<input type="hidden" th:field="*{id}"></input>
@@ -48,19 +53,24 @@
 		<fieldset>
 			Status: <select name="status">
 				<option value=""></option>
-<!-- 				<option
+				<!-- 				<option
 					th:each="status: ${T(sg.edu.LeaveApplication.model.Status).values()}"
 					th:value="${status}" th:text="${status.displayValue}"></option> -->
-					<option
-					th:value="${T(sg.edu.LeaveApplication.model.Status).APPROVED}" th:text="${T(sg.edu.LeaveApplication.model.Status).APPROVED.displayValue}"></option>
-					<option
-					th:value="${T(sg.edu.LeaveApplication.model.Status).REJECTED}" th:text="${T(sg.edu.LeaveApplication.model.Status).REJECTED.displayValue}"></option>
+				<option
+					th:value="${T(sg.edu.LeaveApplication.model.Status).APPROVED}"
+					th:text="${T(sg.edu.LeaveApplication.model.Status).APPROVED.displayValue}"></option>
+				<option
+					th:value="${T(sg.edu.LeaveApplication.model.Status).REJECTED}"
+					th:text="${T(sg.edu.LeaveApplication.model.Status).REJECTED.displayValue}"></option>
 			</select>
 		</fieldset>
 		<fieldset>
 			<button type="submit" th:text="#{button.save}"></button>
 			<a th:text="#{button.cancel}" th:href="@{/mng/viewLeave}"></a>
 		</fieldset>
+	</form>
+	<form>
+		<input type="button" value="Back" onclick="history.back()">
 	</form>
 
 </body>

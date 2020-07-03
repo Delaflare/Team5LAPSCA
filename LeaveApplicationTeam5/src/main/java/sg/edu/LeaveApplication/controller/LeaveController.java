@@ -314,6 +314,7 @@ public class LeaveController {
 	@RequestMapping("mng/details/{id}")
 	public String showLeaveDetails(@PathVariable("id") Integer id, Model model) {
 		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
+		model.addAttribute("allowEdit", leaveservice.findLeaveRecordById(id).getStatus().getDisplayValue().equals("PENDING"));
 		return "/manager/pendingLeaveDetails";
 	}
 
