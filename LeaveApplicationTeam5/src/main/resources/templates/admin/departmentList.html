@@ -18,7 +18,7 @@
 	<a href="AddDepartment.html" th:href="@{/dept/add}">Add Department</a>
 
 	<table id="dList"
-			class="w3-container table table-bordered display" th:if="${not #lists.isEmpty(dlist)}">
+			class="w3-container table table-bordered display" style="width: 100%"  th:if="${not #lists.isEmpty(dlist)}">
 				<thead>	<tr>
 				<th>Department Id</th> 
 				<th>Name</th>

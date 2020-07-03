@@ -18,7 +18,7 @@
 <hr/>
 <a th:href="@{/emp/claimOT}">Claim OT</a>
 <table id="OTList"
-			class="w3-container table table-bordered display"  th:if="${not #lists.isEmpty(OTList)}">
+			class="w3-container table table-bordered display" style="width: 100%"   th:if="${not #lists.isEmpty(OTList)}">
 <thead>
 	<tr>
 		<th>id</th>
@@ -29,7 +29,7 @@
 		<th><a>Approved/Reject Date</a></th>		
 		<th></th>
 		<th></th>
-	</tr>
+	</tr></thead><tbody>
 	<tr th:each="OT: ${OTList}">
 		<td th:text="*{OT.id}"></td>
 		<td th:text="${OT.startDate}"></td>
@@ -41,7 +41,7 @@
 		<td><a th:href="@{/emp/updateOT} + ${OT.id}">Update</a></td>
 		<td><a th:href="@{/emp/deleteOT} + ${OT.id}">Delete</a></td>
 	</tr>
-</thead>
+</tbody>
 	</table>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
