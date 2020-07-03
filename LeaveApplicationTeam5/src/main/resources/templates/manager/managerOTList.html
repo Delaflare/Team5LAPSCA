@@ -44,7 +44,7 @@
 		<table id="OTList" class="w3-container table table-bordered display"
 			style="width: 100%" th:if="${not #lists.isEmpty(OTList)}">
 		<thead>	<tr>
-				<th>Employee id</th>
+				<!-- <th>Employee id</th> -->
 				<th>Employee Name</th>
 				<th><a>Start Date</a></th>
 				<th><a>End Date</a></th>
@@ -54,7 +54,7 @@
 				
 			</tr></thead><tbody>
 			<tr th:each="OT: ${OTList}">
-				<td th:text="*{OT.user.id}"></td>
+				<!-- <td th:text="*{OT.user.id}"></td>-->
 				<td th:text="${OT.user.firstName} + ${OT.user.firstName}"></td>
 				<td th:text="${OT.startDate}"></td>
 				<td th:text="${OT.endDate}"></td>

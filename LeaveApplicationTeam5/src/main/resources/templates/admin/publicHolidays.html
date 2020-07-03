@@ -23,14 +23,14 @@
 			class="w3-container table table-bordered display"
 			th:if="${not #lists.isEmpty(holidays)}">
 	<thead>		<tr>
-				<th>Id</th>
+				<!--<th>Id</th>  -->
 				<th>Holiday Name</th>
 				<th>Date</th>
 				<th>Duration</th>
 				<th></th>
 			</tr></thead><tbody>
 			<tr th:each="holiday:${holidays}">
-				<td th:text="${holiday.id}">Id</td>
+				<!-- <td th:text="${holiday.id}">Id</td> -->
 				<td th:text="${holiday.holidayName}">Holiday Name</td>
 				<td th:text="${holiday.date}">Date</td>
 				<td th:text="${holiday.duration}">duration</td>

@@ -31,14 +31,14 @@
 							</select>
 						</div>
 						<div class="col-sm-4">
-						<div class="btn-group">
+							<div class="btn-group">
 
-						<button type="submit" th:text="#{button.search}"
-							class="btn btn-primary">search</button>
-						<a type="button" class="btn btn-primary"
-							th:text="#{button.reset}" th:href="@{/mng/viewLeave}">Reset</a>
-					</div>
-						
+								<button type="submit" th:text="#{button.search}"
+									class="btn btn-primary">search</button>
+								<a type="button" class="btn btn-primary"
+									th:text="#{button.reset}" th:href="@{/mng/viewLeave}">Reset</a>
+							</div>
+
 						</div>
 					</div>
 				</form>
@@ -51,30 +51,32 @@
 		<table id="leaveRequestList"
 			class="w3-container table table-bordered display" style="width: 100%"
 			th:if="${not #lists.isEmpty(leaveList)}">
-		<thead>	<tr>
-				<th>Employee Id</th>
-				<th>Name</th>
-				<th>Leave Type</th>
-				<th>Duration</th>
-				<th>Start Date</th>
-				<th>Reason</th>
-				<th>Comment</th>
-				<th></th>
-			</tr>  </thead>
-            <tbody>
-			<tr th:each="leave:${leaveList}">
-				<td th:text="${leave.user.id}">Employee Id</td>
-				<td th:text="${leave.user.firstName} + ${leave.user.lastName}">
-					Name</td>
-				<td th:if="${leave.leaveTypes != null}"
-					th:text="${leave.leaveTypes.leaveName}">Leave Type</td>
-				<td th:text="${leave.duration}">Duration</td>
-				<td th:text="${leave.startDate}">Start Date</td>
-				<td th:text="${leave.description}">Description</td>
-				<td th:text="${leave.comments}">Comment</td>
-				<td><a th:href="@{/mng/details/}+${leave.id}"
-					th:text="#{button.details}"></a></td>
-			</tr>
+			<thead>
+				<tr>
+					<!-- <th>Employee Id</th> -->
+					<th>Name</th>
+					<th>Leave Type</th>
+					<th>Duration</th>
+					<th>Start Date</th>
+					<th>Reason</th>
+					<th>Comment</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="leave:${leaveList}">
+					<!-- <td th:text="${leave.user.id}">Employee Id</td> -->
+					<td th:text="${leave.user.firstName} + ${leave.user.lastName}">
+						Name</td>
+					<td th:if="${leave.leaveTypes != null}"
+						th:text="${leave.leaveTypes.leaveName}">Leave Type</td>
+					<td th:text="${leave.duration}">Duration</td>
+					<td th:text="${leave.startDate}">Start Date</td>
+					<td th:text="${leave.description}">Description</td>
+					<td th:text="${leave.comments}">Comment</td>
+					<td><a th:href="@{/mng/details/}+${leave.id}"
+						th:text="#{button.details}"></a></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>

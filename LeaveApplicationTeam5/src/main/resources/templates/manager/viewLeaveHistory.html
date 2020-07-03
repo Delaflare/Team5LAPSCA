@@ -79,7 +79,7 @@
 	class="w3-container table table-bordered display" style="width: 100%"
 		th:if="${not #lists.isEmpty(leaveHistoryList)}">
 	<thead>	<tr>
-			<th>Employee Id</th>
+			<!-- <th>Employee Id</th> -->
 			<th>Name</th>
 			<th>Leave Type</th>
 			<th>Start Date</th>
@@ -88,7 +88,7 @@
 		</tr></thead>
 		<tbody>
 		<tr th:each="leave:${leaveHistoryList}">
-			<td th:text="${leave.user.id}">Employee Id</td>
+		<!--	<td th:text="${leave.user.id}">Employee Id</td>  -->
 			<td th:text="${leave.user.firstName} + ${leave.user.lastName}">
 				Name</td>
 			<td th:if="${leave.leaveTypes != null}"

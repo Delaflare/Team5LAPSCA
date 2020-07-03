@@ -23,17 +23,27 @@
 		<table id="ltypelist"
 			class="w3-container table table-bordered display"
 			th:if="${not #lists.isEmpty(ltypelist)}">
-		<thead>	<tr th:each="leavetype:${ltypelist}">
-				<td th:text="${leavetype.id}">Id</td>
-				<td th:text="${leavetype.leaveName}">Name</td>
+			<thead>
+				<tr>
+					<!--<th>Department Id</th>   -->
+					<th>Name</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="leavetype:${ltypelist}">
+					<!--<td th:text="${leavetype.id}">Id</td>  -->
+					<td th:text="${leavetype.leaveName}">Name</td>
 
-				<td><a href="EditLeaveType.html"
-					th:href="@{/leavetypes/edit/}+${leavetype.id}">Edit</a></td>
-				<td><a href="Deleteleavetype.html"
-					th:href="@{/leavetypes/delete/}+${leavetype.id}">Delete</a></td>
+					<td><a href="EditLeaveType.html"
+						th:href="@{/leavetypes/edit/}+${leavetype.id}">Edit</a></td>
+					<td><a href="Deleteleavetype.html"
+						th:href="@{/leavetypes/delete/}+${leavetype.id}">Delete</a></td>
 
-			</tr>
-	<thead>	</table>
+				</tr>
+			</tbody>
+		</table>
 
 	</div>
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"
