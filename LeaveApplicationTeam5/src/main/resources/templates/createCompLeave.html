@@ -36,7 +36,7 @@
 	<p>Duration:<span id="duration" th:name="duration"></span></p>
 	</br>
 	Reason for Leave: 
-	<textarea rows="5" th:field="*{description}"></textarea>
+	<textarea rows="5" th:field="*{description}" th:required="required"></textarea>
 	</br>
 	<label>Work Dissemination (if any)</label>
 	<input type="text" th:field="*{workDissemination}"/><br/>  

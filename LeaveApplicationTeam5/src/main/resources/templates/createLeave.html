@@ -26,7 +26,7 @@
                 th:value = "${leaveType.leaveName}" th:text = "${leaveType.leaveName}"> </option> 
             </select></br>
         <label>Leave Reason: </label>
-        <input type="text" th:field="*{description}"> 
+        <input type="text" th:field="*{description}" th:required="required"> 
         </br>
         <label>Work Dissemination (if any)</label>
         <input type="text" th:field="*{workDissemination}"/><br/>  
