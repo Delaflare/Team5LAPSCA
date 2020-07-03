@@ -35,7 +35,7 @@
 	<input type="button" id="checkDurBtn" value="Check Duration">  
 	<p>Duration:<span id="duration" th:name="duration"></span></p>
 	</br>
-	Reason for taking Leave: 
+	Reason for Leave: 
 	<textarea rows="5" th:field="*{description}"></textarea>
 	</br>
 	<label>Work Dissemination (if any)</label>
@@ -49,10 +49,10 @@
 </div>
 <aside style="width:20%;float:right">
 <div>
-<h2>Compensation Leave Balance:</h2>
+<h2>Days Claimable:</h2>
 	<table>
 		<tr>
-		<td th:text="((${OTBalance}<4)? '0' : (${OTBalance}-(${OTBalance}%4))/4+' days')"></td>
+		<td th:text="((${OTBalance}<4)? '0' : (${OTBalance}-(${OTBalance}%4))/4)"></td>
 		</tr>
 		<!-- <tr th:each="balance: ${balanceList}">
 			<td th:text="${balance.leaveName}">Leave Name</td>
