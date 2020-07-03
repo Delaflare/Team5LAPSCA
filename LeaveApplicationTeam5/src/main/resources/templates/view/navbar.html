@@ -6,40 +6,40 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-       <li class="nav-item dropdown" th:if="${isLoggedIn}">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Employee
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/emp/list">Apply Leave</a>
-          <a class="dropdown-item" href="/emp/OTList">Apply OT Claims</a>
-          <a class="dropdown-item" href="/emp/complist">Apply Comp Leave</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown" th:if="${isManager}">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Manager
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/mng/viewLeave">Approve Leave</a>
-          <a class="dropdown-item" href="/mng/ViewOT">Approve OT Claims</a>
-          <a class="dropdown-item" href="/mng/viewLeaveHistory">View Leave History</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown" th:if="${isAdmin}">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Admin
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/user/list">Manage User</a>
-          <a class="dropdown-item" href="/admin/phlist">Manage Holidays</a>
-          <a class="dropdown-item" href="/admin/dplist">Manage Department</a>
-          <a class="dropdown-item" href="/admin/leavetypelist">Manage Leave Types</a>
-        </div>
-      </li>
-      <li class="nav-item active" th:if="${isLoggedIn}">
-        <a class="nav-link" href="/logout">Logout<span class="sr-only">(current)</span></a>
-      </li>
+      	<li class="nav-item dropdown" th:if="${isLoggedIn}">
+        	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          	Employee
+        	</a>
+	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <a class="dropdown-item" href="/emp/list">Apply Leave</a>
+	          <a class="dropdown-item" href="/emp/OTList">Apply OT Claims</a>
+	          <a class="dropdown-item" href="/emp/complist">Apply Comp Leave</a>
+	        </div>
+	     </li>
+	     <li class="nav-item dropdown" th:if="${isManager}">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Manager
+	        </a>
+	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <a class="dropdown-item" href="/mng/viewLeave">Approve Leave</a>
+	          <a class="dropdown-item" href="/mng/ViewOT">Approve OT Claims</a>
+	          <a class="dropdown-item" href="/mng/viewLeaveHistory">View Leave History</a>
+	        </div>
+	     </li>
+	     <li class="nav-item dropdown" th:if="${isAdmin}">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Admin
+	        </a>
+	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <a class="dropdown-item" href="/user/list">Manage User</a>
+	          <a class="dropdown-item" href="/admin/phlist">Manage Holidays</a>
+	          <a class="dropdown-item" href="/admin/dplist">Manage Department</a>
+	          <a class="dropdown-item" href="/admin/leavetypelist">Manage Leave Types</a>
+	        </div>
+	     </li>
+	     <li class="nav-item" th:if="${isLoggedIn}">
+	       <a class="nav-link" href="/logout">Logout<span class="sr-only">(current)</span></a>
+	     </li>
     </ul>
   </div>
 </nav>
