@@ -14,7 +14,7 @@
 	<div th:text="${msg}"></div>
 	Start Date: <span th:text="${leave.startDate}"></span>
 	End Date: 
-	<span th:if="${leave.startDate != null}" th:text="${leave.startDate.plusDays(leave.duration)}"></span>
+	<span th:if="${leave.startDate != null}" th:text="${leave.startDate.plusDays(leave.duration-1)}"></span>
 	<p>Duration:<span id="duration" th:text="${leave.duration}"></span></p>
 	Type of Leave:<span th:text=${leave.LeaveTypes.leaveName}></span>
 	
@@ -30,7 +30,7 @@
 	<small>Format:12345678</small><br/>
 	<button type="submit">Save</button>
 	<a th:if="${leave.leaveTypes.leaveName=='Compensation Leave'}" th:href="@{/emp/complist}">Cancel</a>
-	<a th:if="${leave.leaveTypes.leaveName!='Compensation Leave'}" th:href="@{/emp/complist}">Cancel</a>
+	<a th:if="${leave.leaveTypes.leaveName!='Compensation Leave'}" th:href="@{/emp/list}">Cancel</a>
 </form>
 </div>
 <aside style="width:20%;float:right">
