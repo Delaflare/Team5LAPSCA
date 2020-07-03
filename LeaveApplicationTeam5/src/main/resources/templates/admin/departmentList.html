@@ -12,9 +12,9 @@
 </head>
 <body>
  <div class="main-container">
-
+<a th:href="@{/admin/adddp}">Create Department</a>
 <h1>Department Listing</h1>
-
+<p th:text=${msg}></p>
 	<table id="dList"
 			class="w3-container table table-bordered display" style="width: 100%"  th:if="${not #lists.isEmpty(dlist)}">
 				<thead>	<tr>
@@ -27,9 +27,9 @@
 				<!--<td th:text=${department.id}>Id</td> -->
 				<td th:text=${department.name}>Name</td>
 				<td><a href="EditDepartment.html"
-					th:href="@{/dept/edit/}+${department.id}" >Edit</a></td>
+					th:href="@{/admin/editdp/}+${department.id}" >Edit</a></td>
 				<td><a href="DeleteProduct.html"
-					th:href="@{/dept/delete/}+${department.id}">Delete</a></td>
+					th:href="@{/admin/deletedp/}+${department.id}">Delete</a></td>
 			</tr><tbody>
 	</table>
 
