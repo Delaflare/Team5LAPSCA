@@ -96,7 +96,7 @@
 			<td th:if="${leave.leaveTypes == null}"><span>&nbsp;&nbsp;&nbsp;</span></td>
 			<td th:text="${leave.startDate}">Start Date</td>
 			<td th:text="${leave.duration}">Duration</td>
-			<td><a th:href="@{/leave/details/}+${leave.id}"
+			<td><a th:href="@{/mng/details/}+${leave.id}"
 				th:text="#{button.details}"></a></td>
 
 		</tr></tbody>
