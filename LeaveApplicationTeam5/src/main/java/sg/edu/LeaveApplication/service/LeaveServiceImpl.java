@@ -18,7 +18,7 @@ public class LeaveServiceImpl implements LeaveService {
 	@Autowired
 	LeaveRepository leaverepo;
 	
-	Integer reportToId= 3; //Get From Session
+	
 	
 	@Override
 	public boolean saveLeave(LeaveRecord leaverecord) {
@@ -31,6 +31,8 @@ public class LeaveServiceImpl implements LeaveService {
 		ArrayList<LeaveRecord> leavelist = (ArrayList<LeaveRecord>) leaverepo.findAll();
 		return leavelist;
 	}
+	
+	
 
 	@Override
 	public void deleteLeave(LeaveRecord lr) {
@@ -45,7 +47,7 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 	
 	@Override
-	public ArrayList<LeaveRecord> findAllPendingLeave() {
+	public ArrayList<LeaveRecord> findAllPendingLeave(Integer reportToId) {
 		ArrayList<LeaveRecord> list = (ArrayList<LeaveRecord>) leaverepo.findAllPendingLeave(reportToId);
 		return list;
 	}	
@@ -86,21 +88,21 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 
 	@Override
-	public ArrayList<LeaveRecord> findLeaveByEmployeeAndLeave(String keyword, String ltName) {
+	public ArrayList<LeaveRecord> findLeaveByEmployeeAndLeave(String keyword, String ltName, Integer reportToId) {
 		return leaverepo.findLeaveByEmployeeAndLeave(keyword, ltName, reportToId);
 		
 	}
 
 	@Override
 	public ArrayList<LeaveRecord> findLeaveHistoryByDate(String keyword, LocalDate startDate, LocalDate endDate, String ltName,
-			Integer int_status) {
-		return leaverepo.findLeaveHistoryByDate(keyword,startDate,endDate, ltName,int_status);
+			Integer int_status, Integer reportToId) {
+		return leaverepo.findLeaveHistoryByDate(keyword,startDate,endDate, ltName,int_status, reportToId);
 	}
 	
 	@Override
 	public ArrayList<LeaveRecord> findLeaveHistory(String keyword, String ltName,
-			Integer int_status) {
-		return leaverepo.findLeaveHistory(keyword,ltName,int_status);
+			Integer int_status,Integer reportToId) {
+		return leaverepo.findLeaveHistory(keyword,ltName,int_status, reportToId);
 	}
 	
 	@Override
@@ -111,5 +113,11 @@ public class LeaveServiceImpl implements LeaveService {
 	@Override
 	public ArrayList<LeaveRecord> findByUser(User user) {
 		return leaverepo.findByUser(user);
+	}
+	
+	@Override
+	public ArrayList<LeaveRecord> findAllByReportTo(Integer reportToId){
+		ArrayList<LeaveRecord> leavelist = (ArrayList<LeaveRecord>) leaverepo.findAllByReportTo(reportToId);
+		return leavelist;
 	}
 }

@@ -13,18 +13,23 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.mail.Session;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sg.edu.LeaveApplication.model.LeaveRecord;
+import sg.edu.LeaveApplication.model.LeaveTypes;
 import sg.edu.LeaveApplication.model.PublicHolidays;
 import sg.edu.LeaveApplication.model.Status;
 import sg.edu.LeaveApplication.model.User;
@@ -38,35 +43,44 @@ import sg.edu.LeaveApplication.service.UserService;
 public class LeaveController {
 	@Autowired
 	LeaveService leaveservice;
+
 	@Autowired
 	public void setLeaveservice(LeaveService leaveservice) {
 		this.leaveservice = leaveservice;
 	}
+
 	@Autowired
 	LeaveTypeService leavetypeservice;
+
 	@Autowired
 	public void setLeavetypeservice(LeaveTypeService leavetypeservice) {
 		this.leavetypeservice = leavetypeservice;
 	}
+
 	@Autowired
 	UserService uservice;
+
 	@Autowired
 	public void setUservice(UserService uservice) {
 		this.uservice = uservice;
 	}
+
 	@Autowired
 	PublicHolidayService holiservice;
+
 	@Autowired
 	public void setHoliservice(PublicHolidayService holiservice) {
 		this.holiservice = holiservice;
 	}
+
 	@Autowired
 	UserLeaveTypesService ultservice;
+
 	@Autowired
 	public void setUltservice(UserLeaveTypesService ultservice) {
 		this.ultservice = ultservice;
 	}
-	
+
 	// return leaveDayCost upon cancel/delete/reject
 	public void returnLeave(LeaveRecord lr) {
 		int currentBalance = ultservice.findleaveAllowance(lr.getUser().getId(), lr.getLeaveTypes().getLeaveName());
@@ -91,29 +105,28 @@ public class LeaveController {
 		LocalDate date2 = LocalDate.parse(ed, formatter);
 
 		Predicate<LocalDate> isWeekend = date -> date.getDayOfWeek() == DayOfWeek.SATURDAY
-				|| date.getDayOfWeek() == DayOfWeek.SUNDAY;
+				&& date.getDayOfWeek() == DayOfWeek.SUNDAY;
 
 		Predicate<LocalDate> isHoliday = date -> holidays.contains(date);
-		long daysBetween = ChronoUnit.DAYS.between(date1, date2)+1;
-		System.out.println(date1 + "/" + date2);
-		long leaveCost = Stream.iterate(date1, date -> date.plusDays(1))
-															.limit(daysBetween)
-															.filter(isHoliday.or(isWeekend).negate())
-															.count();
-				
-		System.out.println("leavecost from function:" + leaveCost);
+		long daysBetween = ChronoUnit.DAYS.between(date1, date2) + 1;
+
+		long leaveCost = Stream.iterate(date1, date -> date.plusDays(1)).limit(daysBetween)
+				.filter(isHoliday.or(isWeekend).negate()).count();
 		return (int) leaveCost;
 	}
 
 	@RequestMapping("emp/list")
-	public String list(Model model) {
+	public String list(Model model, Principal principal) {
+		System.out.println(principal.getName());
 		model.addAttribute("leaveList", leaveservice.findAll());
 		return "leaveList";
 	}
 
 	@RequestMapping("emp/apply")
-	public String applyLeave(Model model,Principal principal) {
-		User sessionUser = uservice.findUserByName(principal.getName());
+	public String applyLeave(Model model) {
+		// replace once user session is ready
+		User sessionUser = uservice.findUserById(21);
+
 		model.addAttribute("leave", new LeaveRecord());
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
 		model.addAttribute("phlist", holiservice.findAll());
@@ -122,10 +135,11 @@ public class LeaveController {
 	}
 
 	@RequestMapping("emp/save")
-	public String saveLeave(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult result, Principal principal, Model model,
+	public String saveLeave(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult result, Model model,
 			@RequestParam("startDate") String sd, @RequestParam("endDate") String ed) throws ParseException {
 
-		User sessionUser = uservice.findUserByName(principal.getName());
+		// replace when session is ready
+		User sessionUser = uservice.findUserById(21);
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		// calculate duration
@@ -133,7 +147,6 @@ public class LeaveController {
 		Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(ed);
 		long time = date2.getTime() - date1.getTime();
 		Integer duration = (int) time / (1000 * 3600 * 24) + 1;
-		System.out.println("duration"+duration);
 
 		// check whether need to deduct PH and weekend
 		Integer balance = ultservice.findleaveAllowance(sessionUser.getId(),
@@ -143,8 +156,7 @@ public class LeaveController {
 			// calculate leave cost = duration - weekend - PH
 			List<PublicHolidays> holidays = holiservice.findAll();
 			List<LocalDate> allPHdays = holidays.stream().map(PublicHolidays::getDate).collect(Collectors.toList());
-			int leaveCost = getLeaveDayCost(sd, ed, allPHdays);
-			System.out.println("leaveCost" + leaveCost);
+			Integer leaveCost = getLeaveDayCost(sd, ed, allPHdays);
 			// validate balance
 			if (isBalanceEnough(sessionUser, leaverecord.getLeaveTypes().getLeaveName(), leaveCost)) {
 				// set balance - leaveCost
@@ -168,7 +180,7 @@ public class LeaveController {
 		}
 
 		leaverecord.setLeaveTypes(leaverecord.getLeaveTypes());
-		leaverecord.setUser(sessionUser);
+		leaverecord.setUser(uservice.findUserById(102));// to use session user_id
 		leaverecord.setLeaveAppliedDate(new Date());
 		leaverecord.setDuration(duration);
 		leaverecord.setStartDate(LocalDate.parse(sd, formatter));
@@ -186,11 +198,10 @@ public class LeaveController {
 	}
 
 	@RequestMapping("emp/update/{id}")
-	public String updateLeave(@PathVariable("id") Integer id, Model model, Principal principal) {
-		User sessionUser = uservice.findUserByName(principal.getName());
-		model.addAttribute("balanceList", ultservice.findAllByUser(sessionUser));
-		model.addAttribute("phlist", holiservice.findAll());
+	public String updateLeave(@PathVariable("id") Integer id, Model model) {
+
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
+		model.addAttribute("phlist", holiservice.findAll());
 		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		// only when Pending, allow update
 		if (lr != null && lr.getStatus() == Status.PENDING || lr.getStatus() == Status.UPDATED) {
@@ -234,65 +245,67 @@ public class LeaveController {
 		}
 		return "redirect:/emp/list";
 	}
-	
+
 //breakline between emp vs mananger
-	
+
 	@RequestMapping("mng/viewLeave")
-	public String viewLeaveRequest(Model model, String keyword, String ltName) {
+	public String viewLeaveRequest(Model model, Principal principal, String keyword, String ltName) {
+		User manager = uservice.findUserByName(principal.getName());
+
+		Integer reportToId = manager.getId();
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
 		if (keyword != null || ltName != null) {
-			model.addAttribute("leaveList", leaveservice.findLeaveByEmployeeAndLeave(keyword, ltName));
+			model.addAttribute("leaveList", leaveservice.findLeaveByEmployeeAndLeave(keyword, ltName, reportToId));
 			System.out.println(ltName);
 		} else {
-			model.addAttribute("leaveList", leaveservice.findAllPendingLeave());
+			model.addAttribute("leaveList", leaveservice.findAllPendingLeave(reportToId));
 			System.out.println(ltName);
 		}
 		return "/manager/viewLeaveRequests";
 	}
 
 	@RequestMapping("mng/viewLeaveHistory")
-	public String viewLeaveHistory(Model model, String keyword, String fromDate, String toDate, String ltName,
+	public String viewLeaveHistory(Model model, Principal principal, String keyword, String fromDate, String toDate, String ltName,
 			String status) {
+		User manager = uservice.findUserByName(principal.getName());
+
+		Integer reportToId = manager.getId();
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
 		// System.out.println("k"+keyword);System.out.println("Sd"+startDate);System.out.println("ed"+endDate);System.out.println("na"+ltName);System.out.println("status"+status);
-		if ((keyword != ""&& keyword != null) ||  // Search Part
-			(ltName != ""&& ltName != null)  ||
-			(fromDate != ""&& fromDate != null) || 
-			(toDate != ""&& toDate != null) ||
-			(status != ""&& status != null)) {
-			
-			
+		if ((keyword != "" && keyword != null) || // Search Part
+				(ltName != "" && ltName != null) || (fromDate != "" && fromDate != null)
+				|| (toDate != "" && toDate != null) || (status != "" && status != null)) {
+
 			Integer int_status = -1;
-			if (status == "Pending")
-				 int_status = Status.PENDING.ordinal(); 
-			if (status == "Approved")
-				int_status = Status.APPROVED.ordinal();;
-			if (status == "Rejected")
+			if (status.equals("PENDING"))
+				int_status = Status.PENDING.ordinal();
+			if (status.equals("APPROVED"))
+				int_status = Status.APPROVED.ordinal();
+			if (status.equals("REJECTED"))
 				int_status = Status.REJECTED.ordinal();
-			if (status == "Updated")
+			if (status.equals("UPDATED"))
 				int_status = Status.UPDATED.ordinal();
-			if (status == "Cancelled")
+			if (status.equals("CANCELLED"))
 				int_status = Status.CANCELLED.ordinal();
-			if (status == "Deleted")
+			if (status.equals("DELETED"))
 				int_status = Status.DELETED.ordinal();
 
-			if ((fromDate != ""&& fromDate != null) || 
-					(toDate != ""&& toDate != null) )// Search with date
+			if ((fromDate != "" && fromDate != null) || (toDate != "" && toDate != null))// Search with date
 			{
 
 				LocalDate startDate = LocalDate.parse(fromDate);
 				LocalDate endDate = LocalDate.parse(toDate);
 				model.addAttribute("leaveHistoryList",
-						leaveservice.findLeaveHistoryByDate(keyword, startDate, endDate, ltName, int_status));
+						leaveservice.findLeaveHistoryByDate(keyword, startDate, endDate, ltName, int_status, reportToId));
 				System.out.println(ltName);
 			} else // Search Without date
 			{
-				model.addAttribute("leaveHistoryList", leaveservice.findLeaveHistory(keyword, ltName, int_status));
+				model.addAttribute("leaveHistoryList", leaveservice.findLeaveHistory(keyword, ltName, int_status, reportToId));
 
 			}
 
 		} else {
-			model.addAttribute("leaveHistoryList", leaveservice.findAll());
+			model.addAttribute("leaveHistoryList", leaveservice.findAllByReportTo(reportToId));
 			System.out.println(ltName);
 		}
 		return "/manager/viewLeaveHistory";

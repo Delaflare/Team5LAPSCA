@@ -15,5 +15,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	@Query("Select u.userName from User u")
 	ArrayList<String> findAllUserNames();
-
+	
 }
