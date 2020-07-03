@@ -12,8 +12,8 @@
 </head>
 <body>
  <div class="main-container">
-<a th:href="@{/admin/adddp}">Create Department</a>
 <h1>Department Listing</h1>
+<a th:href="@{/admin/adddp}">Create Department</a>
 <p th:text=${msg}></p>
 	<table id="dList"
 			class="w3-container table table-bordered display" style="width: 100%"  th:if="${not #lists.isEmpty(dlist)}">

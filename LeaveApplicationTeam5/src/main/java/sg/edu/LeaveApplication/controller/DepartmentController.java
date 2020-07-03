@@ -87,6 +87,7 @@ public class DepartmentController {
 			}
 			else {
 				model.addAttribute("msg", "Cannot delete department, please remove the users first.");
+				return"forward:/admin/dplist";
 			}
 		return "redirect:/admin/dplist";
 		}
