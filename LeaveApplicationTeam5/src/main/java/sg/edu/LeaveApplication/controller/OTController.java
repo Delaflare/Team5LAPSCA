@@ -79,30 +79,30 @@ public class OTController {
 	}
 	
 	@RequestMapping("emp/OTList")
-	public String list(Model model) {
+	public String list(Model model, Principal principal) {
 		
-		User sessionuser = uservice.findUserById(21);
+		User sessionuser = uservice.findUserByName(principal.getName());
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionuser.getId(), "Compensation Leave"));
 		model.addAttribute("OTList", otservice.findAll());
 		return "OTHistory";
 	}
 	
 	@RequestMapping("emp/claimOT")
-	public String claimOT(Model model) {
-		User sessionuser = uservice.findUserById(21);
-		
+	public String claimOT(Model model, Principal principal) {
+		User sessionuser = uservice.findUserByName(principal.getName());
+			
 		model.addAttribute("OTRecord", new OTRecord());
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionuser.getId(), "Compensation Leave"));
 		return "OTForm";
 	}
 	
 	@RequestMapping("emp/saveOT")
-	public String saveOT(@ModelAttribute("OTRecord") @Valid OTRecord otrecord, BindingResult result, Model model,
+	public String saveOT(@ModelAttribute("OTRecord") @Valid OTRecord otrecord, BindingResult result, Model model, Principal principal,
 			@RequestParam("startDate") String sd, @RequestParam("endDate") String ed
 			) throws ParseException {
-		User sessionuser = uservice.findUserById(0);
+		User sessionuser = uservice.findUserByName(principal.getName());		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");	
-		otrecord.setUser(uservice.findUserById(0));//to use session user_id
+		otrecord.setUser(sessionuser);//to use session user_id
 		otrecord.setSubmitDate(new Date());
 		otrecord.setStartDate(LocalDate.parse(sd,formatter));
 		otrecord.setEndDate(LocalDate.parse(ed,formatter));
@@ -151,7 +151,7 @@ public class OTController {
 			LocalDate date2 = LocalDate.parse(ed, formatter);
 
 			Predicate<LocalDate> isWeekend = date -> date.getDayOfWeek() == DayOfWeek.SATURDAY
-					&& date.getDayOfWeek() == DayOfWeek.SUNDAY;
+					|| date.getDayOfWeek() == DayOfWeek.SUNDAY;
 
 			Predicate<LocalDate> isHoliday = date -> holidays.contains(date);
 			long daysBetween = ChronoUnit.DAYS.between(date1, date2) + 1;
@@ -184,10 +184,8 @@ public class OTController {
 		}
 
 		@RequestMapping("emp/compapply")
-		public String applyForm(Model model) {
-			//replace once user session is ready
-			User sessionUser = uservice.findUserById(21);
-			
+		public String applyForm(Model model, Principal principal) {
+			User sessionUser = uservice.findUserByName(principal.getName());
 			model.addAttribute("leave", new LeaveRecord());
 			model.addAttribute("leaveTypes", leavetypeservice.findAll());
 			model.addAttribute("phlist", holiservice.findAll());
@@ -197,12 +195,11 @@ public class OTController {
 		}
 
 		@RequestMapping("emp/compsave")
-		public String saveForm(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult bindingResult,
-				Model model, @RequestParam("startDate") String sd, @RequestParam("endDate") String ed, @RequestParam("startTime") Time st, @RequestParam("endTime") Time et )
+		public String saveForm(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult bindingResult, 
+				Model model,Principal principal, @RequestParam("startDate") String sd, @RequestParam("endDate") String ed, @RequestParam("startTime") Time st, @RequestParam("endTime") Time et )
 				throws ParseException {
 
-			// replace when session is ready
-			User sessionUser = uservice.findUserById(21);
+			User sessionUser = uservice.findUserByName(principal.getName());
 
 			String leaveType = "Compensation Leave";
 
@@ -233,31 +230,31 @@ public class OTController {
 			Integer leaveCost = getLeaveDayCost(sd, ed, allPHdays, st, et);
 			System.out.println("leaveCost: " + leaveCost);
 			
-			if (duration <= 14) {
-					//validate balance
-					if(isBalanceEnough(sessionUser, leaveType,leaveCost)) {
-						//set balance - leaveCost
-						ultservice.update(sessionUser, leaveType, balance-leaveCost);
-						leaverecord.setLeaveDayCost(leaveCost);
-					}
-					else {
-						model.addAttribute("msg", "You do not have enough balance.");
-						return "redirect:/emp/compapply";
-					}
-			    }
-		    else {
-		    	
-		    	//validate balance
-		    	if(isBalanceEnough(sessionUser, leaveType,hrDuration)) {
-		    		//balance - duration
-					ultservice.update(sessionUser, leaveType, balance-hrDuration);
-					leaverecord.setLeaveDayCost(hrDuration);
-				}
-				else {
-					model.addAttribute("msg", "You do not have enough balance.");
-					return "redirect:/emp/compleave/apply";
-				}
-		    }
+			/* if (duration <= 14) { */
+			//validate balance
+			if(isBalanceEnough(sessionUser, leaveType,leaveCost)) {
+				//set balance - leaveCost
+				ultservice.update(sessionUser, leaveType, balance-leaveCost);
+				leaverecord.setLeaveDayCost(leaveCost);
+			}
+			else {
+				model.addAttribute("msg", "You do not have enough balance.");
+				return "redirect:/emp/compapply";
+			}
+	  /*  }
+    else {
+    	
+    	//validate balance
+    	if(isBalanceEnough(sessionUser, leaveType,hrDuration)) {
+    		//balance - duration
+			ultservice.update(sessionUser, leaveType, balance-hrDuration);
+			leaverecord.setLeaveDayCost(hrDuration);
+		}
+		else {
+			model.addAttribute("msg", "You do not have enough balance.");
+			return "redirect:/emp/compleave/apply";
+		}
+    }*/
 
 			leaverecord.setLeaveTypes(leavetypeservice.findLeaveTypesByName(leaveType));
 			leaverecord.setUser(uservice.findUserById(0));// to use session user_id
@@ -282,7 +279,9 @@ public class OTController {
 		}
 		
 		@RequestMapping("emp/compupdate/{id}")
-		public String updateLeave(@PathVariable("id") Integer id, Model model) {
+		public String updateLeave(@PathVariable("id") Integer id, Model model, Principal principal) {
+			User sessionUser = uservice.findUserByName(principal.getName());
+			model.addAttribute("balanceList", ultservice.findAllByUser(sessionUser));
 			model.addAttribute("leaveTypes", leavetypeservice.findAll());
 			model.addAttribute("phlist", holiservice.findAll());
 			LeaveRecord lr = leaveservice.findLeaveRecordById(id);
