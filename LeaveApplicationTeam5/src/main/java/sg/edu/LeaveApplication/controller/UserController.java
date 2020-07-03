@@ -1,5 +1,6 @@
 package sg.edu.LeaveApplication.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +59,15 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/list")
-	public String listAll(Model model) {
+	public String listAll(Model model, Principal principal) {
+		
+		User currentUser = uservice.findUserByName(principal.getName());
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", currentUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", currentUser.getRole().equals("ADMIN"));
+		
 		model.addAttribute("users", uservice.findAll());
 		return "/admin/userProfile";
 	}
