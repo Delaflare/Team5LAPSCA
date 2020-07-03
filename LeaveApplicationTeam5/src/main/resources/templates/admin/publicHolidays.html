@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <title>Public Holiday List</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" media="all"
@@ -11,6 +11,9 @@
 	href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
 <title th:utext="#{publicholiday.page.title}">Holidays</title>
 </head>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
 	<div class="main-container">
 		<h1 th:utext="#{publicholiday.page.title}">home</h1>  

@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="ISO-8859-1">
-<title>Edit Leave Allowance</title>
+
+<head lang="en" th:replace="view/header::header">
+	<meta charset="ISO-8859-1">
+	<title>Edit Leave Allowance</title>
 </head>
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
 	<h2>Edit Employee Leave Allowance </h2>
 	<form th:object="${lType}" th:action="@{/user/updateLeave}" method="post">

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <meta charset="ISO-8859-1">
 <title>Application List</title>
 <link rel="stylesheet" type="text/css" media="all"
@@ -10,10 +10,13 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
 </head>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
 	<div class="main-container">
 		<h1>Compensation Leave Applications</h1>
-		<div>
+		<div class="card bg-light mb-3">
 		<h2>Current OT hours: <span th:text="${OTBalance}"></span></h2>
 		</div>
 		<a href="createCompLeave.html" th:href="@{/emp/compapply}">New Compensation

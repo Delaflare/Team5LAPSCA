@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <meta charset="ISO-8859-1">
 <title>Apply Compensation Leave</title>
 <link rel="stylesheet" type="text/css" media="all"
@@ -8,6 +8,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
 <div style="width:50%; float:left">
 <h1>Update Leave Application</h1>

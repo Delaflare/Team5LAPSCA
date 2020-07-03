@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <meta charset="ISO-8859-1">
 <title th:text="#{LeaveReqDetails.page.title}">Leave Details</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/style.css" th:href="@{/css/style.css}" />
 </head>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
 	<h1 th:text="#{LeaveReqDetails.page.title}">Leave Details</h1>
 	<fieldset>

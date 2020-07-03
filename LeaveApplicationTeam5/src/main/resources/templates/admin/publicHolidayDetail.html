@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <title>Public Holiday Form</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/style.css" th:href="@{/css/style.css}" />
@@ -11,6 +11,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <title th:utext="#{publicholidayDetail.title}">Public Holiday Form</title>
 </head>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
 	<h1>Public Holiday Form</h1>
 	<form class="form-horizontal" action="#" th:object="${holiday}"	th:action="@{/admin/saveph}" method="get">
