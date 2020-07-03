@@ -13,9 +13,9 @@
 </head>
 <body>
 	<div class="main-container">
-		<h1 th:utext="#{publicholiday.page.title}">home</h1>
+		<h1 th:utext="#{publicholiday.page.title}">home</h1>  
 
-		<a href="AddHoliday.html" th:href="@{/public-holiday/add}"
+		<a href="AddHoliday.html" th:href="@{/admin/addph}"
 			th:utext="#{publicholiday.page.add}">Add</a>
 		<h2 th:utext="#{publicholiday.page.header}"
 			th:if="${not #lists.isEmpty(holidays)}">header</h2>
@@ -23,20 +23,19 @@
 			class="w3-container table table-bordered display"
 			th:if="${not #lists.isEmpty(holidays)}">
 	<thead>		<tr>
-				<!--<th>Id</th>  -->
+				 
 				<th>Holiday Name</th>
 				<th>Date</th>
-				<th>Duration</th>
+				<th></th>
 				<th></th>
 			</tr></thead><tbody>
 			<tr th:each="holiday:${holidays}">
 				<!-- <td th:text="${holiday.id}">Id</td> -->
 				<td th:text="${holiday.holidayName}">Holiday Name</td>
 				<td th:text="${holiday.date}">Date</td>
-				<td th:text="${holiday.duration}">duration</td>
-				<td><a th:href="@{/public-holiday/edit/}+${holiday.id}"
+				<td><a th:href="@{/admin/editph/}+${holiday.id}"
 					th:text="#{holidays.page.edit}"></a></td>
-				<td><a th:href="@{/public-holiday/delete/}+${holiday.id}"
+				<td><a th:href="@{/admin/deleteph/}+${holiday.id}"
 					th:text="#{holidays.page.delete}"></a></td>
 
 			</tr>
