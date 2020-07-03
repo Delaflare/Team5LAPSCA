@@ -3,8 +3,12 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Employee Profile</title>
+	  <link rel="stylesheet" type="text/css" media="all"
+         href="../../css/style.css" th:href="@{/css/style.css}" />
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
+	<div class="main-container">
 	<div>
 		<h2>Employee Profile Details </h2>
 		<p>Employee ID: <span th:text="${user.id}"></span></p>
@@ -54,6 +58,6 @@
 		</table>
 	</div>
 	
-	
+	</div>
 </body>
 </html>
