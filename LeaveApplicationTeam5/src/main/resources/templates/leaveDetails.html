@@ -3,31 +3,29 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Leave Details</title>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../../css/style.css" th:href="@{/css/style.css}" />
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
-<h1>Application Details</h1>
-
-<ul th:object="${leave}">
-<li>Id: <b th:text="*{id}"></b></li>
-<li>Applied Date: <b th:text="${#dates.format(leave.leaveAppliedDate, 'yyyy-MM-dd')}"></b></li>
-<li>Start Date: <b th:text="${leave.startDate}"></b></li>
-<li>End Date:</li>
-<li>Days: <b th:text="*{duration}"></b></li>
-<li>Description: <b th:text="*{description}"></b></li>
-<li>Work Dissemination: : <b th:text="*{workDissemination}"></b></li>
-<li>Contact Details: <b th:text="*{contactDetails}"></b></li>
-<hr/>
-<li>Application Status: <b th:text="*{status}"></b></li>
-<li>Updated Date: <b th:text="*{leaveApprovedDate}"></b></li>
-<li>Manager Comments: <b th:text="*{comments}"></b></li>
-</ul>
-
-<div>
-  <span th:if="${leave.leaveTypes.leaveName == 'Compensation Leave'}"><a th:href="@{/emp/complist}">Back</a></span>
-<span th:unless="${leave.leaveTypes.leaveName == 'Compensation Leave'}"><a th:href="@{/emp/list}">Back</a></span>
-</div>	
+    <div class="card border-success mb-3 mx-auto" style="max-width: 50rem; margin:5rem">
+    <div class="card-header bg-transparent border-success"> Application Details</div>
+    <div class="card-body text-success">
+        <ul th:object="${leave}">
+        <li>Id: <b th:text="*{id}"></b></li>
+        <li>Applied Date: <b th:text="${#dates.format(leave.leaveAppliedDate, 'yyyy-MM-dd')}"></b></li>
+        <li>Start Date: <b th:text="${leave.startDate}"></b></li>
+        <li>End Date:</li>
+        <li>Days: <b th:text="*{duration}"></b></li>
+        <li>Description: <b th:text="*{description}"></b></li>
+        <li>Work Dissemination: : <b th:text="*{workDissemination}"></b></li>
+        <li>Contact Details: <b th:text="*{contactDetails}"></b></li>
+        <hr/>
+        <li>Application Status: <b th:text="*{status}"></b></li>
+        <li>Updated Date: <b th:text="*{leaveApprovedDate}"></b></li>
+        <li>Manager Comments: <b th:text="*{comments}"></b></li>
+        </ul>
+    
+        <span th:if="${leave.leaveTypes.leaveName == 'Compensation Leave'}"><a th:href="@{/emp/complist}">Back</a></span>
+        <span th:unless="${leave.leaveTypes.leaveName == 'Compensation Leave'}"><a th:href="@{/emp/list}">Back</a></span>	
+    </div>
 </body>
 </html>
