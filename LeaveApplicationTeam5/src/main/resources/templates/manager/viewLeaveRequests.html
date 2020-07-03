@@ -51,7 +51,7 @@
 		<table id="leaveRequestList"
 			class="w3-container table table-bordered display" style="width: 100%"
 			th:if="${not #lists.isEmpty(leaveList)}">
-			<tr>
+		<thead>	<tr>
 				<th>Employee Id</th>
 				<th>Name</th>
 				<th>Leave Type</th>
@@ -75,7 +75,7 @@
 					th:text="#{button.details}"></a></td>
 				<!-- 	<td><a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a></td>
 			<td><a th:href="@{/leave/rejectLeave/}+${leave.id}" th:text="#{button.reject}"></a></td> -->
-			</tr>
+			</tr></thead>
 		</table>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

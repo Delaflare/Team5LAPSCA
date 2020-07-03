@@ -5,7 +5,6 @@
 <title th:text="#{viewleave.page.title}"></title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/style.css" th:href="@{/css/style.css}" />
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -79,7 +78,7 @@
 	<table id="leaveHistoryList"
 		class="w3-container table table-bordered display"
 		th:if="${not #lists.isEmpty(leaveHistoryList)}">
-		<tr>
+	<thead>	<tr>
 			<th>Employee Id</th>
 			<th>Name</th>
 			<th>Leave Type</th>
@@ -99,7 +98,7 @@
 			<td><a th:href="@{/leave/details/}+${leave.id}"
 				th:text="#{button.details}"></a></td>
 
-		</tr>
+		</tr></thead>
 	</table>
 	</div>
 </body>
