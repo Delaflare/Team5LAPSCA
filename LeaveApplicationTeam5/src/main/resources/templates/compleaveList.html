@@ -13,7 +13,9 @@
 <body>
 	<div class="main-container">
 		<h1>Compensation Leave Applications</h1>
-
+		<div>
+		<h2>Current OT hours: <span th:text="${OTBalance}"></span></h2>
+		</div>
 		<a href="createCompLeave.html" th:href="@{/emp/compapply}">New Compensation
 			Leave</a>
 		<div th:text="${msg}"></div>

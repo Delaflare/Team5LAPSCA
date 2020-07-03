@@ -13,7 +13,15 @@
 <body>
 	<div class="main-container">
 		<h1>Leave Applications</h1>
-
+		<div>
+		<h2>Leave Balance</h2>
+			<table>
+				<tr th:each="balance: ${balanceList}" th:unless="${balance.leaveName == 'Compensation Leave'}">
+					<td th:text="${balance.leaveName}"></td>
+					<td th:text="${balance.leaveAllowance}"></td>
+				</tr>
+			</table>
+		</div>
 		<a href="createLeave.html" th:href="@{/emp/apply}">New Leave</a>
 		<div th:text="${msg}"></div>
 		<h2>Leave History</h2>

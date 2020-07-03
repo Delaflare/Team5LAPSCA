@@ -116,8 +116,10 @@ public class LeaveController {
 	}
 
 	@RequestMapping("emp/list")
-	public String list(Model model) {
+	public String list(Model model, Principal principal) {
+		User sessionUser = uservice.findUserByName(principal.getName());
 		model.addAttribute("leaveList", leaveservice.findAll());
+		model.addAttribute("balanceList", ultservice.findAllByUser(sessionUser));
 		return "leaveList";
 	}
 
@@ -161,7 +163,7 @@ public class LeaveController {
 				leaverecord.setLeaveDayCost(leaveCost);
 			} else {
 				model.addAttribute("msg", "You do not have enough balance.");
-				return "redirect:/emp/apply";
+				return "forward:/emp/apply";
 			}
 		} else {
 
@@ -172,7 +174,7 @@ public class LeaveController {
 				leaverecord.setLeaveDayCost(duration);
 			} else {
 				model.addAttribute("msg", "You do not have enough balance.");
-				return "redirect:/emp/apply";
+				return "forward:/emp/apply";
 			}
 		}
 
@@ -223,10 +225,11 @@ public class LeaveController {
 			returnLeave(lr);
 			leaveservice.deleteLeave(lr);
 			model.addAttribute("msg", "Leave is deleted. ");
+			return "forward:/emp/list";
 		} else {
 			model.addAttribute("msg", "Cannot delete leave after approved or cancelled.");
+			return"forward:/emp/list";
 		}
-		return "redirect:/emp/list";
 	}
 
 	@RequestMapping("emp/cancel/{id}")
@@ -237,10 +240,12 @@ public class LeaveController {
 			leaveservice.cancelLeave(lr);
 			returnLeave(lr);
 			model.addAttribute("msg", "Leave is cancelled.");
+			return"forward:/emp/list";
 		} else {
 			model.addAttribute("msg", "Leave can only be canceld after approved.");
+			return "forward:/emp/list";
 		}
-		return "redirect:/emp/list";
+		
 	}
 
 //breakline between emp vs mananger
@@ -253,10 +258,8 @@ public class LeaveController {
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
 		if (keyword != null || ltName != null) {
 			model.addAttribute("leaveList", leaveservice.findLeaveByEmployeeAndLeave(keyword, ltName, reportToId));
-			System.out.println(ltName);
 		} else {
 			model.addAttribute("leaveList", leaveservice.findAllPendingLeave(reportToId));
-			System.out.println(ltName);
 		}
 		return "/manager/viewLeaveRequests";
 	}

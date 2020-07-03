@@ -180,10 +180,7 @@ public class OTController {
 		public String listAll(Model model, Principal principal) {
 			model.addAttribute("leaveList", leaveservice.findAll());
 			User sessionUser = uservice.findUserByName(principal.getName());
-			/*
-			 * model.addAttribute("leaveList",
-			 * leaveservice.findUserCompensationLeave(sessionUser));
-			 */
+			model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionUser.getId(), "Compensation Leave"));
 			return "compleaveList";
 		}
 
