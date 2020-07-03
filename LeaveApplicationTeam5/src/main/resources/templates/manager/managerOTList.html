@@ -5,43 +5,76 @@
 <title>Manager View OT</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/style.css" th:href="@{/css/style.css}" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
 </head>
 <body>
-<!-- list of compensation leave -->
-<div>
-<h1>View Pending OT Claims</h1>
+	<!-- list of compensation leave -->
+	<div>
+		<h1>View Pending OT Claims</h1>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2 th:text="#{search.header}">Search Criteria</h2>
+			</div>
+			<div class="panel-body">
+				<form th:action="@{/mng/ViewOT}" method="get">
+				<div class="row">
+						<div class="col-sm-4">
+							Employee Name: <input id="txtSearch" type="text" name="keyword">
+						</div>
+						
+						<div class="col-sm-4">
+						<div class="btn-group">
 
-<h2 th:text="#{search.header}">Search Criteria</h2>
-	<form th:action="@{/mng/ViewOT}" method="get" >
-		<fieldset>
-			Employee Name: <input id="txtSearch" type="text" name="keyword">
-		</fieldset>	
-		<button type="submit" th:text="#{button.search}">search</button>	
-		<a th:text="#{button.reset}" th:href="@{/mng/ViewOT}"></a>	
-	</form>
-	
-<h2 th:if="${not #lists.isEmpty(OTList)}" >OT Claim Requests</h2> 
-<table  class="w3-container" th:if="${not #lists.isEmpty(OTList)}">
-	<tr>
-		<th>Employee id</th>
-		<th>Employee Name</th>
-		<th><a>Start Date</a></th>
-		<th><a>End Date</a></th>
-		<th><a>OT Hours</a></th>
-		<th><a>Status</a></th>	
-		<th></th>
-		<th></th>
-	</tr>
-	<tr th:each="OT: ${OTList}">
-		<td th:text="*{OT.user.id}"></td>
-		<td th:text="${OT.user.firstName} + ${OT.user.firstName}"></td>
-		<td th:text="${OT.startDate}"></td>
-		<td th:text="${OT.endDate}"></td>
-		<td th:text="${OT.totalOTTime}"></td>
-		<td th:text="${OT.status}"></td>	
-		<td><a th:href="@{/mng/OTdetails/} + *{OT.id} ">Details</a></td>
-	</tr>
-</table>
-</div>
+						<button type="submit" th:text="#{button.search}"
+							class="btn btn-primary">search</button>
+						<a type="button" class="btn btn-primary"
+							th:text="#{button.reset}" th:href="@{/mng/ViewOT}">Reset</a>
+					</div>
+						
+						</div>
+					</div>
+					
+				</form>
+			</div>
+		</div>
+		<h2 th:if="${not #lists.isEmpty(OTList)}">OT Claim Requests</h2>
+		<table id="OTList" class="w3-container table table-bordered display"
+			style="width: 100%" th:if="${not #lists.isEmpty(OTList)}">
+			<tr>
+				<th>Employee id</th>
+				<th>Employee Name</th>
+				<th><a>Start Date</a></th>
+				<th><a>End Date</a></th>
+				<th><a>OT Hours</a></th>
+				<th><a>Status</a></th>
+				<th></th>
+				
+			</tr>
+			<tr th:each="OT: ${OTList}">
+				<td th:text="*{OT.user.id}"></td>
+				<td th:text="${OT.user.firstName} + ${OT.user.firstName}"></td>
+				<td th:text="${OT.startDate}"></td>
+				<td th:text="${OT.endDate}"></td>
+				<td th:text="${OT.totalOTTime}"></td>
+				<td th:text="${OT.status}"></td>
+				<td><a th:href="@{/mng/OTdetails/} + *{OT.id} ">Details</a></td>
+			</tr>
+		</table>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#OTList').DataTable();
+		});
+	</script>
 </body>
 </html>
