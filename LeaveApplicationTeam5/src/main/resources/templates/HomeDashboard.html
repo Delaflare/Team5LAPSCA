@@ -33,7 +33,7 @@
           <a class="dropdown-item" href="/emp/complist">Apply Comp Leave</a>
         </div>
       </li>
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" th:if="${isManager}">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Manager
         </a>
@@ -44,7 +44,7 @@
           <a class="dropdown-item" href="/mng/viewLeaveHistory">View Leave History</a>
         </div>
       </li>
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" th:if="${isAdmin}">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Admin
         </a>
@@ -110,7 +110,7 @@
 				</table>
 			</div>		
 		</div>
-		<div class="col-sm-6">
+		<div class="col-sm-6" th:if="${isManager}">
 			<div class="col-sm-12">
 				<div>Employees Currently On Leave</div>
 				<table>
