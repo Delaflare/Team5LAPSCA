@@ -16,7 +16,7 @@ import sg.edu.LeaveApplication.service.LeaveTypeService;
 import sg.edu.LeaveApplication.service.LeaveTypeServiceImpl;
 
 @Controller
-@RequestMapping(value = "/leavetypes")
+@RequestMapping(value = "/admin")
 public class LeaveTypeController {
 
 	@Autowired
@@ -27,25 +27,25 @@ public class LeaveTypeController {
 		this.leavetypeservice = leavetypeserviceImpl;
 	}
 
-	@RequestMapping(value = "/list")
+	@RequestMapping(value = "/leavetypelist")
 	public String list(Model model) {
 		model.addAttribute("ltypelist", leavetypeservice.findAll());
-		return "/LeaveTypes/LeaveTypes";
+		return "/admin/LeaveTypes";
 	}
 
-	@RequestMapping(value = "/add")
+	@RequestMapping(value = "/addleavetype")
 	public String addForm(Model model) {
 		model.addAttribute("leavetype", new LeaveTypes());
-		return "/LeaveTypes/LeaveTypesDetail";
+		return "/admin/LeaveTypesDetail";
 	}
 
-	@RequestMapping(value = "/edit/{id}")
+	@RequestMapping(value = "/editleavetype/{id}")
 	public String editForm(@PathVariable("id") Integer id, Model model) {
 		model.addAttribute("leavetype", leavetypeservice.findLeaveTypesById(id));
-		return "LeaveTypesDetail";
+		return "/admin/LeaveTypesDetail";
 	}
 
-	@RequestMapping(value = "/save")
+	@RequestMapping(value = "/saveleavetype")
 	public String saveLeaveType(@ModelAttribute("leavetype") @Valid LeaveTypes leavetypes, BindingResult bindingResult,
 			Model model) {
 		//if (bindingResult.hasErrors()) {
@@ -55,7 +55,7 @@ public class LeaveTypeController {
 		return "forward:/leavetypes/list";
 	}
 
-	@RequestMapping(value = "/delete/{id}")
+	@RequestMapping(value = "/deleteleavetype/{id}")
 	public String deleteDepartment(@PathVariable("id") Integer id) {
 		leavetypeservice.deleteLeaveType(leavetypeservice.findLeaveTypesById(id));
 		return "forward:/leavetypes/list";

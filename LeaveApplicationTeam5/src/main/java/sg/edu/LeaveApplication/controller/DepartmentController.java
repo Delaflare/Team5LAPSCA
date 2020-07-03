@@ -17,7 +17,7 @@ import sg.edu.LeaveApplication.service.DepartmentServiceImpl;
 
 
 @Controller
-@RequestMapping (value = "/dept" )
+@RequestMapping (value = "/admin" )
 public class DepartmentController {
 	
 	@Autowired
@@ -30,32 +30,32 @@ public class DepartmentController {
 	}
 
 	
-	@RequestMapping (value = "/list" )
+	@RequestMapping (value = "/dplist" )
 		public String list(Model model)
 		{
 		System.out.println(dservice.findAll().size());
 		model.addAttribute("dlist" , dservice.findAll());	
 		
-		return "department-list";
+		return "/admin/department-list";
 			
 		}
 	
-	@RequestMapping (value = "/add" )
+	@RequestMapping (value = "/adddp" )
 		public String addForm(Model model)
 		{
 		model.addAttribute("department" ,new Department());	
-		return "department-form";
+		return "/admin/department-form";
 		}
 		
-	@RequestMapping (value = "/edit/{id}" )
+	@RequestMapping (value = "/editdp/{id}" )
 		public String editForm(@PathVariable("id") Integer id, Model model)
 		
 		{
 		model.addAttribute("department", dservice.findDeparmentById(id));	
-		return "department-form";
+		return "/admin/department-form";
 		}
 		
-	@RequestMapping (value = "/save" )
+	@RequestMapping (value = "/savedp" )
 		public String saveDepartment(@ModelAttribute ("department") 
 		@Valid Department department, BindingResult bindingResult, Model model)
 		// @valid is done to make sure there is a valid department, and must
@@ -64,7 +64,7 @@ public class DepartmentController {
 		{
 		if (bindingResult.hasErrors())
 		{
-			return "department-form";
+			return "/admin/department-form";
 		}
 		else
 		{
@@ -74,7 +74,7 @@ public class DepartmentController {
 		}
 		}
 		
-	@RequestMapping (value = "/delete/{id}" )
+	@RequestMapping (value = "/deletedp/{id}" )
 		public String deleteDepartment(@PathVariable ("id") Integer id)
 		{
 		dservice.deleteDepartment(dservice.findDeparmentById(id));
