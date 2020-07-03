@@ -30,6 +30,7 @@ import sg.edu.LeaveApplication.model.PublicHolidays;
 import sg.edu.LeaveApplication.model.Status;
 import sg.edu.LeaveApplication.model.Time;
 import sg.edu.LeaveApplication.model.User;
+import sg.edu.LeaveApplication.model.UserLeaveTypes;
 import sg.edu.LeaveApplication.service.LeaveService;
 import sg.edu.LeaveApplication.service.LeaveTypeService;
 import sg.edu.LeaveApplication.service.OTService;
@@ -77,6 +78,7 @@ public class OTController {
 	public void setOtservice(OTService otservice) {
 		this.otservice = otservice;
 	}
+	
 	
 	@RequestMapping("emp/OTList")
 	public String list(Model model, Principal principal) {
@@ -128,11 +130,18 @@ public class OTController {
 	
 	// return leaveDayCost upon cancel/delete/reject
 		public void returnLeave(LeaveRecord lr) {
-			int currentBalance = ultservice.findleaveAllowance(lr.getUser().getId(), lr.getLeaveTypes().getLeaveName());
-			lr.setLeaveDayCost(currentBalance + lr.getLeaveDayCost());
-			leaveservice.saveLeave(lr);
+			int addback = lr.getLeaveDayCost();
+			int userId = lr.getUser().getId();
+			String leaveName = lr.getLeaveTypes().getLeaveName();
+			int leaveAllowance = ultservice.findleaveAllowance(userId, leaveName);
+			int newAllowance = leaveAllowance + addback;
+			System.out.println(userId);
+			System.out.println(leaveAllowance);
+			System.out.println(newAllowance);
+			ultservice.update(lr.getUser(), leaveName, newAllowance);		
+			System.out.println(ultservice.findleaveAllowance(userId, leaveName));
 		}
-	
+	;
 	
 	// check balance function
 		public Boolean isBalanceEnough(User user, String leaveName, Integer leaveCost) {
@@ -258,7 +267,7 @@ public class OTController {
     }*/
 
 			leaverecord.setLeaveTypes(leavetypeservice.findLeaveTypesByName(leaveType));
-			leaverecord.setUser(uservice.findUserById(0));// to use session user_id
+			leaverecord.setUser(uservice.findUserById(sessionUser.getId()));// to use session user_id
 			leaverecord.setLeaveAppliedDate(new Date());
 			leaverecord.setDuration(duration);
 			leaverecord.setStartDate(LocalDate.parse(sd, formatter));
@@ -324,7 +333,7 @@ public class OTController {
 			} else {
 				model.addAttribute("msg", "Cannot delete leave after approved or cancelled.");
 			}
-			return "redirect:/emp/complist";
+			return "forward:/emp/complist";
 		}
 		
 		
@@ -339,7 +348,7 @@ public class OTController {
 			} else {
 				model.addAttribute("msg", "Leave can only be canceld after approved.");
 			}
-			return "redirect:/emp/complist";
+			return "forward:/emp/complist";
 		}
 		
 		@RequestMapping("emp/compdetail/{id}")
