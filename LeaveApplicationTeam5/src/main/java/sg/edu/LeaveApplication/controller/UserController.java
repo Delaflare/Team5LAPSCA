@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,7 +43,7 @@ public class UserController {
 	private LeaveTypeService ltypeservice;
 	@Autowired
 	private UserLeaveTypesService ultypeservice;
-	
+	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	
 	@Autowired
@@ -75,8 +76,9 @@ public class UserController {
 	public String saveUser(@ModelAttribute("user") @Valid User user,
 			BindingResult bindingResult, Model model) {
 		Department d = dservice.findDeparmentByName(user.getDepartment().getName());
-		
 		user.setDepartment(d);
+		String encodedpwd = passwordEncoder.encode(user.getPassword());
+		user.setPassword(encodedpwd);
 		if(bindingResult.hasErrors())
 			return "createUserForm"; 
 		uservice.saveUser(user);
