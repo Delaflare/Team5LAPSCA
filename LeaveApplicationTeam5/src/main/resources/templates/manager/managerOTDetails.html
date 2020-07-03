@@ -38,9 +38,13 @@
 		<fieldset>
 			Status: <select name="status">
 				<option value=""></option>
-				<option
+<!-- 				<option
 					th:each="status: ${T(sg.edu.LeaveApplication.model.Status).values()}"
-					th:value="${status}" th:text="${status.displayValue}"></option>
+					th:value="${status}" th:text="${status.displayValue}"></option> -->
+					<option
+					th:value="${T(sg.edu.LeaveApplication.model.Status).APPROVED}" th:text="${T(sg.edu.LeaveApplication.model.Status).APPROVED.displayValue}"></option>
+					<option
+					th:value="${T(sg.edu.LeaveApplication.model.Status).REJECTED}" th:text="${T(sg.edu.LeaveApplication.model.Status).REJECTED.displayValue}"></option>
 			</select>
 		</fieldset>
 		<fieldset>

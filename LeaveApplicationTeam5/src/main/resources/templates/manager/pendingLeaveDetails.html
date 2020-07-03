@@ -7,49 +7,7 @@
 	href="../../css/style.css" th:href="@{/css/style.css}" />
 </head>
 <body>
-<h1 th:text="#{LeaveReqDetails.page.title}">Leave Details</h1>
-
-<!-- <fieldset> 
-		<input type ="hidden" th:field="${leave.id}"></input>
-	</fieldset>
-	<fieldset> 
-		Employee Id: <span th:text="${leave.user.id}">Employee Id</span>
-	</fieldset>
-	<fieldset> 
-		Name: <span th:text="${leave.user.firstName} + ${leave.user.lastName}"> Name </span>
-	</fieldset>
-	<fieldset> 
-		Leave Type: <span th:text="${leave.id}">Leave Type</span>
-	</fieldset>
-	<fieldset> 
-		Duration:  <span th:text="${leave.duration}">Duration</span>
-	</fieldset>
-	<fieldset> 
-		Start Date: <span th:text="${leave.startDate}">Start Date</span>
-	</fieldset>
-	<fieldset> 
-		Description: <span th:text="${leave.description}">Description</span>
-	</fieldset>
-	<fieldset> 
-		Work Dissemination: <span th:text="${leave.workDissemination}"></span>
-	</fieldset>
-	<fieldset> 
-		Contact Details: <span th:text="${leave.contactDetails}"></span>
-	</fieldset>
-	<fieldset> 
-		Applied Date: <span th:text="${leave.leaveAppliedDate}"></span>
-	</fieldset>
-	<fieldset> 
-		Manager's Comments: <textarea  th:name="comments" ></textarea>
-	</fieldset>
-	<fieldset>
-		<a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a>
-		<a th:href="@{/leave/rejectLeave/}+${leave.id}" th:text="#{button.reject}"></a>
-		<a th:href="@{/leave/approveLeave/}+${leave.id}+@{/}+${leave.comments}"  th:text="#{button.approve}"></a>
-		<a th:href="@{/leave/rejectLeave/}+${leave.id}+@{/}+${leave.comments}" th:text="#{button.reject}"></a>
-	</fieldset> -->
-
-	
+<h1 th:text="#{LeaveReqDetails.page.title}">Leave Details</h1>	
 	<fieldset> 
 		Employee Id: <span th:text="${leave.user.id}">Employee Id</span>
 	</fieldset>
@@ -90,14 +48,18 @@
 		<fieldset>
 			Status: <select name="status">
 				<option value=""></option>
-				<option
+<!-- 				<option
 					th:each="status: ${T(sg.edu.LeaveApplication.model.Status).values()}"
-					th:value="${status}" th:text="${status.displayValue}"></option>
-
+					th:value="${status}" th:text="${status.displayValue}"></option> -->
+					<option
+					th:value="${T(sg.edu.LeaveApplication.model.Status).APPROVED}" th:text="${T(sg.edu.LeaveApplication.model.Status).APPROVED.displayValue}"></option>
+					<option
+					th:value="${T(sg.edu.LeaveApplication.model.Status).REJECTED}" th:text="${T(sg.edu.LeaveApplication.model.Status).REJECTED.displayValue}"></option>
 			</select>
 		</fieldset>
 		<fieldset>
 			<button type="submit" th:text="#{button.save}"></button>
+			<a th:text="#{button.cancel}" th:href="@{/mng/viewLeave}"></a>
 		</fieldset>
 	</form>
 
