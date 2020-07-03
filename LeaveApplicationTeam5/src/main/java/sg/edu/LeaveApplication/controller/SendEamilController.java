@@ -36,7 +36,7 @@ public class SendEamilController{
 			            message.setFrom(new InternetAddress("team5leavesystem.sa50@gmail.com"));
 			            message.setRecipients(
 			                    Message.RecipientType.TO,
-			                    InternetAddress.parse("waiphupaing2016@gmail.com")
+			                    InternetAddress.parse(toEmail)
 			            );
 			            message.setSubject(status+" Your Leave Request!");
 			            message.setText("Dear "+userName+" ,"
