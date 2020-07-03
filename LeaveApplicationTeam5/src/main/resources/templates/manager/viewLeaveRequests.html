@@ -9,7 +9,7 @@
 <body>
 <h1 th:text="#{viewleave.page.title}"></h1>
 <h2 th:text="#{search.header}">Search Criteria</h2>
-	<form th:action="@{/leave/viewLeave}" method="get" >
+	<form th:action="@{/mng/viewLeave}" method="get" >
 		<fieldset>
 			Employee Name: <input id="txtSearch" type="text" name="keyword">
 		</fieldset>
@@ -22,7 +22,7 @@
 		</fieldset>		
 		<button type="submit" th:text="#{button.search}">search</button>
 		<!-- <button type="reset" th:text="#{button.reset}">clear</button> -->	
-		<a th:text="#{button.reset}" th:href="@{/leave/viewLeave}"></a>	
+		<a th:text="#{button.reset}" th:href="@{/mng/viewLeave}"></a>	
 	</form>
 	
 
@@ -45,7 +45,7 @@
 			<td th:text="${leave.startDate}">Start Date</td>
 			<td th:text="${leave.description}">Description</td>
 			<td th:text="${leave.comments}">Comment</td>
-			<td><a th:href="@{/leave/details/}+${leave.id}"  th:text="#{button.details}"></a></td>			
+			<td><a th:href="@{/mng/details/}+${leave.id}"  th:text="#{button.details}"></a></td>			
 		<!-- 	<td><a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a></td>
 			<td><a th:href="@{/leave/rejectLeave/}+${leave.id}" th:text="#{button.reject}"></a></td> -->
 		</tr>

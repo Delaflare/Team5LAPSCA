@@ -10,7 +10,7 @@
 <h3>OT Claim Record</h3>
 <h4>Current Balance: </h4><p th:text=${OTBalance}></p>
 <hr/>
-<a th:action="@{/leave/claimOT}">Claim OT</a>
+<a th:href="@{/emp/claimOT}">Claim OT</a>
 <table border = 1 class="w3-container" th:if="${not #lists.isEmpty(OTList)}">
 <thead>
 	<tr>
@@ -31,8 +31,8 @@
 		<td th:text="${OT.status}"></td>
 		<td th:if="${OT.approvedDate != null}" th:text="${OT.approvedDate}"></td>
 		
-		<td><a th:href="@{/leave/updateOT}">Update</a></td>
-		<td><a th:href="@{/leave/deleteOT}">Delete</a></td>
+		<td><a th:href="@{/emp/updateOT} + ${OT.id}">Update</a></td>
+		<td><a th:href="@{/emp/deleteOT} + ${OT.id}">Delete</a></td>
 	</tr>
 </thead>
 </table>

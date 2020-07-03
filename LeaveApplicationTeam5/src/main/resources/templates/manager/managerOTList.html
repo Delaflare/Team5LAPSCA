@@ -12,12 +12,12 @@
 <h1>View Pending OT Claims</h1>
 
 <h2 th:text="#{search.header}">Search Criteria</h2>
-	<form th:action="@{/leave/managerViewOT}" method="get" >
+	<form th:action="@{/mng/ViewOT}" method="get" >
 		<fieldset>
 			Employee Name: <input id="txtSearch" type="text" name="keyword">
 		</fieldset>	
 		<button type="submit" th:text="#{button.search}">search</button>	
-		<a th:text="#{button.reset}" th:href="@{/leave/managerViewOT}"></a>	
+		<a th:text="#{button.reset}" th:href="@{/mng/ViewOT}"></a>	
 	</form>
 	
 <h2 th:if="${not #lists.isEmpty(OTList)}" >OT Claim Requests</h2> 
@@ -39,7 +39,7 @@
 		<td th:text="${OT.endDate}"></td>
 		<td th:text="${OT.totalOTTime}"></td>
 		<td th:text="${OT.status}"></td>	
-		<td><a th:href="@{/leave/managerOTdetails/} + *{OT.id} ">Details</a></td>
+		<td><a th:href="@{/mng/OTdetails/} + *{OT.id} ">Details</a></td>
 	</tr>
 </table>
 </div>

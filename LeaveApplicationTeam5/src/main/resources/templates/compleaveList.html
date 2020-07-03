@@ -10,7 +10,7 @@
 <body>
 <h1>Leave Application Listing</h1>
 
-	<a href="createCompLeave.html" th:href="@{/leave/compleave/apply}">New Leave</a>
+	<a href="createCompLeave.html" th:href="@{/emp/compapply}">New Leave</a>
 	<div th:text="${msg}"></div>
 	<h2> Leave History</h2> 
 	<table border = 1 class="w3-container" th:if="${not #lists.isEmpty(leaveList)}">
@@ -30,10 +30,10 @@
 				<td th:text="${leave.startDate}"></td>
 				<td th:if="${leave.startDate != null}" th:text="${leave.startDate.plusDays(leave.duration)}"></td>
 				<td th:text="${leave.duration}"></td>
-				<td><a th:href="@{/leave/detail/}+${leave.id}">View Details</a></td>
-				<td><a th:href="@{/leave/compleave/update/}+${leave.id}">Update</a></td>	
-				<td><a th:href="@{/leave/cancel/}+${leave.id}">Cancel</a></td>	
-				<td><a th:href="@{/leave/delete/}+${leave.id}">Delete</a></td>		
+				<td><a th:href="@{/emp/compdetail/}+${leave.id}">View Details</a></td>
+				<td><a th:href="@{/emp/compupdate/}+${leave.id}">Update</a></td>	
+				<td><a th:href="@{/emp/compcancel/}+${leave.id}">Cancel</a></td>	
+				<td><a th:href="@{/emp/compdelete/}+${leave.id}">Delete</a></td>		
 			</tr>
 	</table>
 </body>

@@ -79,7 +79,7 @@
 	</fieldset>
 
 	<form action="#" th:object="${leave}"
-		th:action="@{/leave/submit/}+${leave.id}" method="post">
+		th:action="@{/mng/submit/}+${leave.id}" method="post">
 		<fieldset>
 			<input type="hidden" th:field="*{id}"></input>
 		</fieldset>

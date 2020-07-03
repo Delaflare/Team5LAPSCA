@@ -1,5 +1,6 @@
 package sg.edu.LeaveApplication.controller;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -12,9 +13,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.mail.Session;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,49 +40,38 @@ import sg.edu.LeaveApplication.service.UserLeaveTypesService;
 import sg.edu.LeaveApplication.service.UserService;
 
 @Controller
-@SessionAttributes("user")
-@RequestMapping("/leave")
 public class LeaveController {
 	@Autowired
 	LeaveService leaveservice;
-
 	@Autowired
 	public void setLeaveservice(LeaveService leaveservice) {
 		this.leaveservice = leaveservice;
 	}
-
 	@Autowired
 	LeaveTypeService leavetypeservice;
-
 	@Autowired
 	public void setLeavetypeservice(LeaveTypeService leavetypeservice) {
 		this.leavetypeservice = leavetypeservice;
 	}
-
 	@Autowired
 	UserService uservice;
-
 	@Autowired
 	public void setUservice(UserService uservice) {
 		this.uservice = uservice;
 	}
-
 	@Autowired
 	PublicHolidayService holiservice;
-
 	@Autowired
 	public void setHoliservice(PublicHolidayService holiservice) {
 		this.holiservice = holiservice;
 	}
-
 	@Autowired
 	UserLeaveTypesService ultservice;
-
 	@Autowired
 	public void setUltservice(UserLeaveTypesService ultservice) {
 		this.ultservice = ultservice;
 	}
-
+	
 	// return leaveDayCost upon cancel/delete/reject
 	public void returnLeave(LeaveRecord lr) {
 		int currentBalance = ultservice.findleaveAllowance(lr.getUser().getId(), lr.getLeaveTypes().getLeaveName());
@@ -114,13 +106,14 @@ public class LeaveController {
 		return (int) leaveCost;
 	}
 
-	@RequestMapping("/emp/leave/list")
-	public String list(Model model) {
+	@RequestMapping("emp/list")
+	public String list(Model model, Principal principal) {
+		System.out.println(principal.getName());
 		model.addAttribute("leaveList", leaveservice.findAll());
 		return "leaveList";
 	}
 
-	@RequestMapping("/emp/leave/apply")
+	@RequestMapping("emp/apply")
 	public String applyLeave(Model model) {
 		// replace once user session is ready
 		User sessionUser = uservice.findUserById(21);
@@ -132,7 +125,7 @@ public class LeaveController {
 		return "createLeave";
 	}
 
-	@RequestMapping("/emp/save")
+	@RequestMapping("emp/save")
 	public String saveLeave(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult result, Model model,
 			@RequestParam("startDate") String sd, @RequestParam("endDate") String ed) throws ParseException {
 
@@ -195,7 +188,7 @@ public class LeaveController {
 		return "redirect:/emp/list";
 	}
 
-	@RequestMapping("/emp/update/{id}")
+	@RequestMapping("emp/update/{id}")
 	public String updateLeave(@PathVariable("id") Integer id, Model model) {
 
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
@@ -207,16 +200,16 @@ public class LeaveController {
 			model.addAttribute("leave", lr);
 			return "createLeave";
 		}
-		return "redirect:/leave/list";
+		return "redirect:/emp/list";
 	}
 
-	@RequestMapping("/emp/detail/{id}")
+	@RequestMapping("emp/detail/{id}")
 	public String viewLeave(@PathVariable("id") Integer id, Model model) {
 		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
 		return "leaveDetails";
 	}
 
-	@RequestMapping("/emp/delete/{id}")
+	@RequestMapping("emp/delete/{id}")
 	public String deleteLeave(@PathVariable("id") Integer id, Model model) {
 		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		// only when Pending, allow delete
@@ -227,10 +220,10 @@ public class LeaveController {
 		} else {
 			model.addAttribute("msg", "Cannot delete leave after approved or cancelled.");
 		}
-		return "forward:/leave/list";
+		return "redirect:/emp/list";
 	}
 
-	@RequestMapping("/emp/cancel/{id}")
+	@RequestMapping("emp/cancel/{id}")
 	public String cancelLeave(@PathVariable("id") Integer id, Model model) {
 		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		// have record and after approved, allow cancel
@@ -241,10 +234,12 @@ public class LeaveController {
 		} else {
 			model.addAttribute("msg", "Leave can only be canceld after approved.");
 		}
-		return "forward:/leave/list";
+		return "redirect:/emp/list";
 	}
-
-	@RequestMapping("viewLeave")
+	
+//breakline between emp vs mananger
+	
+	@RequestMapping("mng/viewLeave")
 	public String viewLeaveRequest(Model model, String keyword, String ltName) {
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
 		if (keyword != null || ltName != null) {
@@ -257,7 +252,7 @@ public class LeaveController {
 		return "/manager/viewLeaveRequests";
 	}
 
-	@RequestMapping("/viewLeaveHistory")
+	@RequestMapping("mng/viewLeaveHistory")
 	public String viewLeaveHistory(Model model, String keyword, String fromDate, String toDate, String ltName,
 			String status) {
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
@@ -305,14 +300,13 @@ public class LeaveController {
 		return "/manager/viewLeaveHistory";
 	}
 
-	@RequestMapping("/details/{id}")
+	@RequestMapping("mng/details/{id}")
 	public String showLeaveDetails(@PathVariable("id") Integer id, Model model) {
 		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
-		/* model.addAttribute("leaveStatus", leaveservice.findAllLeaveStatusName()); */
 		return "/manager/pendingLeaveDetails";
 	}
 
-	@RequestMapping("/submit/{id}")
+	@RequestMapping("mng/submit/{id}")
 	public String submit(@ModelAttribute("leave") LeaveRecord leave, @PathVariable("id") Integer id,
 			@RequestParam("comments") String comments, @RequestParam("status") Status status) {
 		LeaveRecord newLeave = leaveservice.findLeaveRecordById(leave.getId());
@@ -330,7 +324,7 @@ public class LeaveController {
 		SendEamilController.SendEmailSSL(status.name(),
 				newLeave.getUser().getFirstName() + " " + newLeave.getUser().getLastName(), comments,
 				newLeave.getUser().getEmail());
-		return "redirect:/leave/viewLeave";
+		return "redirect:/mng/viewLeave";
 	}
 
 }

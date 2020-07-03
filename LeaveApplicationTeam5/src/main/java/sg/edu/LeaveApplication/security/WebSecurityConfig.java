@@ -66,10 +66,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         
         http.authorizeRequests()
         //.anyRequest().authenticated()
-        //.antMatchers("/").hasAnyAuthority("ADMIN","MANAGER","EMPLOYEE")
+        	.antMatchers("/").hasAnyAuthority("ADMIN","MANAGER","EMPLOYEE")
 	        .antMatchers("/user/**").hasAuthority("ADMIN")
-	        .antMatchers("/leave/**").hasAnyAuthority("MANAGER", "EMPLOYEE")
-	        //.antMatchers("/leave/emp/**").hasAuthority("EMPLOYEE")
+	        .antMatchers("/mng/**").hasAuthority("MANAGER")
+	        .antMatchers("/emp/**").hasAnyAuthority("EMPLOYEE","MANAGER","ADMIN")
             .and()
             .formLogin()
             .loginPage("/login").permitAll()

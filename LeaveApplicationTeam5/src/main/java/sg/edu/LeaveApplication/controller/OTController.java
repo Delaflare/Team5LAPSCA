@@ -37,7 +37,6 @@ import sg.edu.LeaveApplication.service.UserLeaveTypesService;
 import sg.edu.LeaveApplication.service.UserService;
 
 @Controller
-@RequestMapping("/leave")
 public class OTController {
 	
 	@Autowired
@@ -78,7 +77,7 @@ public class OTController {
 		this.otservice = otservice;
 	}
 	
-	@RequestMapping("/OTList")
+	@RequestMapping("emp/OTList")
 	public String list(Model model) {
 		
 		User sessionuser = uservice.findUserById(21);
@@ -87,7 +86,7 @@ public class OTController {
 		return "OTHistory";
 	}
 	
-	@RequestMapping("/claimOT")
+	@RequestMapping("emp/claimOT")
 	public String claimOT(Model model) {
 		User sessionuser = uservice.findUserById(21);
 		
@@ -96,7 +95,7 @@ public class OTController {
 		return "OTForm";
 	}
 	
-	@RequestMapping("/saveOT")
+	@RequestMapping("emp/saveOT")
 	public String saveOT(@ModelAttribute("OTRecord") @Valid OTRecord otrecord, BindingResult result, Model model,
 			@RequestParam("startDate") String sd, @RequestParam("endDate") String ed
 			) throws ParseException {
@@ -108,11 +107,11 @@ public class OTController {
 		otrecord.setEndDate(LocalDate.parse(ed,formatter));
 		otrecord.setStatus(Status.PENDING);
 		otservice.saveOTRecord(otrecord);
-		return"redirect:/leave/OTList";
+		return"redirect:/emp/OTList";
 	}
 	
 	
-	@RequestMapping("/deleteOT/{id}")
+	@RequestMapping("emp/deleteOT/{id}")
 	public String deleteOT(@PathVariable("id") Integer id, Model model) {
 		OTRecord ot = otservice.findById(id);
 		//only when Pending, allow delete
@@ -123,7 +122,7 @@ public class OTController {
 		else {
 			model.addAttribute("msg", "Cannot delete leave after approved or cancelled.");
 		}
-		return"forward:/leave/list";
+		return"redirect:/emp/list";
 	}
 	
 	
@@ -169,13 +168,13 @@ public class OTController {
 			return (int) leaveCost;
 		}
 
-		@RequestMapping("/compleave/listall")
+		@RequestMapping("emp/complist")
 		public String listAll(Model model) {
 			model.addAttribute("leaveList", leaveservice.findAll());
 			return "compleaveList";
 		}
 
-		@RequestMapping("/compleave/apply")
+		@RequestMapping("emp/compapply")
 		public String applyForm(Model model) {
 			//replace once user session is ready
 			User sessionUser = uservice.findUserById(21);
@@ -188,7 +187,7 @@ public class OTController {
 
 		}
 
-		@RequestMapping("/compleave/save")
+		@RequestMapping("emp/compsave")
 		public String saveForm(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult bindingResult,
 				Model model, @RequestParam("startDate") String sd, @RequestParam("endDate") String ed, @RequestParam("startTime") Time st, @RequestParam("endTime") Time et )
 				throws ParseException {
@@ -234,7 +233,7 @@ public class OTController {
 					}
 					else {
 						model.addAttribute("msg", "You do not have enough balance.");
-						return "redirect:/leave/compleave/apply";
+						return "redirect:/emp/compapply";
 					}
 			    }
 		    else {
@@ -247,7 +246,7 @@ public class OTController {
 				}
 				else {
 					model.addAttribute("msg", "You do not have enough balance.");
-					return "redirect:/leave/compleave/apply";
+					return "redirect:/emp/compleave/apply";
 				}
 		    }
 
@@ -270,10 +269,10 @@ public class OTController {
 			
 			System.out.println(leaverecord.getLeaveTypes());
 
-			return "redirect:/leave/compleave/listall";
+			return "redirect:/emp/complist";
 		}
 		
-		@RequestMapping("/compleave/update/{id}")
+		@RequestMapping("emp/compupdate/{id}")
 		public String updateLeave(@PathVariable("id") Integer id, Model model) {
 			model.addAttribute("leaveTypes", leavetypeservice.findAll());
 			model.addAttribute("phlist", holiservice.findAll());
@@ -284,16 +283,16 @@ public class OTController {
 				model.addAttribute("leave", lr);
 				return"createCompLeave";
 			}
-			return "redirect:/leave/compleave/list";
+			return "redirect:/emp/complist";
 		}
 		
-		@RequestMapping("leave/detail/{id}")
+		@RequestMapping("emp/compdetail/{id}")
 		public String viewLeave(@PathVariable("id") Integer id, Model model) {
 			model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
 			return"leaveDetails";
 		}
-
-		@RequestMapping("/managerViewOT")
+//breakline for emp and mng
+		@RequestMapping("mng/ViewOT")
 		public String managerOTList(Model model, String keyword) {
 			if(keyword !=null) {
 				model.addAttribute("OTList", otservice.findPendingOTbyUser(keyword));
@@ -303,14 +302,14 @@ public class OTController {
 			return "/manager/managerOTList";		
 		}
 		
-		@RequestMapping("/managerOTdetails/{id}")
+		@RequestMapping("mng/OTdetails/{id}")
 		public String showLeaveDetails(@PathVariable("id") Integer id, Model model) {
 			model.addAttribute("OT", otservice.findById(id));
 			return "/manager/managerOTDetails";
 		}
 		
 		
-		@RequestMapping("/managerOTsubmit/{id}")
+		@RequestMapping("mng/OTsubmit/{id}")
 		public String submit(@ModelAttribute("OT") OTRecord ot, @PathVariable("id") Integer id,
 				 @RequestParam("status") Status status) {
 			OTRecord newOT = otservice.findById(ot.getId());
@@ -325,10 +324,7 @@ public class OTController {
 				ultservice.update(newOT.getUser(), leaveName, newAllowance);
 			}	
 			otservice.saveOTRecord(newOT);
-			
-
-
-			return "redirect:/leave/managerViewOT";
+			return "redirect:/mng/ViewOT";
 		}
 
 }

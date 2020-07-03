@@ -11,7 +11,7 @@
 <body>
 <div style="width:50%; float:left">
 <h1>Leave Application</h1>
-<form action="#" th:object="${leave}" th:action="@{/leave/save}" method="post" >
+<form action="#" th:object="${leave}" th:action="@{/emp/save}" method="post" >
 	<p th:text="${msg}"></p>
 	Start Date: <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02">	
 	End Date: <input type="date" id="ed" th:name="endDate" min="2020-02-02">
@@ -31,7 +31,7 @@
 	<input type="tel" pattern="[0-9]{8}"th:field="*{contactDetails}"/>  
 	<small>Format:12345678</small><br/>
 	<button type="submit">Save</button>
-	<a th:href="@{/leave/list}">Cancel</a>
+	<a th:href="@{/emp/list}">Cancel</a>
 </form>
 </div>
 <aside style="width:20%;float:right">

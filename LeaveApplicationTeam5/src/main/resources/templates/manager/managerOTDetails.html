@@ -31,7 +31,7 @@
 	</fieldset>
 
 	<form action="#" th:object="${OT}"
-		th:action="@{/leave/managerOTsubmit/}+${OT.id}" method="post">
+		th:action="@{/mng/OTsubmit/}+${OT.id}" method="post">
 		<fieldset>
 			<input type="hidden" th:field="*{id}"></input>
 		</fieldset>
@@ -45,7 +45,7 @@
 		</fieldset>
 		<fieldset>
 			<button type="submit" th:text="#{button.save}"></button>
-			<a th:text="#{button.cancel}" th:href="@{/leave/managerViewOT}"></a>
+			<a th:text="#{button.cancel}" th:href="@{/mng/ViewOT}"></a>
 		</fieldset>
 	</form>
 </body>

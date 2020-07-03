@@ -12,7 +12,7 @@
 
 <h2>OverTime Claim Form</h2>
 
-<form action="#" th:object="${OTRecord}" th:action="@{/leave/saveOT}" method="post">
+<form action="#" th:object="${OTRecord}" th:action="@{/emp/saveOT}" method="post">
 	<div class="form-group">
 	<h4>Current Balance: </h4>
 		<h4 th:text="${OTBalance}"></h4>
@@ -27,7 +27,7 @@
 		<label for="reason">Description</label>
 		<textarea class="form-control" rows="5" th:field="*{description}"></textarea>
 		<button class="btn btn-primary" type="submit">Submit</button>
-		<a th:href="@{/leave/OTList}">Cancel</a>
+		<a th:href="@{/emp/OTList}">Cancel</a>
 	</div>
 </form>
 <script>

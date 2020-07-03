@@ -9,7 +9,7 @@
 <body>
 	<h1 th:text="#{viewleave.page.title}"></h1>
 	<h2 th:text="#{search.header}">Search Criteria</h2>
-	<form th:action="@{/leave/viewLeaveHistory}"  th:object="${search}" method="get">
+	<form th:action="@{/mng/viewLeaveHistory}"  th:object="${search}" method="get">
 		<fieldset>
 			Employee Name: <input id="txtSearch" type="text" name="keyword">
 		</fieldset>
@@ -34,7 +34,7 @@
 			</select>
 		</fieldset>
 		<button type="submit" th:text="#{button.search}">search</button>
-		<a th:text="#{button.reset}" th:href="@{/leave/viewLeave}"></a>
+		<a th:text="#{button.reset}" th:href="@{/mng/viewLeave}"></a>
 		<fieldset>
 		<button th:text="#{button.print}" onclick="PrintClick();">Export HTML table to CSV file</button>
 			
