@@ -28,7 +28,7 @@
 				<td th:text=${leave.status}></td>
 				<td th:if="${leave.leaveTypes != null}" th:text=${leave.leaveTypes.leaveName}></td>
 				<td th:text="${leave.startDate}"></td>
-				<td th:if="${leave.startDate != null}" th:text="${leave.startDate.plusDays(leave.duration)}"></td>
+				<td th:if="${leave.startDate != null}" th:text="${leave.startDate.plusDays(leave.duration-1)}"></td>
 				<td th:text="${leave.duration}"></td>
 				<td><a th:href="@{/emp/detail/}+${leave.id}">View Details</a></td>
 				<td><a th:href="@{/emp/update/}+${leave.id}">Update</a></td>	
