@@ -305,7 +305,7 @@ public class OTController {
 			if(lr != null && lr.getStatus()==Status.PENDING || lr.getStatus()==Status.UPDATED) {
 				lr.setStatus(Status.UPDATED);
 				model.addAttribute("leave", lr);
-				return"createCompLeave";
+				return"updateCompLeave";
 			}
 			return "redirect:/emp/complist";
 		}
