@@ -24,7 +24,9 @@
 <li>Updated Date: <b th:text="*{leaveApprovedDate}"></b></li>
 <li>Manager Comments: <b th:text="*{comments}"></b></li>
 </ul>
-<td>
-<a th:href="@{/emp/list}">Back</a></td>	
+<div>
+  <span th:if="${leave.leaveTypes.leaveName == 'Compensation Leave'}"><a th:href="@{/emp/complist}">Back</a></span>
+<span th:unless="${leave.leaveTypes.leaveName == 'Compensation Leave'}"><a th:href="@{/emp/list}">Back</a></span>
+</div>	
 </body>
 </html>
