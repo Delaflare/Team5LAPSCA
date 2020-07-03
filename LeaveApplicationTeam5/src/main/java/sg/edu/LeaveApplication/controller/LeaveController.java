@@ -105,7 +105,7 @@ public class LeaveController {
 		LocalDate date2 = LocalDate.parse(ed, formatter);
 
 		Predicate<LocalDate> isWeekend = date -> date.getDayOfWeek() == DayOfWeek.SATURDAY
-				&& date.getDayOfWeek() == DayOfWeek.SUNDAY;
+				|| date.getDayOfWeek() == DayOfWeek.SUNDAY;
 
 		Predicate<LocalDate> isHoliday = date -> holidays.contains(date);
 		long daysBetween = ChronoUnit.DAYS.between(date1, date2) + 1;
@@ -116,16 +116,14 @@ public class LeaveController {
 	}
 
 	@RequestMapping("emp/list")
-	public String list(Model model, Principal principal) {
-		System.out.println(principal.getName());
+	public String list(Model model) {
 		model.addAttribute("leaveList", leaveservice.findAll());
 		return "leaveList";
 	}
 
 	@RequestMapping("emp/apply")
-	public String applyLeave(Model model) {
-		// replace once user session is ready
-		User sessionUser = uservice.findUserById(21);
+	public String applyLeave(Model model, Principal principal) {
+		User sessionUser = uservice.findUserByName(principal.getName());
 
 		model.addAttribute("leave", new LeaveRecord());
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
@@ -135,11 +133,10 @@ public class LeaveController {
 	}
 
 	@RequestMapping("emp/save")
-	public String saveLeave(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult result, Model model,
+	public String saveLeave(@ModelAttribute("leave") @Valid LeaveRecord leaverecord, BindingResult result, Model model, Principal principal,
 			@RequestParam("startDate") String sd, @RequestParam("endDate") String ed) throws ParseException {
 
-		// replace when session is ready
-		User sessionUser = uservice.findUserById(21);
+		User sessionUser = uservice.findUserByName(principal.getName());
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		// calculate duration
@@ -180,7 +177,7 @@ public class LeaveController {
 		}
 
 		leaverecord.setLeaveTypes(leaverecord.getLeaveTypes());
-		leaverecord.setUser(uservice.findUserById(102));// to use session user_id
+		leaverecord.setUser(uservice.findUserByName(principal.getName()));
 		leaverecord.setLeaveAppliedDate(new Date());
 		leaverecord.setDuration(duration);
 		leaverecord.setStartDate(LocalDate.parse(sd, formatter));
