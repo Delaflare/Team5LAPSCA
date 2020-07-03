@@ -53,4 +53,7 @@ public interface LeaveRepository extends JpaRepository<LeaveRecord, Integer> {
 			+ "AND u.reportsTo=:reportToId")
 	ArrayList<LeaveRecord> findLeaveHistory(@Param("keyword") String keyword, @Param("ltName") String ltName,
 			@Param("status") Integer int_status, @Param("reportToId") Integer reportToId);
+	
+	@Query("SELECT l from LeaveRecord l JOIN l.leaveTypes lt WHERE lt.leaveName = :leaveName AND l.user = :user")
+	ArrayList<LeaveRecord> findByUserAndLeaveName(@Param("user")User user, @Param("leaveName") String name);
 }

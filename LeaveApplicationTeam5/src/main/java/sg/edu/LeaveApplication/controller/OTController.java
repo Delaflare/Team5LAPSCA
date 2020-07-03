@@ -1,5 +1,6 @@
 package sg.edu.LeaveApplication.controller;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -125,6 +126,13 @@ public class OTController {
 		return"redirect:/emp/list";
 	}
 	
+	// return leaveDayCost upon cancel/delete/reject
+		public void returnLeave(LeaveRecord lr) {
+			int currentBalance = ultservice.findleaveAllowance(lr.getUser().getId(), lr.getLeaveTypes().getLeaveName());
+			lr.setLeaveDayCost(currentBalance + lr.getLeaveDayCost());
+			leaveservice.saveLeave(lr);
+		}
+	
 	
 	// check balance function
 		public Boolean isBalanceEnough(User user, String leaveName, Integer leaveCost) {
@@ -169,8 +177,9 @@ public class OTController {
 		}
 
 		@RequestMapping("emp/complist")
-		public String listAll(Model model) {
-			model.addAttribute("leaveList", leaveservice.findAll());
+		public String listAll(Model model, Principal principal) {
+			User sessionUser = uservice.findUserByName(principal.getName());
+			model.addAttribute("leaveList", leaveservice.findUserCompensationLeave(sessionUser));
 			return "compleaveList";
 		}
 
@@ -282,6 +291,36 @@ public class OTController {
 				lr.setStatus(Status.UPDATED);
 				model.addAttribute("leave", lr);
 				return"createCompLeave";
+			}
+			return "redirect:/emp/complist";
+		}
+		
+		
+		@RequestMapping("emp/compdelete/{id}")
+		public String deleteLeave(@PathVariable("id") Integer id, Model model) {
+			LeaveRecord lr = leaveservice.findLeaveRecordById(id);
+			// only when Pending, allow delete
+			if (lr != null && lr.getStatus() == Status.PENDING || lr.getStatus() == Status.UPDATED) {
+				returnLeave(lr);
+				leaveservice.deleteLeave(lr);
+				model.addAttribute("msg", "Leave is deleted. ");
+			} else {
+				model.addAttribute("msg", "Cannot delete leave after approved or cancelled.");
+			}
+			return "redirect:/emp/complist";
+		}
+		
+		
+		@RequestMapping("emp/compcancel/{id}")
+		public String cancelLeave(@PathVariable("id") Integer id, Model model) {
+			LeaveRecord lr = leaveservice.findLeaveRecordById(id);
+			// have record and after approved, allow cancel
+			if (lr != null && lr.getStatus() == Status.APPROVED) {
+				leaveservice.cancelLeave(lr);
+				returnLeave(lr);
+				model.addAttribute("msg", "Leave is cancelled.");
+			} else {
+				model.addAttribute("msg", "Leave can only be canceld after approved.");
 			}
 			return "redirect:/emp/complist";
 		}

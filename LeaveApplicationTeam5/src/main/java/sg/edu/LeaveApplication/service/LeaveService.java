@@ -23,4 +23,5 @@ public interface LeaveService {
 	public ArrayList<LeaveRecord> findLeaveHistory(String keyword , String ltName,Integer int_status, Integer reportToId);
 	public ArrayList<LeaveRecord> findOnLeave();
 	public ArrayList<LeaveRecord> findByUser(User user);
+	public ArrayList<LeaveRecord> findUserCompensationLeave(User user);
 }

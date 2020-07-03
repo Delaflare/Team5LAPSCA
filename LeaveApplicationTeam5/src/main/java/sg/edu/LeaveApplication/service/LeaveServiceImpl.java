@@ -120,4 +120,9 @@ public class LeaveServiceImpl implements LeaveService {
 		ArrayList<LeaveRecord> leavelist = (ArrayList<LeaveRecord>) leaverepo.findAllByReportTo(reportToId);
 		return leavelist;
 	}
+	
+	@Override
+	public ArrayList<LeaveRecord> findUserCompensationLeave(User user) {
+		return leaverepo.findByUserAndLeaveName(user, "Compensation Leave");	
+	}
 }
