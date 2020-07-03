@@ -78,6 +78,8 @@ public class UserLeaveTypesServiceImpl implements UserLeaveTypesService {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 
 //	@Transactional
 //	@Override	
