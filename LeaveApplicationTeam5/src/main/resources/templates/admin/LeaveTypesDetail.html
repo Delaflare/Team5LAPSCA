@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <meta charset="ISO-8859-1">
 <title>Create Leave Type</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/style.css" th:href="@{/css/style.css}" />
 </head>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
 <h1>Create Leave Type</h1>
 <form action="#" th:object="${leavetype}" th:action="@{/admin/saveleavetype}" method="post" >

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <meta charset="ISO-8859-1">
 <title th:text="#{viewleave.page.title}"></title>
 <link rel="stylesheet" type="text/css" media="all"
@@ -10,6 +10,9 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
 </head>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
 	<div class="main-container">
 		<h1 th:text="#{viewleave.page.title}"></h1>
