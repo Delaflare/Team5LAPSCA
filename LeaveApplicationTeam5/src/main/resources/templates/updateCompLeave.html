@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Apply Compensation Leave</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<body>
+<div style="width:50%; float:left">
+<h1>Compensation Leave Application</h1>
+	<div th:text="${msg}"></div>
+	Start Date: <span th:text="${leave.startDate}"></span>
+	End Date: 
+	<span th:if="${leave.startDate != null}" th:text="${leave.startDate.plusDays(leave.duration)}"></span>
+	<p>Duration:<span id="duration" th:text="${leave.duration}"></span></p>
+	Type of Leave:<span> Compensation Leave </span>
+	
+<form action="#" th:object="${leave}" th:action="@{/emp/saveupdate/}+${leave.id}" method="post" >
+	</br>
+	Leave Reason: 
+	<textarea rows="5" th:field="*{description}"></textarea>
+	</br>
+	<label>Work Dissemination (if any)</label>
+	<input type="text" th:field="*{workDissemination}"/><br/>  
+	<label>Emergency Contact (if any)</label>
+	<input type="tel" pattern="[0-9]{8}"th:field="*{contactDetails}"/>  
+	<small>Format:12345678</small><br/>
+	<button type="submit">Save</button>
+	<a th:href="@{/emp/complist}">Cancel</a>
+</form>
+</div>
+<aside style="width:20%;float:right">
+<div>
+<h1>Leave Balance:</h1>
+	<table>
+		<tr th:each="balance: ${balanceList}">
+			<td th:text="${balance.leaveName}">Leave Name</td>
+			<td th:text="${balance.leaveAllowance}"></td>
+		</tr>
+	</table>
+</div>
+
+<div>
+<h1>Public Holidays in 2020</h1>
+	<table th:if="${not #lists.isEmpty(phlist)}">
+		<tr>
+			<th>Holiday Name</th>
+			<th>Date</th>
+		</tr>
+		<tr th:each="ph: ${phlist}">
+			<td th:text="${ph.holidayName}"></td>
+			<td th:text="${ph.date}"></td>
+		</tr>
+	</table>
+</div>
+</aside>
+</body>
+
+<script >
+</script>
+</html>
+
