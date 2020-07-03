@@ -12,8 +12,8 @@
         	</a>
 	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 	          <a class="dropdown-item" href="/emp/list">Apply Leave</a>
-	          <a class="dropdown-item" href="/emp/OTList">Apply OT Claims</a>
-	          <a class="dropdown-item" href="/emp/complist">Apply Comp Leave</a>
+	          <a class="dropdown-item" href="/emp/OTList">Claim OT Hours</a>
+	          <a class="dropdown-item" href="/emp/complist">Apply Compensation Leave</a>
 	        </div>
 	     </li>
 	     <li class="nav-item dropdown" th:if="${isManager}">
@@ -21,9 +21,9 @@
 	          Manager
 	        </a>
 	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-	          <a class="dropdown-item" href="/mng/viewLeave">Approve Leave</a>
+	          <a class="dropdown-item" href="/mng/viewLeave">Approve Leaves</a>
 	          <a class="dropdown-item" href="/mng/ViewOT">Approve OT Claims</a>
-	          <a class="dropdown-item" href="/mng/viewLeaveHistory">View Leave History</a>
+	          <a class="dropdown-item" href="/mng/viewLeaveHistory">View/Export Leave History</a>
 	        </div>
 	     </li>
 	     <li class="nav-item dropdown" th:if="${isAdmin}">

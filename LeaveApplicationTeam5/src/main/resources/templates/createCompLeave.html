@@ -34,9 +34,8 @@
 			</select>
 	<input type="button" id="checkDurBtn" value="Check Duration">  
 	<p>Duration:<span id="duration" th:name="duration"></span></p>
-	Type of Leave:<span> Compensation Leave </span>
 	</br>
-	Leave Reason: 
+	Reason for taking Leave: 
 	<textarea rows="5" th:field="*{description}"></textarea>
 	</br>
 	<label>Work Dissemination (if any)</label>
@@ -50,17 +49,20 @@
 </div>
 <aside style="width:20%;float:right">
 <div>
-<h1>Leave Balance:</h1>
+<h2>Compensation Leave Balance:</h2>
 	<table>
-		<tr th:each="balance: ${balanceList}">
+		<tr>
+		<td th:text="((${OTBalance}<4)? '0' : (${OTBalance}-(${OTBalance}%4))/4+' days')"></td>
+		</tr>
+		<!-- <tr th:each="balance: ${balanceList}">
 			<td th:text="${balance.leaveName}">Leave Name</td>
 			<td th:text="${balance.leaveAllowance}"></td>
-		</tr>
+		</tr> -->
 	</table>
 </div>
 
 <div>
-<h1>Public Holidays in 2020</h1>
+<h2>Public Holidays in 2020</h2>
 	<table th:if="${not #lists.isEmpty(phlist)}">
 		<tr>
 			<th>Holiday Name</th>

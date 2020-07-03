@@ -190,6 +190,7 @@ public class OTController {
 			model.addAttribute("leave", new LeaveRecord());
 			model.addAttribute("leaveTypes", leavetypeservice.findAll());
 			model.addAttribute("phlist", holiservice.findAll());
+			model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionUser.getId(), "Compensation Leave"));
 			model.addAttribute("balanceList", ultservice.findAllByUser(sessionUser));	
 			return "createCompLeave";
 

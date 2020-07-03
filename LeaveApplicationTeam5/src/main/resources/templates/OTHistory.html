@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:insert="view/header::header">
 <meta charset="ISO-8859-1">
-<title>OT Claim Record</title>
+<title>Your Overtime</title>
 </head>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/style.css" th:href="@{/css/style.css}" />
@@ -19,7 +19,7 @@
 <h3>OT Claim Record</h3>
 <h4>Current Balance: </h4><p th:text=${OTBalance}><span> hrs</span></p>
 <hr/>
-<a th:href="@{/emp/claimOT}">Claim OT</a>
+<a th:href="@{/emp/claimOT}">Make New Claim</a>
 <table id="OTList"
 			class="w3-container table table-bordered display" style="width: 100%"   th:if="${not #lists.isEmpty(OTList)}">
 <thead>

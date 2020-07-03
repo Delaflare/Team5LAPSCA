@@ -15,15 +15,15 @@
 
 <body>
 	<div class="main-container">
-		<h1>Leave Applications</h1>
+		<h1>Your Leave</h1>
 	<div class="card bg-light mb-3">
 		<div class="card-header">
-			<h2>Leave Balance</h2>
+			<h3>Balance Remaining</h3>
 		</div>
 		<div class="card-body">
 			<table>
 				<tr th:each="balance: ${balanceList}" th:unless="${balance.leaveName == 'Compensation Leave'}">
-					<td th:text="${balance.leaveName}"></td>
+					<td th:text="${balance.leaveName}+': '"></td>
 					<td th:text="${balance.leaveAllowance}"></td>
 				</tr>
 			</table>
@@ -31,7 +31,7 @@
 	</div>
 		<a href="createLeave.html" th:href="@{/emp/apply}">New Leave</a>
 		<div th:text="${msg}"></div>
-		<h2>Leave History</h2>
+		<h2>History</h2>
 		<table id="leaveList"
 			class="w3-container table table-bordered display" style="width: 100%" 
 			th:if="${not #lists.isEmpty(leaveList)}">
