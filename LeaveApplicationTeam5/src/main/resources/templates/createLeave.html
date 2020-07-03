@@ -3,15 +3,11 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Apply New Leave</title>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../../css/style.css" th:href="@{/css/style.css}" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	
-
 </head>
 <body>
-    <div class="card border-light mb-3" style="width:50%; float:left; margin: 5rem">
+    <div class="card border-light mb-3 mx-auto" style="width:50%; float:left; margin: 5rem">
         <div class="card-header">Leave Application Form</div>
         <div class="card-body">
     <form action="#" th:object="${leave}" th:action="@{/emp/save}" method="post" >

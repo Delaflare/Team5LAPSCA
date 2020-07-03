@@ -12,6 +12,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import sg.edu.LeaveApplication.model.Department;
 import sg.edu.LeaveApplication.model.User;
@@ -22,7 +23,7 @@ import sg.edu.LeaveApplication.repo.UserRepository;
 public class LeaveApplication {
 
 	
-	
+	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	public static void main(String[] args) {
 		SpringApplication.run(LeaveApplication.class, args);
@@ -32,7 +33,6 @@ public class LeaveApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args-> {
-			
 		};
 	}
 	

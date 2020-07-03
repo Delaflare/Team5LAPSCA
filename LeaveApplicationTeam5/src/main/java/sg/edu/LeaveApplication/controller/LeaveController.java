@@ -204,7 +204,7 @@ public class LeaveController {
 		if (lr != null && lr.getStatus() == Status.PENDING || lr.getStatus() == Status.UPDATED) {
 			lr.setStatus(Status.UPDATED);
 			model.addAttribute("leave", lr);
-			return "createLeave";
+			return "updateCompleave";
 		}
 		return "redirect:/emp/list";
 	}

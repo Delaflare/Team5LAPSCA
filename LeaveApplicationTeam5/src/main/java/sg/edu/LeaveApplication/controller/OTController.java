@@ -298,7 +298,6 @@ public class OTController {
 		public String updateLeave(@PathVariable("id") Integer id, Model model, Principal principal) {
 			User sessionUser = uservice.findUserByName(principal.getName());
 			model.addAttribute("balanceList", ultservice.findAllByUser(sessionUser));
-			model.addAttribute("leaveTypes", leavetypeservice.findAll());
 			model.addAttribute("phlist", holiservice.findAll());
 			LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 			//only when Pending, allow update

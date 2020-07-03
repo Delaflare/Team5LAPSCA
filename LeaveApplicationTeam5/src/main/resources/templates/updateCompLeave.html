@@ -10,13 +10,13 @@
 </head>
 <body>
 <div style="width:50%; float:left">
-<h1>Compensation Leave Application</h1>
+<h1>Update Leave Application</h1>
 	<div th:text="${msg}"></div>
 	Start Date: <span th:text="${leave.startDate}"></span>
 	End Date: 
 	<span th:if="${leave.startDate != null}" th:text="${leave.startDate.plusDays(leave.duration)}"></span>
 	<p>Duration:<span id="duration" th:text="${leave.duration}"></span></p>
-	Type of Leave:<span> Compensation Leave </span>
+	Type of Leave:<span th:text=${leave.LeaveTypes.leaveName}></span>
 	
 <form action="#" th:object="${leave}" th:action="@{/emp/saveupdate/}+${leave.id}" method="post" >
 	</br>
@@ -29,7 +29,8 @@
 	<input type="tel" pattern="[0-9]{8}"th:field="*{contactDetails}"/>  
 	<small>Format:12345678</small><br/>
 	<button type="submit">Save</button>
-	<a th:href="@{/emp/complist}">Cancel</a>
+	<a th:if="${leave.leaveTypes.leaveName=='Compensation Leave'}" th:href="@{/emp/complist}">Cancel</a>
+	<a th:if="${leave.leaveTypes.leaveName!='Compensation Leave'}" th:href="@{/emp/complist}">Cancel</a>
 </form>
 </div>
 <aside style="width:20%;float:right">
