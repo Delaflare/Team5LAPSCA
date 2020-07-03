@@ -76,7 +76,7 @@
 	<h2 th:if="${not #lists.isEmpty(leaveHistoryList)}"
 		th:text="#{viewleave.page.header}">Leave Request History</h2>
 	<table id="leaveHistoryList"
-		class="w3-container table table-bordered display"
+	class="w3-container table table-bordered display" style="width: 100%"
 		th:if="${not #lists.isEmpty(leaveHistoryList)}">
 	<thead>	<tr>
 			<th>Employee Id</th>
@@ -85,7 +85,8 @@
 			<th>Start Date</th>
 			<th>Duration</th>
 			<th></th>
-		</tr>
+		</tr></thead>
+		<tbody>
 		<tr th:each="leave:${leaveHistoryList}">
 			<td th:text="${leave.user.id}">Employee Id</td>
 			<td th:text="${leave.user.firstName} + ${leave.user.lastName}">
@@ -98,7 +99,7 @@
 			<td><a th:href="@{/leave/details/}+${leave.id}"
 				th:text="#{button.details}"></a></td>
 
-		</tr></thead>
+		</tr></tbody>
 	</table>
 	</div>
 </body>
@@ -111,7 +112,7 @@
 	src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 <script>
 	$(document).ready(function() {
-		$('#leaveRequestList').DataTable();
+		$('#leaveHistoryList').DataTable();
 		var today = new Date().toISOString().split('T')[0];
 		$("#sd").attr('min', today);
 

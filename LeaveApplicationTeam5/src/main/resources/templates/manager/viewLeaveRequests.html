@@ -60,7 +60,8 @@
 				<th>Reason</th>
 				<th>Comment</th>
 				<th></th>
-			</tr>
+			</tr>  </thead>
+            <tbody>
 			<tr th:each="leave:${leaveList}">
 				<td th:text="${leave.user.id}">Employee Id</td>
 				<td th:text="${leave.user.firstName} + ${leave.user.lastName}">
@@ -73,9 +74,8 @@
 				<td th:text="${leave.comments}">Comment</td>
 				<td><a th:href="@{/mng/details/}+${leave.id}"
 					th:text="#{button.details}"></a></td>
-				<!-- 	<td><a th:href="@{/leave/approveLeave/}+${leave.id}"  th:text="#{button.approve}"></a></td>
-			<td><a th:href="@{/leave/rejectLeave/}+${leave.id}" th:text="#{button.reject}"></a></td> -->
-			</tr></thead>
+			</tr>
+			</tbody>
 		</table>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

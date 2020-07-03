@@ -19,14 +19,20 @@
 
 	<table id="dList"
 			class="w3-container table table-bordered display" th:if="${not #lists.isEmpty(dlist)}">
-		<thead>	<tr th:each="department:${dlist}">
+				<thead>	<tr>
+				<th>Department Id</th>
+				<th>Name</th>
+				<th></th>
+				<th></th>
+			</tr>  </thead>
+		<tbody>	<tr th:each="department:${dlist}">
 				<td th:text=${department.id}>Id</td>
 				<td th:text=${department.name}>Name</td>
 				<td><a href="EditDepartment.html"
 					th:href="@{/dept/edit/}+${department.id}" >Edit</a></td>
 				<td><a href="DeleteProduct.html"
 					th:href="@{/dept/delete/}+${department.id}">Delete</a></td>
-			</tr><thead>
+			</tr><tbody>
 	</table>
 
 </div>
