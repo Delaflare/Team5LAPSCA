@@ -178,8 +178,12 @@ public class OTController {
 
 		@RequestMapping("emp/complist")
 		public String listAll(Model model, Principal principal) {
+			model.addAttribute("leaveList", leaveservice.findAll());
 			User sessionUser = uservice.findUserByName(principal.getName());
-			model.addAttribute("leaveList", leaveservice.findUserCompensationLeave(sessionUser));
+			/*
+			 * model.addAttribute("leaveList",
+			 * leaveservice.findUserCompensationLeave(sessionUser));
+			 */
 			return "compleaveList";
 		}
 
@@ -277,6 +281,18 @@ public class OTController {
 
 			return "redirect:/emp/complist";
 		}
+		
+		@RequestMapping("emp/saveupdate/{id}")
+		public String saveUpdate(@ModelAttribute("leave") LeaveRecord leave, @PathVariable("id") Integer id, @RequestParam("description") String description, @RequestParam("workDissemination") String workDissemination, @RequestParam("contactDetails") String contactDetails) {
+			LeaveRecord newLeave = leaveservice.findLeaveRecordById(leave.getId());
+			newLeave.setDescription(description);
+			newLeave.setContactDetails(contactDetails);
+			newLeave.setWorkDissemination(workDissemination);
+			newLeave.setStatus(Status.UPDATED);
+			leaveservice.saveLeave(newLeave);
+			return "redirect:/emp/complist";
+		}
+		
 		
 		@RequestMapping("emp/compupdate/{id}")
 		public String updateLeave(@PathVariable("id") Integer id, Model model, Principal principal) {
