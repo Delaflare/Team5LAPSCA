@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <meta charset="ISO-8859-1">
 <title>Apply New Leave</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
     <div class="card border-light mb-3 mx-auto" style="width:50%; float:left; margin: 5rem">
         <div class="card-header">Leave Application Form</div>
@@ -23,7 +26,7 @@
                 th:value = "${leaveType.leaveName}" th:text = "${leaveType.leaveName}"> </option> 
             </select></br>
         <label>Leave Reason: </label>
-        <input type="text" th:field="*{description}"> 
+        <input type="text" th:field="*{description}" th:required="required"> 
         </br>
         <label>Work Dissemination (if any)</label>
         <input type="text" th:field="*{workDissemination}"/><br/>  

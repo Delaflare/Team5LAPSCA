@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <link rel="stylesheet" type="text/css" media="all" href="../../css/style.css" th:href="@{/css/style.css}" />
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -9,6 +9,9 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
 <!-- Justin you can put your nav bar here -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -28,9 +31,9 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/emp/list">Apply Leave</a>
-          <a class="dropdown-item" href="/emp/OTList">Apply OT Claims</a>
+          <a class="dropdown-item" href="/emp/OTList">Claim Overtime Hours</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/emp/complist">Apply Comp Leave</a>
+          <a class="dropdown-item" href="/emp/complist">Use Compensation Leave</a>
         </div>
       </li>
       <li class="nav-item active">

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <meta charset="ISO-8859-1">
 <title>Application List</title>
 <link rel="stylesheet" type="text/css" media="all"
@@ -10,16 +10,19 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
 </head>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
 	<div class="main-container">
-		<h1>Compensation Leave Applications</h1>
-		<div>
-		<h2>Current OT hours: <span th:text="${OTBalance}"></span></h2>
+		<h1>Your Compensation Leave</h1>
+		<div class="card bg-light mb-3">
+		<h2>Total Hours :  <span th:text="${OTBalance}"></span></h2>
+		<h2>Claimable Days :  <span th:text="((${OTBalance}<4)? '0' : (${OTBalance}-(${OTBalance}%4))/4)"></span></h2>
 		</div>
-		<a href="createCompLeave.html" th:href="@{/emp/compapply}">New Compensation
-			Leave</a>
+		<a href="createCompLeave.html" th:href="@{/emp/compapply}">Apply Compensation Leave With OT Hours</a>
 		<div th:text="${msg}"></div>
-		<h2>Leave History</h2>
+		<h2>History</h2>
 		<table id="leaveRequestList"
 			class="w3-container table table-bordered display" style="width: 100%" 
 			th:if="${not #lists.isEmpty(leaveList)}">

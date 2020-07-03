@@ -26,4 +26,6 @@ public interface UserLeaveTypesService {
 	
 	public void deleteByUser(ArrayList<UserLeaveTypes> ulist);
 	
+	
+	
 }

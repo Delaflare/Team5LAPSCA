@@ -45,10 +45,14 @@ public class PublicHolidayController {
 	public String savePublicHoliday(@Valid @ModelAttribute("holiday") PublicHolidays holiday) {
 		
 		holiService.createPublicHoliday(holiday);
-		return "forward:/public-holiday/list";
+		return "forward:/admin/phlist";
 		
 	}
 	
-	
+	@RequestMapping(value = "/deleteph/{id}")
+	public String deleteDepartment(@PathVariable("id") Integer id) {
+		holiService.deletePublicHoliday(holiService.findPublicHolidaysById(id));
+		return "forward:/admin/phlist";
+	}
 
 }

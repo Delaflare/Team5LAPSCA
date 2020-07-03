@@ -88,6 +88,7 @@ public class UserController {
 		user.setDepartment(d);
 		String encodedpwd = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedpwd);
+		user.setEnabled(true);
 		if(bindingResult.hasErrors())
 			return "createUserForm"; 
 		uservice.saveUser(user);
@@ -120,6 +121,21 @@ public class UserController {
 		uservice.deleteUser(user);
 		return "forward:/user/list";
 	}
+	
+	//ian method
+	@GetMapping("/disable/{id}")
+	public String disableUser(Model model, @PathVariable("id") Integer id) {
+		User user = uservice.findUserById(id);
+		user.setEnabled(false);
+		uservice.saveUser(user);
+		return "redirect:/user/list";
+		
+	}
+	
+
+	
+	
+	
 	
 	@GetMapping("/display/{id}")
 	public String displayUser(Model model, @PathVariable("id") Integer id) {

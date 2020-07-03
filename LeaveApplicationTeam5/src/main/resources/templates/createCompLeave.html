@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <meta charset="ISO-8859-1">
 <title>Apply Compensation Leave</title>
 <link rel="stylesheet" type="text/css" media="all"
@@ -8,13 +8,16 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
 <div style="width:50%; float:left">
 <h1>Compensation Leave Application</h1>
 <form action="#" th:object="${leave}" th:action="@{/emp/compsave}" method="post" >
 	<div th:text="${msg}"></div>
 	Start Date: <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02">
-	 <select name="startTime" id="startTime">
+	 <select name="startTime" id="startTime" th:required="required">
 				<option value=""></option>
 				<option
 					th:each="startTime: ${T(sg.edu.LeaveApplication.model.Time).values()}"
@@ -23,7 +26,7 @@
 	
 	
 	End Date: <input type="date" id="ed" th:name="endDate" min="2020-02-02">
-		 <select name="endTime" id="endTime">
+		 <select name="endTime" id="endTime" th:required="required">
 				<option value=""></option>
 				<option
 					th:each="startTime: ${T(sg.edu.LeaveApplication.model.Time).values()}"
@@ -31,10 +34,9 @@
 			</select>
 	<input type="button" id="checkDurBtn" value="Check Duration">  
 	<p>Duration:<span id="duration" th:name="duration"></span></p>
-	Type of Leave:<span> Compensation Leave </span>
 	</br>
-	Leave Reason: 
-	<textarea rows="5" th:field="*{description}"></textarea>
+	Reason for Leave: 
+	<textarea rows="5" th:field="*{description}" th:required="required"></textarea>
 	</br>
 	<label>Work Dissemination (if any)</label>
 	<input type="text" th:field="*{workDissemination}"/><br/>  
@@ -47,17 +49,20 @@
 </div>
 <aside style="width:20%;float:right">
 <div>
-<h1>Leave Balance:</h1>
+<h2>Days Claimable:</h2>
 	<table>
-		<tr th:each="balance: ${balanceList}">
+		<tr>
+		<td th:text="((${OTBalance}<4)? '0' : (${OTBalance}-(${OTBalance}%4))/4)"></td>
+		</tr>
+		<!-- <tr th:each="balance: ${balanceList}">
 			<td th:text="${balance.leaveName}">Leave Name</td>
 			<td th:text="${balance.leaveAllowance}"></td>
-		</tr>
+		</tr> -->
 	</table>
 </div>
 
 <div>
-<h1>Public Holidays in 2020</h1>
+<h2>Public Holidays in 2020</h2>
 	<table th:if="${not #lists.isEmpty(phlist)}">
 		<tr>
 			<th>Holiday Name</th>
