@@ -12,21 +12,19 @@
 </head>
 <body>
  <div class="main-container">
-<h1>Department Listing</h1>
 
-<!-- Add Hyperlink -->
-	<a href="AddDepartment.html" th:href="@{/dept/add}">Add Department</a>
+<h1>Department Listing</h1>
 
 	<table id="dList"
 			class="w3-container table table-bordered display" style="width: 100%"  th:if="${not #lists.isEmpty(dlist)}">
 				<thead>	<tr>
-				<th>Department Id</th> 
+			<!--<th>Department Id</th>   -->	
 				<th>Name</th>
 				<th></th>
 				<th></th>
 			</tr>  </thead>
 		<tbody>	<tr th:each="department:${dlist}">
-				<td th:text=${department.id}>Id</td>
+				<!--<td th:text=${department.id}>Id</td> -->
 				<td th:text=${department.name}>Name</td>
 				<td><a href="EditDepartment.html"
 					th:href="@{/dept/edit/}+${department.id}" >Edit</a></td>

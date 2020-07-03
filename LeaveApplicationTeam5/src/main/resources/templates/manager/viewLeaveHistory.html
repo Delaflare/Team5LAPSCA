@@ -79,7 +79,7 @@
 	class="w3-container table table-bordered display" style="width: 100%"
 		th:if="${not #lists.isEmpty(leaveHistoryList)}">
 	<thead>	<tr>
-			<th>Employee Id</th>
+			<!-- <th>Employee Id</th> -->
 			<th>Name</th>
 			<th>Leave Type</th>
 			<th>Start Date</th>
@@ -88,7 +88,7 @@
 		</tr></thead>
 		<tbody>
 		<tr th:each="leave:${leaveHistoryList}">
-			<td th:text="${leave.user.id}">Employee Id</td>
+		<!--	<td th:text="${leave.user.id}">Employee Id</td>  -->
 			<td th:text="${leave.user.firstName} + ${leave.user.lastName}">
 				Name</td>
 			<td th:if="${leave.leaveTypes != null}"
@@ -96,7 +96,7 @@
 			<td th:if="${leave.leaveTypes == null}"><span>&nbsp;&nbsp;&nbsp;</span></td>
 			<td th:text="${leave.startDate}">Start Date</td>
 			<td th:text="${leave.duration}">Duration</td>
-			<td><a th:href="@{/leave/details/}+${leave.id}"
+			<td><a th:href="@{/mng/details/}+${leave.id}"
 				th:text="#{button.details}"></a></td>
 
 		</tr></tbody>

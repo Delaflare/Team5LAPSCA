@@ -14,34 +14,34 @@ import sg.edu.LeaveApplication.model.PublicHolidays;
 import sg.edu.LeaveApplication.service.PublicHolidayService;
 
 @Controller
-@RequestMapping(value="/public-holiday")
+@RequestMapping(value="/admin")
 public class PublicHolidayController {
 	
 	@Autowired
 	protected PublicHolidayService holiService;
 	
-	@RequestMapping(value="/list")
+	@RequestMapping(value="/phlist")
 	public String list(Model model)
 	{
 		model.addAttribute("holidays",holiService.findAll());
-		return "publicHolidays";
+		return "/admin/publicHolidays";
 	}
 	
-	@RequestMapping(value="/add")
+	@RequestMapping(value="/addph")
 	public String addForm(Model model) {
 		model.addAttribute("holiday", new PublicHolidays());
-		return "publicHolidayDetail";
+		return "/admin/publicHolidayDetail";
 	}
 	
-	@RequestMapping(value="/edit/{id}")
+	@RequestMapping(value="/editph/{id}")
 	public String editForm(Model model,@PathVariable("id") Integer id) {
 		PublicHolidays holiday=holiService.findPublicHolidaysById(id);
 		model.addAttribute("holiday",holiday);
-		return "publicHolidayDetail";
+		return "/admin/publicHolidayDetail";
 		
 	}
 	
-	@RequestMapping(value="/save")
+	@RequestMapping(value="/saveph")
 	public String savePublicHoliday(@Valid @ModelAttribute("holiday") PublicHolidays holiday) {
 		
 		holiService.createPublicHoliday(holiday);

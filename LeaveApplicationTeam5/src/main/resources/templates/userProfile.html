@@ -18,7 +18,7 @@
          <table id="userList" class="w3-container table table-bordered display" style="width:100%" th:if="${not #lists.isEmpty(users)}">
             <thead>
                <tr>
-                  <th>ID</th>
+                 <!--  <th>ID</th> -->
                   <th>FirstName</th>
                   <th>LastName</th>
                   <th>UserName</th>
@@ -35,7 +35,7 @@
             </thead>
             <tbody>
                <tr th:each="user:${users}">
-                  <td th:text=${user.id}>Id</td>
+                 <!--  <td th:text=${user.id}>Id</td> -->
                   <td th:text=${user.firstName}>FirstName</td>
                   <td th:text=${user.lastName}>LastName</td>
                   <td th:text=${user.userName}>UserName</td>
