@@ -1,5 +1,7 @@
 package sg.edu.LeaveApplication.controller;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.LeaveApplication.model.PublicHolidays;
+import sg.edu.LeaveApplication.model.User;
 import sg.edu.LeaveApplication.service.PublicHolidayService;
+import sg.edu.LeaveApplication.service.UserService;
 
 @Controller
 @RequestMapping(value="/admin")
@@ -20,9 +24,26 @@ public class PublicHolidayController {
 	@Autowired
 	protected PublicHolidayService holiService;
 	
+	@Autowired
+	UserService uservice;
+
+	@Autowired
+	public void setUservice(UserService uservice) {
+		this.uservice = uservice;
+	}
+
+	
 	@RequestMapping(value="/phlist")
-	public String list(Model model)
+	public String list(Model model, Principal principal)
 	{
+		
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		
 		model.addAttribute("holidays",holiService.findAll());
 		return "/admin/publicHolidays";
 	}

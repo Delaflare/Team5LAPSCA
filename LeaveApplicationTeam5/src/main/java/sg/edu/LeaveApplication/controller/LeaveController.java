@@ -118,6 +118,12 @@ public class LeaveController {
 	@RequestMapping("emp/list")
 	public String list(Model model, Principal principal) {
 		User sessionUser = uservice.findUserByName(principal.getName());
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		
 		model.addAttribute("leaveList", leaveservice.findAll());
 		model.addAttribute("balanceList", ultservice.findAllByUser(sessionUser));
 		return "leaveList";
@@ -269,7 +275,11 @@ public class LeaveController {
 	@RequestMapping("mng/viewLeave")
 	public String viewLeaveRequest(Model model, Principal principal, String keyword, String ltName) {
 		User manager = uservice.findUserByName(principal.getName());
-
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", manager.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", manager.getRole().equals("ADMIN"));
 		Integer reportToId = manager.getId();
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
 		if (keyword != null || ltName != null) {
@@ -284,7 +294,11 @@ public class LeaveController {
 	public String viewLeaveHistory(Model model, Principal principal, String keyword, String fromDate, String toDate,
 			String ltName, String status) {
 		User manager = uservice.findUserByName(principal.getName());
-
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", manager.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", manager.getRole().equals("ADMIN"));
 		Integer reportToId = manager.getId();
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
 		// System.out.println("k"+keyword);System.out.println("Sd"+startDate);System.out.println("ed"+endDate);System.out.println("na"+ltName);System.out.println("status"+status);

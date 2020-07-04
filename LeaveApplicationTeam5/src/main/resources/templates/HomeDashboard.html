@@ -1,65 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<style>	
-	body {background-color: powderblue;}
-	.cardhaha {margin: 20px 0px;}
-	.sidenav {
-	  width: 130px;
-	  background: #eee;
-	  overflow-x: hidden;
-	  padding: 8px 0;
-	  margin: 20px 0px 0px -30px;
-	}
-
-	.sidenav a {
-	  padding: 6px 8px 6px 16px;
-	  text-decoration: none;
-	  font-size: 12px;
-	  color: #2196F3;
-	  display: block;
-	}
-	
-	.sidenav a:hover {
-	  color: #064579;
-	}
-	
-	.menuLabel {
-		padding: 6px 8px 6px 16px;
-		font-size: 15px;
-	}
-</style>
-
 <head lang="en" th:replace="view/header::header"></head>
-<!-- <nav th:replace="view/navbar::nav"></nav> -->
 <nav th:replace="view/navbar2::nav2"></nav>
-
+<nav th:replace="view/adminMenu::adminMenu"></nav>
+<nav th:replace="view/mngMenu::mngMenu"></nav>
 <body>
 <div class="container">
-	<div class="row">
-		<div class="col-sm-2">
-			<div class="sidenav" th:if="${isManager}">
-				<h3 class="menuLabel">Manager Controls</h3>
-			  	<a href="/mng/viewLeave">View Leave Applications</a>
-			  	<a href="/mng/ViewOT">View OT Claims</a>
-			  	<a href="/mng/viewLeaveHistory">View/Export Leave Records</a>
-			</div>
-			<div class="sidenav" th:if="${isAdmin}">
-				<h3 class="menuLabel">Admin Controls</h3>
-			  	<a href="/user/list">Manage Users</a>
-			  	<a href="/admin/phlist">Manage Holidays</a>
-			  	<a href="/admin/dplist">Manage Departments</a>
-			  	<a href="/admin/leavetypelist">Manage Leave Types</a>
-			</div>
-		</div>
-		<div class="col-sm-5">
+		<div class="col-sm-6">
 			<div class="col-sm-12 card bg-light mb-3 cardhaha">
 				<div class="card-header">Your Remaining Leave</div>
 				<div class="card-body">
 					<table>
 						<tr>
 							<th>Leave Type</th>
-							<th>Number of Days</th>
+							<th>Number of Days/Hours</th>
 						</tr>
 						<tr th:each="LR:${leaveRemaining}">
 							<td th:text="${LR.leaveName}">Name</td>
@@ -82,7 +36,7 @@
 							<td th:text="${mine1.leaveTypes.leaveName}">Apple</td>
 							<td th:text="${mine1.startDate}">10/10/2020</td>
 							<td th:text="${mine1.duration}">2</td>
-							<td th:text="${mine1.leaveAppliedDate}">09/09/2020</td>
+							<td th:text="${#dates.format(mine1.leaveAppliedDate,'yyyy-MM-dd')}">09/09/2020</td>
 						</tr>
 					</table>
 				</div>
@@ -160,6 +114,5 @@
 			</div>
 		</div>
 	</div>
-</div>
 </body>
 </html>

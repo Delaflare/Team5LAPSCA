@@ -1,21 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="view/header::header">
-<meta charset="ISO-8859-1">
-<title>Your Overtime</title>
-</head>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../../css/style.css" th:href="@{/css/style.css}" />
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
-</head>
-
+<head lang="en" th:replace="view/header::header"><title>Your Overtime</title></head>
 <nav th:replace="view/navbar2::nav2"></nav>
-
+<nav th:replace="view/adminMenu::adminMenu"></nav>
+<nav th:replace="view/mngMenu::mngMenu"></nav>
 <body>
-	<div class="main-container">
+	<div class="container">
 <h3>Your Overtime</h3>
 <h4>Current Balance: </h4><p th:text="${OTBalance}+' hours'"><span> hrs</span></p>
 <hr/>
@@ -28,8 +18,7 @@
 		<th><a>Start Date</a></th>
 		<th><a>End Date</a></th>
 		<th><a>OT Hours</a></th>
-		<th><a>Status</a></th>
-		<th><a>Approved/Reject Date</a></th>		
+		<th><a>Status</a></th>	
 	</tr></thead><tbody>
 	<tr th:each="OT: ${OTList}">
 		<td th:text="*{OT.id}"></td>
@@ -37,7 +26,6 @@
 		<td th:text="${OT.endDate}"></td>
 		<td th:text="${OT.totalOTTime}"></td>
 		<td th:text="${OT.status}"></td>
-		<td th:if="${OT.approvedDate != null}" th:text="${OT.approvedDate}"></td>
 		
 	</tr>
 </tbody>

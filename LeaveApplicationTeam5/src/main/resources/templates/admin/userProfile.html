@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head lang="en" th:insert="view/header::header">
-	<title th:utext="#{users.page.title}">title</title>
-</head>
-
+<head lang="en" th:replace="view/header::header"><title th:utext="#{users.page.title}"></title></head>
 <nav th:replace="view/navbar2::nav2"></nav>
+<nav th:replace="view/adminMenu::adminMenu"></nav>
+<nav th:replace="view/mngMenu::mngMenu"></nav>
 
    <body>
       <div class="main-container">

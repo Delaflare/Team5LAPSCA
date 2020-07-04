@@ -1,5 +1,7 @@
 package sg.edu.LeaveApplication.controller;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.LeaveApplication.model.Department;
+import sg.edu.LeaveApplication.model.User;
 import sg.edu.LeaveApplication.service.DepartmentService;
 import sg.edu.LeaveApplication.service.DepartmentServiceImpl;
 import sg.edu.LeaveApplication.service.UserService;
@@ -38,9 +41,15 @@ public class DepartmentController {
 
 	
 	@RequestMapping (value = "/dplist" )
-		public String list(Model model)
+		public String list(Model model, Principal principal)
 		{
-		System.out.println(dservice.findAll().size());
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		
 		model.addAttribute("dlist" , dservice.findAll());	
 		
 		return "/admin/departmentList";

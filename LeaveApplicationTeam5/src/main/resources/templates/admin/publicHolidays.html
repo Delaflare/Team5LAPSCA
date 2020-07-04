@@ -1,21 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="view/header::header">
-<title>Public Holiday List</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" type="text/css" media="all"
-	href="../../css/style.css" th:href="@{/css/style.css}" />
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
-<title th:utext="#{publicholiday.page.title}">Holidays</title>
-</head>
-
+<head lang="en" th:replace="view/header::header"><title th:utext="#{users.page.title}"><title th:utext="#{publicholiday.page.title}">Holidays</title></title></head>
 <nav th:replace="view/navbar2::nav2"></nav>
+<nav th:replace="view/adminMenu::adminMenu"></nav>
+<nav th:replace="view/mngMenu::mngMenu"></nav>
 
 <body>
-	<div class="main-container">
+	<div class="container">
 		<h1 th:utext="#{publicholiday.page.title}">home</h1>  
 
 		<a href="AddHoliday.html" th:href="@{/admin/addph}"

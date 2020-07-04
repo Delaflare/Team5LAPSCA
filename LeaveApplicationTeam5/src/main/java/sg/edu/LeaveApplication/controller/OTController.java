@@ -93,6 +93,11 @@ public class OTController {
 	public String list(Model model, Principal principal) {
 
 		User sessionuser = uservice.findUserByName(principal.getName());
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionuser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionuser.getRole().equals("ADMIN"));
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionuser.getId(), "Compensation Leave"));
 		model.addAttribute("OTList", otservice.findAll());
 		return "OTHistory";
@@ -194,6 +199,13 @@ public class OTController {
 	@RequestMapping("emp/complist")
 	public String listAll(Model model, Principal principal) {
 		User sessionUser = uservice.findUserByName(principal.getName());
+		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		
 		model.addAttribute("leaveList", leaveservice.findByUser(sessionUser));
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionUser.getId(), "Compensation Leave"));
 		return "compleaveList";
