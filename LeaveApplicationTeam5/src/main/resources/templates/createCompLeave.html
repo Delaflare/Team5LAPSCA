@@ -52,7 +52,7 @@
 <h2>Days Claimable:</h2>
 	<table>
 		<tr>
-		<td th:text="((${OTBalance}<4)? '0' : (${OTBalance}-(${OTBalance}%4))/4)"></td>
+		<td th:text="((${OTBalance}<4)? '0' : (${OTBalance}-(${OTBalance}%4))/8)"></td>
 		</tr>
 		<!-- <tr th:each="balance: ${balanceList}">
 			<td th:text="${balance.leaveName}">Leave Name</td>

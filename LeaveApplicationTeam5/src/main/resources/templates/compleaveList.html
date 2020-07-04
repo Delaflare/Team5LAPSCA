@@ -18,7 +18,7 @@
 		<h1>Your Compensation Leave</h1>
 		<div class="card bg-light mb-3">
 		<h2>Total Hours :  <span th:text="${OTBalance}"></span></h2>
-		<h2>Claimable Days :  <span th:text="((${OTBalance}<4)? '0' : (${OTBalance}-(${OTBalance}%4))/4)"></span></h2>
+		<h2>Claimable Days :  <span th:text="((${OTBalance}<4)? '0' : (${OTBalance}-(${OTBalance}%4))/8)"></span></h2>
 		</div>
 		<a href="createCompLeave.html" th:href="@{/emp/compapply}">Apply Compensation Leave With OT Hours</a>
 		<div th:text="${msg}"></div>

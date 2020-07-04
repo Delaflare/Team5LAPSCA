@@ -211,10 +211,12 @@ public class LeaveController {
 	}
 
 	@RequestMapping("emp/update/{id}")
-	public String updateLeave(@PathVariable("id") Integer id, Model model) {
-
+	public String updateLeave(@PathVariable("id") Integer id, Model model, Principal principal) {
 		model.addAttribute("leaveTypes", leavetypeservice.findAll());
+
+		User sessionUser = uservice.findUserByName(principal.getName());
 		model.addAttribute("phlist", holiservice.findAll());
+		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionUser.getId(), "Compensation Leave"));
 		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		// only when Pending, allow update
 		if (lr != null && lr.getStatus() == Status.PENDING || lr.getStatus() == Status.UPDATED) {
