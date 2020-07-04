@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <meta charset="ISO-8859-1">
 <title>Application List</title>
 <link rel="stylesheet" type="text/css" media="all"
@@ -10,21 +10,28 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
 </head>
+<nav th:replace="view/navbar2::nav2"></nav>
+<nav th:replace="view/adminMenu::adminMenu"></nav>
+<nav th:replace="view/mngMenu::mngMenu"></nav>
 <body>
-	<div class="main-container">
-		<h1>Leave Applications</h1>
-		<div>
-		<h2>Leave Balance</h2>
+	<div class="container">
+		<h1>Your Leave</h1>
+	<div class="card bg-light mb-3">
+		<div class="card-header">
+			<h3>Balance Remaining</h3>
+		</div>
+		<div class="card-body">
 			<table>
 				<tr th:each="balance: ${balanceList}" th:unless="${balance.leaveName == 'Compensation Leave'}">
-					<td th:text="${balance.leaveName}"></td>
+					<td th:text="${balance.leaveName}+': '"></td>
 					<td th:text="${balance.leaveAllowance}"></td>
 				</tr>
 			</table>
 		</div>
+	</div>
 		<a href="createLeave.html" th:href="@{/emp/apply}">New Leave</a>
 		<div th:text="${msg}"></div>
-		<h2>Leave History</h2>
+		<h2>History</h2>
 		<table id="leaveList"
 			class="w3-container table table-bordered display" style="width: 100%" 
 			th:if="${not #lists.isEmpty(leaveList)}">

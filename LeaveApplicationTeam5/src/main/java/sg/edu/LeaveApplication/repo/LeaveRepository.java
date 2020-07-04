@@ -38,7 +38,7 @@ public interface LeaveRepository extends JpaRepository<LeaveRecord, Integer> {
 	@Query("SELECT l from LeaveRecord l JOIN l.user u JOIN l.leaveTypes lt  "
 			+ "WHERE (:status=-1 OR l.status=:status) "
 			+ "AND (:keyword='' OR CONCAT(u.firstName,' ', u.lastName)=:keyword OR u.firstName LIKE %:keyword% OR u.lastName LIKE %:keyword% ) "
-			+ "AND (:startDate=''  OR (l.startDate >= :startDate And l.startDate <= :endDate)) "
+			+ "AND (l.startDate between :startDate and :endDate) "
 			+ "AND (:ltName='' OR lt.leaveName = :ltName) "
 			+ "AND u.reportsTo=:reportToId")
 	ArrayList<LeaveRecord> findLeaveHistoryByDate(@Param("keyword") String keyword,
