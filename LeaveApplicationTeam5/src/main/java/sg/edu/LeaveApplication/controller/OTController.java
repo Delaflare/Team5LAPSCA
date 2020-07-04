@@ -375,14 +375,27 @@ public class OTController {
 	}
 
 	@RequestMapping("emp/compdetail/{id}")
-	public String viewLeave(@PathVariable("id") Integer id, Model model) {
+	public String viewLeave(@PathVariable("id") Integer id, Model model, Principal principal) {
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
 		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
 		return "leaveDetails";
 	}
 
 //breakline for emp and mng
 	@RequestMapping("mng/ViewOT")
-	public String managerOTList(Model model, String keyword) {
+	public String managerOTList(Model model, String keyword, Principal principal) {
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		
 		if (keyword != null) {
 			model.addAttribute("OTList", otservice.findPendingOTbyUser(keyword));
 			System.out.print(keyword);
