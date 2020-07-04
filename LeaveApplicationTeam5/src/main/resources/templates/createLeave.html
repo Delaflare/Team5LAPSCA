@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="view/header::header">
-<meta charset="ISO-8859-1">
-<title>Apply New Leave</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
-
+<head lang="en" th:replace="view/header::header"><title>Apply New Leave</title></head>
 <nav th:replace="view/navbar2::nav2"></nav>
+<nav th:replace="view/adminMenu::adminMenu"></nav>
+<nav th:replace="view/mngMenu::mngMenu"></nav>
+
 
 <body>
     <div class="card border-light mb-3 mx-auto" style="width:50%; float:left; margin: 5rem">

@@ -106,7 +106,11 @@ public class OTController {
 	@RequestMapping("emp/claimOT")
 	public String claimOT(Model model, Principal principal) {
 		User sessionuser = uservice.findUserByName(principal.getName());
-
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionuser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionuser.getRole().equals("ADMIN"));
 		model.addAttribute("OTRecord", new OTRecord());
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionuser.getId(), "Compensation Leave"));
 		return "OTForm";
@@ -219,6 +223,14 @@ public class OTController {
 		model.addAttribute("phlist", holiservice.findAll());
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionUser.getId(), "Compensation Leave"));
 		model.addAttribute("balanceList", ultservice.findAllByUser(sessionUser));
+		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		
+		
 		return "createCompLeave";
 
 	}
@@ -314,7 +326,16 @@ public class OTController {
 	public String saveUpdate(@ModelAttribute("leave") LeaveRecord leave, @PathVariable("id") Integer id,
 			@RequestParam("description") String description,
 			@RequestParam("workDissemination") String workDissemination,
-			@RequestParam("contactDetails") String contactDetails) {
+			@RequestParam("contactDetails") String contactDetails, Principal principal, Model model) {
+		
+
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		
 		LeaveRecord newLeave = leaveservice.findLeaveRecordById(leave.getId());
 		newLeave.setDescription(description);
 		newLeave.setContactDetails(contactDetails);

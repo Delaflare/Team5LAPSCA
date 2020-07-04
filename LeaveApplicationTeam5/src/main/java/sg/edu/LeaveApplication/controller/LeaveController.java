@@ -133,6 +133,11 @@ public class LeaveController {
 	@RequestMapping("emp/apply")
 	public String applyLeave(Model model, Principal principal) {
 		User sessionUser = uservice.findUserByName(principal.getName());
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
 
 		model.addAttribute("leave", new LeaveRecord());
 		model.addAttribute("leaveTypes", leavetypeservice.findAllLeaveTypeByUser(sessionUser));
@@ -235,7 +240,14 @@ public class LeaveController {
 	}
 
 	@RequestMapping("emp/detail/{id}")
-	public String viewLeave(@PathVariable("id") Integer id, Model model) {
+	public String viewLeave(@PathVariable("id") Integer id, Model model, Principal principal) {
+		
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
 		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
 		return "leaveDetails";
 	}
