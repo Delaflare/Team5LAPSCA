@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sg.edu.LeaveApplication.model.LeaveTypes;
+import sg.edu.LeaveApplication.model.User;
 import sg.edu.LeaveApplication.repo.LeaveTypeRepository;
 
 @Service
@@ -51,5 +52,11 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
 	public LeaveTypes findLeaveTypesById(Integer id) {
 		return leavetypeRepo.findById(id).get();
 	}
-
+	
+	@Override
+	public ArrayList<LeaveTypes> findAllLeaveTypeByUser(User user) {
+		ArrayList<LeaveTypes> list = (ArrayList<LeaveTypes>) leavetypeRepo.findAllLeaveTypeByUser(user);
+		return list;
+	}
+	
 }

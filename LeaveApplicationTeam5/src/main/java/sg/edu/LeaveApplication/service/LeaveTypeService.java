@@ -3,6 +3,7 @@ package sg.edu.LeaveApplication.service;
 import java.util.ArrayList;
 
 import sg.edu.LeaveApplication.model.LeaveTypes;
+import sg.edu.LeaveApplication.model.User;
 
 public interface LeaveTypeService {
                
@@ -12,4 +13,5 @@ public interface LeaveTypeService {
 	   public LeaveTypes findLeaveTypesById(Integer id);
 	   public boolean saveLeaveType(LeaveTypes leavetypes);
 	   public void deleteLeaveType(LeaveTypes leavetypes);
+	   public ArrayList<LeaveTypes> findAllLeaveTypeByUser(User user);  
 }

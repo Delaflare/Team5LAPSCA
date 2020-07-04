@@ -135,7 +135,7 @@ public class LeaveController {
 		User sessionUser = uservice.findUserByName(principal.getName());
 
 		model.addAttribute("leave", new LeaveRecord());
-		model.addAttribute("leaveTypes", leavetypeservice.findAll());
+		model.addAttribute("leaveTypes", leavetypeservice.findAllLeaveTypeByUser(sessionUser));
 		model.addAttribute("phlist", holiservice.findAll());
 		model.addAttribute("balanceList", ultservice.findAllByUser(sessionUser));
 		return "createLeave";
