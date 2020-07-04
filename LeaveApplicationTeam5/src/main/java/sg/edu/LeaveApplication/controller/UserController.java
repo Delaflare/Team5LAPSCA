@@ -127,6 +127,7 @@ public class UserController {
 		model.addAttribute("userleavetypes", ulType);
 		model.addAttribute("leaveTypes", ltypeservice.findAll());
 		model.addAttribute("user", uservice.findUserById(id));	
+		//System.out.println(id);
 		return "/admin/assign-leave";
 	}
 	

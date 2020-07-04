@@ -3,18 +3,24 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Edit Leave Allowance</title>
+<link rel="stylesheet" type="text/css" media="all"
+         href="../../css/style.css" th:href="@{/css/style.css}" />
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
+	 <div class="main-container">
 	<h2>Edit Employee Leave Allowance </h2>
 	<form th:object="${lType}" th:action="@{/user/updateLeave}" method="post">
+	<div class="row">
+		<div class="col-md-6 ">
 	<div th:object="${user}">
 		<p th:text="${user.userName}"></p>
 		<fieldset>
 		<input type="hidden" th:name="${userId}" th:field="${user.id}"/> 
 		</fieldset> 
 	</div>
-	<div>
-		<table border="1">
+	<div class="form-group">
+		<table border="1" class="table" style="width:100%">
 			<thead>
 				<tr>
 					<th>Leave Name</th>
@@ -39,7 +45,10 @@
 			</tbody>
 		</table>
 	</div>
-	<button type="submit">Update</button>
+	<button class="btn btn-primary" type="submit">Update</button>
+	 </div>
+	 </div>
 	</form>
+	</div>
 </body>
 </html>
