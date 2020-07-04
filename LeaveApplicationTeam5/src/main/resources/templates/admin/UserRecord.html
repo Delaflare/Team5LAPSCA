@@ -1,66 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="view/header::header">
-<meta charset="ISO-8859-1">
-<title>Employee Profile</title>
-	  <link rel="stylesheet" type="text/css" media="all"
+   <head th:insert="view/header::header">
+      <meta charset="ISO-8859-1">
+      <title>Employee Profile</title>
+      <link rel="stylesheet" type="text/css" media="all"
          href="../../css/style.css" th:href="@{/css/style.css}" />
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-</head>
-
-<nav th:replace="view/navbar2::nav2"></nav>
-
-<body>
-	<div class="container">
-	<div>
-		<h2>Employee Profile Details </h2>
-		<p>Employee ID: <span th:text="${user.id}"></span></p>
-		<p>FirstName: <span th:text="${user.firstName}"></span></p>
-		<p>UserName: <span th:text="${user.userName}"></span></p>
-		<p>Email: <span th:text="${user.email}"></span></p>
-		<p>Employee Role: <span th:text="${user.role}"></span></p>
-		<p>ReportTo: <span th:text="${user.reportsTo}"></span></p>
-		<p>Gender: <span th:text="${user.gender}"></span></p>
-		<p>Department : <span th:each="d:${user.department}" th:text=${d.name}></span></p>
-		<p>Title: <span th:text="${user.title}"></span></p>	
-	</div>
-	
-	<div>
-		<h2 th:utext="#{leave.balance.page}"></h2>
-		<div th:each="leave:${user.userLeaveTypes}" >
-			<p>
-				<span th:text=${leave.leaveName}></span> : 
-				<span th:text=${leave.leaveAllowance}></span>
-			</p>
-		</div>
-	</div>
-	
-	
-	<div>
-		<h2 th:utext="#{leave.status.page}" th:if="${not #lists.isEmpty(leaves)}">header</h2>
-		<table class="w3-container" th:if="${not #lists.isEmpty(leaves)}">
-		<tr th:each="leave:${leaves}">
-			<thead>
-				<tr>
-					<th>Leave ID</th>
-					<th>Leave Type</th>
-					<th>Start From</th>
-					<th>To</th>
-					<th>Status</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="leave:${leaves}">
-					<td th:text=${leave.id}>Id</td>
-					<td th:text=${leave.LeaveTypeId}>Id</td>
-					<td th:text="${#dates.format(leave.dom, 'dd-MM-yyyy')}" >Start From</td>
-					<td th:text="${#dates.format(leave.dom, 'dd-MM-yyyy')}" >End Date</td>
-					<td th:text=${leave.status}></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	
-	</div>
-</body>
+   </head>
+   <nav th:replace="view/navbar2::nav2"></nav>
+   <body>
+      <div class="container">
+         <div>
+            <h2>Employee Profile Details </h2>
+            <p>Employee ID: <span th:text="${user.id}"></span></p>
+            <p>FirstName: <span th:text="${user.firstName}"></span></p>
+            <p>UserName: <span th:text="${user.userName}"></span></p>
+            <p>Email: <span th:text="${user.email}"></span></p>
+            <p>Employee Role: <span th:text="${user.role}"></span></p>
+            <p>ReportTo: <span th:text="${user.reportsTo}"></span></p>
+            <p>Gender: <span th:text="${user.gender}"></span></p>
+            <p>Department : <span th:each="d:${user.department}" th:text=${d.name}></span></p>
+            <p>Title: <span th:text="${user.title}"></span></p>
+         </div>
+         <div>
+            <h2 th:utext="#{leave.balance.page}"></h2>
+            <div th:each="leave:${user.userLeaveTypes}" >
+               <p>
+                  <span th:text=${leave.leaveName}></span> : 
+                  <span th:text=${leave.leaveAllowance}></span>
+               </p>
+            </div>
+         </div>
+      </div>
+   </body>
 </html>
