@@ -16,9 +16,9 @@
     <form action="#" th:object="${leave}" th:action="@{/emp/save}" method="post" >
         <p th:text="${msg}"></p>
         <lable>Start Date:</lable> 
-        <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02">	
+        <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02"th:required="required">	
         <label>End Date: </label>
-        <input type="date" id="ed" th:name="endDate" min="2020-02-02"></br>
+        <input type="date" id="ed" th:name="endDate" min="2020-02-02"th:required="required"></br>
         <label>Duration:</label><p id="duration" th:name="duration"></p>
         <label>Type of Leave: </label>
             <select th:field = "*{leaveTypes}">

@@ -16,7 +16,7 @@
 <h1>Compensation Leave Application</h1>
 <form action="#" th:object="${leave}" th:action="@{/emp/compsave}" method="post" >
 	<div th:text="${msg}"></div>
-	Start Date: <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02">
+	Start Date: <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02" th:required="required">
 	 <select name="startTime" id="startTime" th:required="required">
 				<option value=""></option>
 				<option
@@ -25,7 +25,7 @@
 			</select>
 	
 	
-	End Date: <input type="date" id="ed" th:name="endDate" min="2020-02-02">
+	End Date: <input type="date" id="ed" th:name="endDate" min="2020-02-02" th:required="required">
 		 <select name="endTime" id="endTime" th:required="required">
 				<option value=""></option>
 				<option
