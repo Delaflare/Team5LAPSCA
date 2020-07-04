@@ -193,8 +193,8 @@ public class OTController {
 
 	@RequestMapping("emp/complist")
 	public String listAll(Model model, Principal principal) {
-		model.addAttribute("leaveList", leaveservice.findAll());
 		User sessionUser = uservice.findUserByName(principal.getName());
+		model.addAttribute("leaveList", leaveservice.findByUser(sessionUser));
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionUser.getId(), "Compensation Leave"));
 		return "compleaveList";
 	}
