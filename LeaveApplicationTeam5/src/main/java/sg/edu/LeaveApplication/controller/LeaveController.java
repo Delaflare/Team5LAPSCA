@@ -83,9 +83,9 @@ public class LeaveController {
 
 	// return leaveDayCost upon cancel/delete/reject
 	public void returnLeave(LeaveRecord lr) {
-		int currentBalance = ultservice.findleaveAllowance(lr.getUser().getId(), lr.getLeaveTypes().getLeaveName());
-		lr.setLeaveDayCost(currentBalance + lr.getLeaveDayCost());
-		leaveservice.saveLeave(lr);
+		String leaveName = lr.getLeaveTypes().getLeaveName();
+		int currentBalance = ultservice.findleaveAllowance(lr.getUser().getId(), leaveName);
+		ultservice.update(lr.getUser(), leaveName, currentBalance + lr.getLeaveDayCost());
 	}
 
 	// check balance function
