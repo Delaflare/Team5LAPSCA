@@ -53,6 +53,7 @@ public class DashboardController {
 		model.addAttribute("isLoggedIn", isLoggedIn);
 		model.addAttribute("isManager", currentUser.getRole().equals("MANAGER"));
 		model.addAttribute("isAdmin", currentUser.getRole().equals("ADMIN"));
+		
 		model.addAttribute("leaveRemaining", ultservice.findAllByUser(currentUser));
 		model.addAttribute("onleave", leaveservice.findOnLeave());
 		model.addAttribute("myleave", leaveservice.findByUser(currentUser));

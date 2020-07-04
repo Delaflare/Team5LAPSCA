@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <meta charset="ISO-8859-1">
 <title>Claim Compensation Leave</title>
 <link rel="stylesheet" type="text/css" media="all"
@@ -8,6 +8,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
 
 <h2>OverTime Claim Form</h2>
@@ -19,13 +22,16 @@
 		<label for="startDate">Start Date</label>
 		<input class="form-control" type="date" th:field="*{startDate}" id="sd"/> 
 		<p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
+		</br>
 		<label for="endDate">End Date</label>
 		<input class="form-control" type="date" th:field="*{endDate}" id="ed"/>		 
 		<label for="othours">OT Hours</label>
 		<input class="form-control" type="number" value="1" min="1" th:field="*{totalOTTime}"/>
 		<p th:if="${#fields.hasErrors('totalOTTime')}" th:errors="*{totalOTTime}"></p>
+		</br>
 		<label for="reason">Description</label>
 		<textarea class="form-control" rows="5" th:field="*{description}"></textarea>
+		</br>
 		<button class="btn btn-primary" type="submit">Submit</button>
 		<a th:href="@{/emp/OTList}">Cancel</a>
 	</div>

@@ -1,5 +1,6 @@
 package sg.edu.LeaveApplication.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +59,15 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/list")
-	public String listAll(Model model) {
+	public String listAll(Model model, Principal principal) {
+		
+		User currentUser = uservice.findUserByName(principal.getName());
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", currentUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", currentUser.getRole().equals("ADMIN"));
+		
 		model.addAttribute("users", uservice.findAll());
 		return "/admin/userProfile";
 	}
@@ -79,6 +88,7 @@ public class UserController {
 		user.setDepartment(d);
 		String encodedpwd = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedpwd);
+		user.setEnabled(true);
 		if(bindingResult.hasErrors())
 			return "createUserForm"; 
 		uservice.saveUser(user);
@@ -111,6 +121,21 @@ public class UserController {
 		uservice.deleteUser(user);
 		return "forward:/user/list";
 	}
+	
+	//ian method
+	@GetMapping("/disable/{id}")
+	public String disableUser(Model model, @PathVariable("id") Integer id) {
+		User user = uservice.findUserById(id);
+		user.setEnabled(false);
+		uservice.saveUser(user);
+		return "redirect:/user/list";
+		
+	}
+	
+
+	
+	
+	
 	
 	@GetMapping("/display/{id}")
 	public String displayUser(Model model, @PathVariable("id") Integer id) {

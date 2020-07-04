@@ -1,12 +1,15 @@
 package sg.edu.LeaveApplication.service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import sg.edu.LeaveApplication.model.Department;
 import sg.edu.LeaveApplication.model.User;
 import sg.edu.LeaveApplication.repo.UserRepository;
 
@@ -51,6 +54,12 @@ public class UserServiceImpl implements UserService {
 		ArrayList<User> list = (ArrayList<User>) urepo.findByName(username);
 		System.out.print(list);
 		return list.get(0); 
+	}
+
+	@Override
+	public List<User> findUserBydepartment(Department dept) {
+		List<User> list = urepo.findAll().stream().filter(d->d.getDepartment() == dept).collect(Collectors.toList());
+		return list;
 	}
 	
 }

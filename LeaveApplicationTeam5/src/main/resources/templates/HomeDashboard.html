@@ -1,69 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="ISO-8859-1">
-<title>Create Department</title>
-<link rel="stylesheet" href="/LeaveApplicationTeam5/src/main/resources/static/css/style.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-<style>	
-	body {background-color: powderblue;}
-	.cardhaha {margin: 20px 0px;}
-</style>
-</head>
-
+<head lang="en" th:replace="view/header::header"></head>
+<nav th:replace="view/navbar2::nav2"></nav>
+<nav th:replace="view/adminMenu::adminMenu"></nav>
+<nav th:replace="view/mngMenu::mngMenu"></nav>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/">LAPS</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-       <li class="nav-item dropdown" th:if="${isLoggedIn}">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Employee
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/emp/list">Apply Leave</a>
-          <a class="dropdown-item" href="/emp/OTList">Apply OT Claims</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/emp/complist">Apply Comp Leave</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown" th:if="${isManager}">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Manager
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/mng/viewLeave">Approve Leave</a>
-          <a class="dropdown-item" href="/mng/ViewOT">Approve OT Claims</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/mng/viewLeaveHistory">View Leave History</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown" th:if="${isAdmin}">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Admin
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/user/list">Manage User</a>
-          <a class="dropdown-item" href="/dept/list">Manage Department</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/leavetypes/list">Manage Leave Types</a>
-        </div>
-      </li>
-      <li class="nav-item active" th:if="${isLoggedIn}">
-        <a class="nav-link" href="/logout">Logout<span class="sr-only">(current)</span></a>
-      </li>
-    </ul>
-  </div>
-</nav>
 <div class="container">
-	<div class="row">
 		<div class="col-sm-6">
 			<div class="col-sm-12 card bg-light mb-3 cardhaha">
 				<div class="card-header">Your Remaining Leave</div>
@@ -71,7 +13,7 @@
 					<table>
 						<tr>
 							<th>Leave Type</th>
-							<th>Number of Days</th>
+							<th>Number of Days/Hours</th>
 						</tr>
 						<tr th:each="LR:${leaveRemaining}">
 							<td th:text="${LR.leaveName}">Name</td>
@@ -81,7 +23,7 @@
 				</div>
 			</div>		
 			<div class="col-sm-12 card bg-light mb-3 cardhaha">
-				<div class="card-header">Your Pending Leave Applications</div>
+				<div class="card-header"><a href="/emp/list">Your Pending Leave Applications</a></div>
 				<div class="card-body">
 					<table>
 						<tr>
@@ -94,13 +36,13 @@
 							<td th:text="${mine1.leaveTypes.leaveName}">Apple</td>
 							<td th:text="${mine1.startDate}">10/10/2020</td>
 							<td th:text="${mine1.duration}">2</td>
-							<td th:text="${mine1.leaveAppliedDate}">09/09/2020</td>
+							<td th:text="${#dates.format(mine1.leaveAppliedDate,'yyyy-MM-dd')}">09/09/2020</td>
 						</tr>
 					</table>
 				</div>
 			</div>
 			<div class="col-sm-12 card bg-light mb-3 cardhaha">
-				<div class="card-header">Your Pending OT Applications</div>
+				<div class="card-header"><a href="/emp/OTList">Your Pending OT Claims</a></div>
 				<div class="card-body">
 					<table>
 						<tr>
@@ -117,7 +59,7 @@
 				</div>
 			</div>		
 		</div>
-		<div class="col-sm-6" th:if="${isManager}">
+		<div class="col-sm-5" th:if="${isManager}">
 			<div class="col-sm-12 card bg-light mb-3 cardhaha">
 				<div class="card-header">Employees Currently On Leave</div>
 				<div class="card-body">
@@ -135,7 +77,7 @@
 				</div>
 			</div>
 			<div class="col-sm-12 card bg-light mb-3 cardhaha">
-				<div class="card-header">Employees Pending Leave Application</div>
+				<div class="card-header"><a href="/mng/viewLeave">Leave Applications For Your Approval</a></div>
 				<div class="card-body">
 					<table>
 						<tr>
@@ -154,7 +96,7 @@
 				</div>
 			</div>
 			<div class="col-sm-12 card bg-light mb-3 cardhaha">
-				<div class="card-header">Employees Pending OT Claims</div>
+				<div class="card-header"><a href="/mng/ViewOT">Overtime Claims For Your Approval</a></div>
 				<div class="card-body">
 					<table>
 						<tr>
@@ -172,6 +114,5 @@
 			</div>
 		</div>
 	</div>
-</div>
 </body>
 </html>

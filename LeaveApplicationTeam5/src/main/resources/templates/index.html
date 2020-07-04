@@ -1,9 +1,12 @@
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head></head>
+<head th:insert="view/header::header"></head>
 <body>
 <header></header>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
 <!-- Page content goes here -->
 <div class="container">

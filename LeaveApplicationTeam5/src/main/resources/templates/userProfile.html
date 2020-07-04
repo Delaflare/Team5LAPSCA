@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-   <head>
+   <head th:insert="view/header::header">
       <meta charset="ISO-8859-1">
       <title>User Listing Page</title>
       <link rel="stylesheet" type="text/css" media="all"
@@ -9,6 +9,9 @@
       <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css"/>
       <title th:utext="#{users.page.title}">title</title>
    </head>
+   
+   <nav th:replace="view/navbar2::nav2"></nav>
+   
    <body>
       <div class="main-container">
          <!-- Add Hyperlink -->
@@ -54,6 +57,8 @@
                         th:href="@{/user/editLeave/}+${user.id}" th:utext="#{edit.leave.display}"> editLeave </a></span>
                   </td>
                   <td><a href="DisplayUser.html"
+                     th:href="@{/user/display/}+${user.id}" th:utext="#{users.page.display}"> Display </a></td>
+                      <td><a href="DisplayUser.html"
                      th:href="@{/user/display/}+${user.id}" th:utext="#{users.page.display}"> Display </a></td>
                </tr>
             </tbody>

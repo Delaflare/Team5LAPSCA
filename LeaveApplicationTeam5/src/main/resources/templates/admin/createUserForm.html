@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-   <head>
+   <head th:insert="view/header::header">
       <meta charset="ISO-8859-1">
       <title>User Registration</title>
       <link rel="stylesheet" type="text/css" media="all"
          href="../../css/style.css" th:href="@{/css/style.css}" />
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
    </head>
+   
+     <nav th:replace="view/navbar2::nav2"></nav>
+   
    <body>
       <div class="main-container">
          <h2>User Registration</h2>

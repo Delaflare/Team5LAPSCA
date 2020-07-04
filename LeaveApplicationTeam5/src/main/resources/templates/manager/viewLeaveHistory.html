@@ -1,25 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="ISO-8859-1">
-<title th:text="#{viewleave.page.title}"></title>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../../css/style.css" th:href="@{/css/style.css}" />
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
-</head>
+<head lang="en" th:replace="view/header::header"><title th:text="#{viewleave.page.title}"></title></head>
+<nav th:replace="view/navbar2::nav2"></nav>
+<nav th:replace="view/adminMenu::adminMenu"></nav>
+<nav th:replace="view/mngMenu::mngMenu"></nav>
 <body>
-	<div class="main-container">
+	<div class="container">
 		<h1 th:text="#{viewleave.page.title}"></h1>
 		<div class="panel panel-default" >
 		 <div class="panel-heading"><h2 th:text="#{search.header}">Search Criteria</h2></div>
 			<div class="panel-body">
-				<form th:action="@{/mng/viewLeaveHistory}" th:object="${search}"
-					method="get">
-
-
+				<form th:action="@{/mng/viewLeaveHistory}" th:object="${search}" method="get">
 					<div class="row">
 						<div class="col-sm-3">
 							Name: <input id="txtSearch" type="text" name="keyword"
@@ -84,6 +75,7 @@
 			<th>Leave Type</th>
 			<th>Start Date</th>
 			<th>Duration</th>
+			<th>Status</th>
 			<th></th>
 		</tr></thead>
 		<tbody>
@@ -96,6 +88,7 @@
 			<td th:if="${leave.leaveTypes == null}"><span>&nbsp;&nbsp;&nbsp;</span></td>
 			<td th:text="${leave.startDate}">Start Date</td>
 			<td th:text="${leave.duration}">Duration</td>
+			<td th:text="${leave.status}">Status</td>
 			<td><a th:href="@{/mng/details/}+${leave.id}"
 				th:text="#{button.details}"></a></td>
 
@@ -171,7 +164,7 @@
 	}
 	function PrintClick() {
 		var html = document.querySelector("table").outerHTML;
-		export_table_to_csv(html, "table.csv");
+		export_table_to_csv(html, "LeaveList.csv");
 	}
 </script>
 </html>

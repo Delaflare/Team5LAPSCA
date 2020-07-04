@@ -1,5 +1,7 @@
 package sg.edu.LeaveApplication.controller;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.LeaveApplication.model.Department;
+import sg.edu.LeaveApplication.model.User;
 import sg.edu.LeaveApplication.service.DepartmentService;
 import sg.edu.LeaveApplication.service.DepartmentServiceImpl;
+import sg.edu.LeaveApplication.service.UserService;
 
 
 
@@ -28,58 +32,73 @@ public class DepartmentController {
 	{
 		this.dservice = dserviceImpl;
 	}
+	@Autowired
+	UserService uservice;
+	@Autowired
+	public void setUservice(UserService uservice) {
+		this.uservice = uservice;
+	}
 
 	
 	@RequestMapping (value = "/dplist" )
-		public String list(Model model)
+		public String list(Model model, Principal principal)
 		{
-		System.out.println(dservice.findAll().size());
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		
 		model.addAttribute("dlist" , dservice.findAll());	
 		
-		return "/admin/department-list";
+		return "/admin/departmentList";
 			
 		}
-	
+
+
 	@RequestMapping (value = "/adddp" )
 		public String addForm(Model model)
 		{
 		model.addAttribute("department" ,new Department());	
-		return "/admin/department-form";
+		return "/admin/createDepartment";
 		}
 		
 	@RequestMapping (value = "/editdp/{id}" )
 		public String editForm(@PathVariable("id") Integer id, Model model)
 		
 		{
-		model.addAttribute("department", dservice.findDeparmentById(id));	
-		return "/admin/department-form";
+			model.addAttribute("department", dservice.findDeparmentById(id));	
+			return "/admin/createDepartment";
 		}
 		
 	@RequestMapping (value = "/savedp" )
 		public String saveDepartment(@ModelAttribute ("department") 
-		@Valid Department department, BindingResult bindingResult, Model model)
-		// @valid is done to make sure there is a valid department, and must
-		// do the binding result immediately after the object u wanna bind
-	
+		@Valid Department department, BindingResult bindingResult, Model model)	
 		{
 		if (bindingResult.hasErrors())
 		{
-			return "/admin/department-form";
+			return "/admin/createDepartment";
 		}
 		else
 		{
 			dservice.saveDepartment(department);
 		
-			return "forward:/dept/list";
+			return "redirect:/admin/dplist";
 		}
 		}
 		
 	@RequestMapping (value = "/deletedp/{id}" )
-		public String deleteDepartment(@PathVariable ("id") Integer id)
+		public String deleteDepartment(@PathVariable ("id") Integer id, Model model)
 		{
-		dservice.deleteDepartment(dservice.findDeparmentById(id));
-		
-		return "forward:/dept/list";
+			if(uservice.findUserBydepartment(dservice.findDeparmentById(id)).isEmpty()) {
+				dservice.deleteDepartment(dservice.findDeparmentById(id));
+			}
+			else {
+				model.addAttribute("msg", "Cannot delete department, please remove the users first.");
+				return"forward:/admin/dplist";
+			}
+		return "redirect:/admin/dplist";
 		}
 		
 	

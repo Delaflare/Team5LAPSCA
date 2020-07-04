@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <meta charset="ISO-8859-1">
 <title>Create Department</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/style.css" th:href="@{/css/style.css}" />
 </head>
+
+ <nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
 <h1>Create Department</h1>
-<form action="#" th:object="${department}" th:action="@{/dept/save}" method="post" >
+<form action="#" th:object="${department}" th:action="@{/admin/savedp}" method="post" >
 		<fieldset>
 		<input type="hidden" th:field="*{id}">  
 		</fieldset>

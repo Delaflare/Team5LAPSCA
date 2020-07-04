@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="view/header::header">
 <meta charset="ISO-8859-1">
 <title>Apply New Leave</title>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../../css/style.css" th:href="@{/css/style.css}" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	
-
 </head>
+
+<nav th:replace="view/navbar2::nav2"></nav>
+
 <body>
-    <div class="card border-light mb-3" style="width:50%; float:left; margin: 5rem">
+    <div class="card border-light mb-3 mx-auto" style="width:50%; float:left; margin: 5rem">
         <div class="card-header">Leave Application Form</div>
         <div class="card-body">
     <form action="#" th:object="${leave}" th:action="@{/emp/save}" method="post" >
         <p th:text="${msg}"></p>
         <lable>Start Date:</lable> 
-        <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02">	
+        <input type="date" th:field="*{startDate}" id="sd" min="2020-02-02"th:required="required">	
         <label>End Date: </label>
-        <input type="date" id="ed" th:name="endDate" min="2020-02-02"></br>
+        <input type="date" id="ed" th:name="endDate" min="2020-02-02"th:required="required"></br>
         <label>Duration:</label><p id="duration" th:name="duration"></p>
         <label>Type of Leave: </label>
             <select th:field = "*{leaveTypes}">
@@ -27,7 +26,7 @@
                 th:value = "${leaveType.leaveName}" th:text = "${leaveType.leaveName}"> </option> 
             </select></br>
         <label>Leave Reason: </label>
-        <input type="text" th:field="*{description}"> 
+        <input type="text" th:field="*{description}" th:required="required"> 
         </br>
         <label>Work Dissemination (if any)</label>
         <input type="text" th:field="*{workDissemination}"/><br/>  

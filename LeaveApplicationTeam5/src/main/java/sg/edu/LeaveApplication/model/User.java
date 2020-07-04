@@ -36,7 +36,10 @@ public class User {
 	private String role;
 	private Gender gender;
 	private Title title;
+	private Boolean enabled;
 	
+	
+
 	@ManyToOne
     private Department department;
 	@ManyToMany(mappedBy="user")
@@ -186,6 +189,13 @@ public class User {
 
 	public void setLeaveRecord(Collection<LeaveRecord> leaveRecord) {
 		this.leaveRecord = leaveRecord;
+	}
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public Collection<UserLeaveTypes> getUserLeaveTypes() {
