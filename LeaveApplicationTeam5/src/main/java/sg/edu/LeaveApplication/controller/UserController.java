@@ -73,8 +73,16 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/add")
-	public String addForm(Model model) {
+	public String addForm(Model model, Principal principal) {
 		User user = new User();
+		
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		
 		model.addAttribute("user", user);
 		model.addAttribute("dlist" , dservice.findAllDepartmentNames());	
 		//System.out.print(dservice.findAll().size());
@@ -96,19 +104,34 @@ public class UserController {
 	}
 
 	@RequestMapping(value= "/edit/{id}")
-	public String editForm(Model model, @PathVariable("id") Integer id) {
+	public String editForm(Model model, @PathVariable("id") Integer id, Principal principal) {
 		User user = uservice.findUserById(id);
 		model.addAttribute("user", user);
-		model.addAttribute("dlist" , dservice.findAllDepartmentNames());	
+		model.addAttribute("dlist" , dservice.findAllDepartmentNames());
+		
+		
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		
 		//model.addAttribute("userDepartment" , dservice.findDeparmentById(user.getDepartment().getId()));
 		return "/admin/createUserForm";
 	}
 	
 	@GetMapping("/editLeave/{id}")
-	public String editLeaveForm(Model model, @PathVariable("id") Integer id) {	
+	public String editLeaveForm(Model model, @PathVariable("id") Integer id, Principal principal) {	
 		User user = uservice.findUserById(id);
 		ArrayList<UserLeaveTypes> uleave = ultypeservice.findByUserId(id);
 		user.setUserLeaveTypes(uleave);		
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
 		model.addAttribute("user", user);
 		return "/admin/assign-edit-leave";
 	}
@@ -138,20 +161,33 @@ public class UserController {
 	
 	
 	@GetMapping("/display/{id}")
-	public String displayUser(Model model, @PathVariable("id") Integer id) {
+	public String displayUser(Model model, @PathVariable("id") Integer id, Principal principal) {
 		User user = uservice.findUserById(id);
 		ArrayList<UserLeaveTypes> uleave = ultypeservice.findByUserId(id);
 		user.setUserLeaveTypes(uleave);		
 		model.addAttribute("user", user);
+		
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
 		return "/admin/UserRecord";
 	}	
 	
 	@GetMapping("/assignLeave/{id}")
-	public String assignLeave(Model model, @PathVariable("id") Integer id) {
+	public String assignLeave(Model model, @PathVariable("id") Integer id, Principal principal) {
 		UserLeaveTypes ulType = new UserLeaveTypes();
 		model.addAttribute("userleavetypes", ulType);
 		model.addAttribute("leaveTypes", ltypeservice.findAll());
 		model.addAttribute("user", uservice.findUserById(id));	
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
 		//System.out.println(id);
 		return "/admin/assign-leave";
 	}
