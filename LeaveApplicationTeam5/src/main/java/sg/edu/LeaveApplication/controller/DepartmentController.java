@@ -58,16 +58,30 @@ public class DepartmentController {
 
 
 	@RequestMapping (value = "/adddp" )
-		public String addForm(Model model)
+		public String addForm(Model model, Principal principal)
 		{
+		
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		
 		model.addAttribute("department" ,new Department());	
 		return "/admin/createDepartment";
 		}
 		
 	@RequestMapping (value = "/editdp/{id}" )
-		public String editForm(@PathVariable("id") Integer id, Model model)
+		public String editForm(@PathVariable("id") Integer id, Model model, Principal principal)
 		
 		{
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
 			model.addAttribute("department", dservice.findDeparmentById(id));	
 			return "/admin/createDepartment";
 		}

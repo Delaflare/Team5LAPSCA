@@ -49,15 +49,27 @@ public class PublicHolidayController {
 	}
 	
 	@RequestMapping(value="/addph")
-	public String addForm(Model model) {
+	public String addForm(Model model, Principal principal) {
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
 		model.addAttribute("holiday", new PublicHolidays());
 		return "/admin/publicHolidayDetail";
 	}
 	
 	@RequestMapping(value="/editph/{id}")
-	public String editForm(Model model,@PathVariable("id") Integer id) {
+	public String editForm(Model model,@PathVariable("id") Integer id, Principal principal) {
 		PublicHolidays holiday=holiService.findPublicHolidaysById(id);
 		model.addAttribute("holiday",holiday);
+		User sessionUser = uservice.findUserByName(principal.getName());		
+		boolean isLoggedIn = false;
+		if (principal != null) {isLoggedIn = true;}
+		model.addAttribute("isLoggedIn", isLoggedIn);
+		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
+		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
 		return "/admin/publicHolidayDetail";
 		
 	}
