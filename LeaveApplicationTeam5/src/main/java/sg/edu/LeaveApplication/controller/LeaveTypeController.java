@@ -37,30 +37,23 @@ public class LeaveTypeController {
 		this.uservice = uservice;
 	}	
 	
-	@RequestMapping(value = "/leavetypelist")//controller
+	@RequestMapping(value = "/leavetypelist")
 	public String list(Model model, Principal principal) {
-		
-		
-
-		User sessionUser = uservice.findUserByName(principal.getName());		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
-		
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());		
 		model.addAttribute("ltypelist", leavetypeservice.findAll());
 		return "/admin/LeaveTypes";//view
 	}
 
 	@RequestMapping(value = "/addleavetype")
-	public String addForm(Model model) {
+	public String addForm(Model model, Principal principal) {
 		model.addAttribute("leavetype", new LeaveTypes());
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		return "/admin/LeaveTypesDetail";
 	}
 
 	@RequestMapping(value = "/editleavetype/{id}")
-	public String editForm(@PathVariable("id") Integer id, Model model) {
+	public String editForm(@PathVariable("id") Integer id, Model model, Principal principal) {
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		model.addAttribute("leavetype", leavetypeservice.findLeaveTypesById(id));
 		return "/admin/LeaveTypesDetail";
 	}
@@ -68,11 +61,8 @@ public class LeaveTypeController {
 	@RequestMapping(value = "/saveleavetype")
 	public String saveLeaveType(@ModelAttribute("leavetype") @Valid LeaveTypes leavetypes, BindingResult bindingResult,
 			Model model) {
-		//if (bindingResult.hasErrors()) {
-		//	return "LeaveTypesDetails";
-		//}
 		leavetypeservice.saveLeaveType(leavetypes);
-		return "forward:/admin/leavetypelist";//not sure
+		return "forward:/admin/leavetypelist";
 	}
 
 	@RequestMapping(value = "/deleteleavetype/{id}")

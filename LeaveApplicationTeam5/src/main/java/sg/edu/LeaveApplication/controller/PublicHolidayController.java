@@ -37,25 +37,14 @@ public class PublicHolidayController {
 	public String list(Model model, Principal principal)
 	{
 		
-		User sessionUser = uservice.findUserByName(principal.getName());		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
-		
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		model.addAttribute("holidays",holiService.findAll());
 		return "/admin/publicHolidays";
 	}
 	
 	@RequestMapping(value="/addph")
 	public String addForm(Model model, Principal principal) {
-		User sessionUser = uservice.findUserByName(principal.getName());		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		model.addAttribute("holiday", new PublicHolidays());
 		return "/admin/publicHolidayDetail";
 	}
@@ -64,19 +53,13 @@ public class PublicHolidayController {
 	public String editForm(Model model,@PathVariable("id") Integer id, Principal principal) {
 		PublicHolidays holiday=holiService.findPublicHolidaysById(id);
 		model.addAttribute("holiday",holiday);
-		User sessionUser = uservice.findUserByName(principal.getName());		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		return "/admin/publicHolidayDetail";
 		
 	}
 	
 	@RequestMapping(value="/saveph")
 	public String savePublicHoliday(@Valid @ModelAttribute("holiday") PublicHolidays holiday) {
-		
 		holiService.createPublicHoliday(holiday);
 		return "forward:/admin/phlist";
 		

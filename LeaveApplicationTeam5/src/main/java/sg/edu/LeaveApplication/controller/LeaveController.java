@@ -98,7 +98,7 @@ public class LeaveController {
 		return false;
 	}
 
-	// to move to leave service after done
+	// deduct weekend and holiday
 	public static Integer getLeaveDayCost(String sd, String ed, List<LocalDate> holidays) {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -119,12 +119,7 @@ public class LeaveController {
 	@RequestMapping("emp/list")
 	public String list(Model model, Principal principal) {
 		User sessionUser = uservice.findUserByName(principal.getName());
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
-		
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		model.addAttribute("leaveList", leaveservice.findAll());
 		model.addAttribute("balanceList", ultservice.findAllByUser(sessionUser));
 		return "leaveList";
@@ -133,12 +128,7 @@ public class LeaveController {
 	@RequestMapping("emp/apply")
 	public String applyLeave(Model model, Principal principal) {
 		User sessionUser = uservice.findUserByName(principal.getName());
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
-
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		model.addAttribute("leave", new LeaveRecord());
 		model.addAttribute("leaveTypes", leavetypeservice.findAllLeaveTypeByUser(sessionUser));
 		model.addAttribute("phlist", holiservice.findAll());
@@ -229,6 +219,7 @@ public class LeaveController {
 		User sessionUser = uservice.findUserByName(principal.getName());
 		model.addAttribute("phlist", holiservice.findAll());
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionUser.getId(), "Compensation Leave"));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		// only when Pending, allow update
 		if (lr != null && lr.getStatus() == Status.PENDING || lr.getStatus() == Status.UPDATED) {
@@ -242,12 +233,7 @@ public class LeaveController {
 	@RequestMapping("emp/detail/{id}")
 	public String viewLeave(@PathVariable("id") Integer id, Model model, Principal principal) {
 		
-		User sessionUser = uservice.findUserByName(principal.getName());		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
 		return "leaveDetails";
 	}
@@ -288,11 +274,7 @@ public class LeaveController {
 	@RequestMapping("mng/viewLeave")
 	public String viewLeaveRequest(Model model, Principal principal, String keyword, String ltName) {
 		User manager = uservice.findUserByName(principal.getName());
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", manager.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", manager.getRole().equals("ADMIN"));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		Integer reportToId = manager.getId();
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
 		if (keyword != null || ltName != null) {
@@ -307,11 +289,7 @@ public class LeaveController {
 	public String viewLeaveHistory(Model model, Principal principal, String keyword, String fromDate, String toDate,
 			String ltName, String status) {
 		User manager = uservice.findUserByName(principal.getName());
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", manager.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", manager.getRole().equals("ADMIN"));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		Integer reportToId = manager.getId();
 		model.addAttribute("ltNames", leavetypeservice.findAllLeaveTypeNames());
 		// System.out.println("k"+keyword);System.out.println("Sd"+startDate);System.out.println("ed"+endDate);System.out.println("na"+ltName);System.out.println("status"+status);
@@ -356,10 +334,11 @@ public class LeaveController {
 	}
 
 	@RequestMapping("mng/details/{id}")
-	public String showLeaveDetails(@PathVariable("id") Integer id, Model model) {
+	public String showLeaveDetails(@PathVariable("id") Integer id, Model model, Principal principal) {
 		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
 		model.addAttribute("allowEdit",
 				leaveservice.findLeaveRecordById(id).getStatus().getDisplayValue().equals("PENDING"));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		return "/manager/pendingLeaveDetails";
 	}
 

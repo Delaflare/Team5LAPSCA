@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en" th:replace="view/header::header"><title>Create Leave Type</title></head>
-<nav th:replace="view/navbar2::nav2"></nav>
-<nav th:replace="view/adminMenu::adminMenu"></nav>
-<nav th:replace="view/mngMenu::mngMenu"></nav>
+<nav th:replace="view/layout::nav"></nav>
 <body>
 <h1>Create Leave Type</h1>
 <form action="#" th:object="${leavetype}" th:action="@{/admin/saveleavetype}" method="post" >

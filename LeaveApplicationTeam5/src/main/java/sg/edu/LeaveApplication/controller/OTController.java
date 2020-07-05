@@ -93,11 +93,7 @@ public class OTController {
 	public String list(Model model, Principal principal) {
 
 		User sessionuser = uservice.findUserByName(principal.getName());
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionuser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionuser.getRole().equals("ADMIN"));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionuser.getId(), "Compensation Leave"));
 		model.addAttribute("OTList", otservice.findAll());
 		return "OTHistory";
@@ -106,11 +102,7 @@ public class OTController {
 	@RequestMapping("emp/claimOT")
 	public String claimOT(Model model, Principal principal) {
 		User sessionuser = uservice.findUserByName(principal.getName());
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionuser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionuser.getRole().equals("ADMIN"));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		model.addAttribute("OTRecord", new OTRecord());
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionuser.getId(), "Compensation Leave"));
 		return "OTForm";
@@ -203,13 +195,7 @@ public class OTController {
 	@RequestMapping("emp/complist")
 	public String listAll(Model model, Principal principal) {
 		User sessionUser = uservice.findUserByName(principal.getName());
-		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
-		
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		model.addAttribute("leaveList", leaveservice.findByUser(sessionUser));
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionUser.getId(), "Compensation Leave"));
 		return "compleaveList";
@@ -223,14 +209,7 @@ public class OTController {
 		model.addAttribute("phlist", holiservice.findAll());
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionUser.getId(), "Compensation Leave"));
 		model.addAttribute("balanceList", ultservice.findAllByUser(sessionUser));
-		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
-		
-		
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		return "createCompLeave";
 
 	}
@@ -289,15 +268,7 @@ public class OTController {
 				model.addAttribute("msg", "You do not have enough balance.");
 				return "forward:/emp/compapply";
 			}
-			/*
-			 * } else {
-			 * 
-			 * //validate balance if(isBalanceEnough(sessionUser, leaveType,hrDuration)) {
-			 * //balance - duration ultservice.update(sessionUser, leaveType,
-			 * balance-hrDuration); leaverecord.setLeaveDayCost(hrDuration); } else {
-			 * model.addAttribute("msg", "You do not have enough balance."); return
-			 * "redirect:/emp/compleave/apply"; } }
-			 */
+			
 
 			leaverecord.setLeaveTypes(leavetypeservice.findLeaveTypesByName(leaveType));
 			leaverecord.setUser(uservice.findUserById(sessionUser.getId()));// to use session user_id
@@ -312,12 +283,6 @@ public class OTController {
 			}
 			leaveservice.saveLeave(leaverecord);
 
-			System.out.println("st: " + st);
-			System.out.println("et: " + et);
-			System.out.println("duration: " + duration);
-
-			System.out.println(leaverecord.getLeaveTypes());
-
 			return "redirect:/emp/complist";
 		}
 	}
@@ -328,14 +293,7 @@ public class OTController {
 			@RequestParam("workDissemination") String workDissemination,
 			@RequestParam("contactDetails") String contactDetails, Principal principal, Model model) {
 		
-
-		User sessionUser = uservice.findUserByName(principal.getName());		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
-		
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		LeaveRecord newLeave = leaveservice.findLeaveRecordById(leave.getId());
 		newLeave.setDescription(description);
 		newLeave.setContactDetails(contactDetails);
@@ -354,6 +312,7 @@ public class OTController {
 		model.addAttribute("balanceList", ultservice.findAllByUser(sessionUser));
 		model.addAttribute("OTBalance", ultservice.findleaveAllowance(sessionUser.getId(), "Compensation Leave"));
 		model.addAttribute("phlist", holiservice.findAll());
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		LeaveRecord lr = leaveservice.findLeaveRecordById(id);
 		// only when Pending, allow update
 		if (lr != null && lr.getStatus() == Status.PENDING || lr.getStatus() == Status.UPDATED) {
@@ -397,12 +356,7 @@ public class OTController {
 
 	@RequestMapping("emp/compdetail/{id}")
 	public String viewLeave(@PathVariable("id") Integer id, Model model, Principal principal) {
-		User sessionUser = uservice.findUserByName(principal.getName());		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		model.addAttribute("leave", leaveservice.findLeaveRecordById(id));
 		return "leaveDetails";
 	}
@@ -410,12 +364,7 @@ public class OTController {
 //breakline for emp and mng
 	@RequestMapping("mng/ViewOT")
 	public String managerOTList(Model model, String keyword, Principal principal) {
-		User sessionUser = uservice.findUserByName(principal.getName());		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		
 		if (keyword != null) {
 			model.addAttribute("OTList", otservice.findPendingOTbyUser(keyword));
@@ -426,8 +375,9 @@ public class OTController {
 	}
 
 	@RequestMapping("mng/OTdetails/{id}")
-	public String showLeaveDetails(@PathVariable("id") Integer id, Model model) {
+	public String showLeaveDetails(@PathVariable("id") Integer id, Model model,Principal principal) {
 		model.addAttribute("OT", otservice.findById(id));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		return "/manager/managerOTDetails";
 	}
 

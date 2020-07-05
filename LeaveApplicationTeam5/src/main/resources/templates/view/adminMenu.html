@@ -1,4 +1,4 @@
-<div th:fragment="adminMenu" th:if=${isAdmin}>
+<div th:fragment="adminMenu" th:if="${userRole == 'ADMIN'}">
 <ul class="nav">
 <li>
 <a class="nav-link disabled">Admin Control Panel: </a>

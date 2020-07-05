@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en" th:replace="view/header::header"><title>Update Compensation Leave Application</title></head>
-<nav th:replace="view/navbar2::nav2"></nav>
-<nav th:replace="view/adminMenu::adminMenu"></nav>
-<nav th:replace="view/mngMenu::mngMenu"></nav>
+<nav th:replace="view/layout::nav"></nav>
 
 <body>
 	<div style="width: 50%; float: left">
-		<h1>Update Compensation Leave Application</h1>
+		<h1>Update Leave Application</h1>
 		<div th:text="${msg}"></div>
 		Start Date: <span th:text="${leave.startDate}"></span> End Date: <span
 			th:if="${leave.startDate != null}"

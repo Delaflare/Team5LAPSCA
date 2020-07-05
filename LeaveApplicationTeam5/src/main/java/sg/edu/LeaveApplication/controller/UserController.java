@@ -62,30 +62,17 @@ public class UserController {
 	public String listAll(Model model, Principal principal) {
 		
 		User currentUser = uservice.findUserByName(principal.getName());
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", currentUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", currentUser.getRole().equals("ADMIN"));
-		
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		model.addAttribute("users", uservice.findAll());
 		return "/admin/userProfile";
 	}
 	
 	@RequestMapping(value = "/add")
 	public String addForm(Model model, Principal principal) {
-		User user = new User();
-		
-		User sessionUser = uservice.findUserByName(principal.getName());		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
-		
+		User user = new User();		
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		model.addAttribute("user", user);
 		model.addAttribute("dlist" , dservice.findAllDepartmentNames());	
-		//System.out.print(dservice.findAll().size());
 		return "/admin/createUserForm";
 	}
 	
@@ -108,16 +95,7 @@ public class UserController {
 		User user = uservice.findUserById(id);
 		model.addAttribute("user", user);
 		model.addAttribute("dlist" , dservice.findAllDepartmentNames());
-		
-		
-		User sessionUser = uservice.findUserByName(principal.getName());		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
-		
-		//model.addAttribute("userDepartment" , dservice.findDeparmentById(user.getDepartment().getId()));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		return "/admin/createUserForm";
 	}
 	
@@ -126,12 +104,7 @@ public class UserController {
 		User user = uservice.findUserById(id);
 		ArrayList<UserLeaveTypes> uleave = ultypeservice.findByUserId(id);
 		user.setUserLeaveTypes(uleave);		
-		User sessionUser = uservice.findUserByName(principal.getName());		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		model.addAttribute("user", user);
 		return "/admin/assign-edit-leave";
 	}
@@ -155,24 +128,13 @@ public class UserController {
 		
 	}
 	
-
-	
-	
-	
-	
 	@GetMapping("/display/{id}")
 	public String displayUser(Model model, @PathVariable("id") Integer id, Principal principal) {
 		User user = uservice.findUserById(id);
 		ArrayList<UserLeaveTypes> uleave = ultypeservice.findByUserId(id);
 		user.setUserLeaveTypes(uleave);		
 		model.addAttribute("user", user);
-		
-		User sessionUser = uservice.findUserByName(principal.getName());		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		return "/admin/UserRecord";
 	}	
 	
@@ -182,13 +144,7 @@ public class UserController {
 		model.addAttribute("userleavetypes", ulType);
 		model.addAttribute("leaveTypes", ltypeservice.findAll());
 		model.addAttribute("user", uservice.findUserById(id));	
-		User sessionUser = uservice.findUserByName(principal.getName());		
-		boolean isLoggedIn = false;
-		if (principal != null) {isLoggedIn = true;}
-		model.addAttribute("isLoggedIn", isLoggedIn);
-		model.addAttribute("isManager", sessionUser.getRole().equals("MANAGER"));
-		model.addAttribute("isAdmin", sessionUser.getRole().equals("ADMIN"));
-		//System.out.println(id);
+		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		return "/admin/assign-leave";
 	}
 	
