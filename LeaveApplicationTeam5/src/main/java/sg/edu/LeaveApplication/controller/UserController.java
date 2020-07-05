@@ -143,6 +143,7 @@ public class UserController {
 		UserLeaveTypes ulType = new UserLeaveTypes();
 		model.addAttribute("userleavetypes", ulType);
 		model.addAttribute("leaveTypes", ltypeservice.findAll());
+		System.out.println(ltypeservice.findAll());
 		model.addAttribute("user", uservice.findUserById(id));	
 		model.addAttribute("userRole", uservice.findUserByName(principal.getName()).getRole());
 		return "/admin/assign-leave";
